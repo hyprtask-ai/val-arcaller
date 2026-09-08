@@ -145,7 +145,7 @@ services:
     environment:
       # Core application config
       ENVIRONMENT: "${ENVIRONMENT:-local}"
-      LOG_LEVEL: "INFO"
+      LOG_LEVEL: "${LOG_LEVEL:-INFO}"
 
       # Set to "false" in .env to disable public signup (invite-only installs).
       ENABLE_SIGNUP: "${ENABLE_SIGNUP:-true}"
@@ -215,6 +215,10 @@ services:
       ENABLE_ARI_MANAGER: "${ENABLE_ARI_MANAGER:-true}"
       ENABLE_CAMPAIGN_ORCHESTRATOR: "${ENABLE_CAMPAIGN_ORCHESTRATOR:-true}"
 
+      ENABLE_CALL_RECORDING_UPLOAD: "${ENABLE_CALL_RECORDING_UPLOAD:-true}"
+      DEFAULT_ORG_CONCURRENCY_LIMIT: "${DEFAULT_ORG_CONCURRENCY_LIMIT:-10}"
+      SERIALIZE_LOG_OUTPUT: "${SERIALIZE_LOG_OUTPUT:-false}"
+
       # Trust X-Forwarded-* headers from any peer so uvicorn honors nginx's
       # `X-Forwarded-Proto: https`. nginx runs as its own container and reaches
       # uvicorn from a Docker-network IP (not loopback), but uvicorn trusts only
@@ -228,11 +232,11 @@ services:
 
       # Langfuse — credentials can be set here or per-organization via the UI
       # at /settings. Tracing is automatically active when credentials are
-      # available; uncomment to set defaults for all organizations.
-      # LANGFUSE_SECRET_KEY: ""
-      # LANGFUSE_PUBLIC_KEY: ""
-      # LANGFUSE_HOST: ""
-      # LANGFUSE_PROJECT_ID: ""
+      # available; set in .env to apply defaults for all organizations.
+      LANGFUSE_SECRET_KEY: "${LANGFUSE_SECRET_KEY:-}"
+      LANGFUSE_PUBLIC_KEY: "${LANGFUSE_PUBLIC_KEY:-}"
+      LANGFUSE_HOST: "${LANGFUSE_HOST:-}"
+      LANGFUSE_PROJECT_ID: "${LANGFUSE_PROJECT_ID:-}"
       # Traces are private by default. Set to "true" to make traces in the
       # project above readable by anyone holding the trace URL, with no
       # Langfuse login. Organizations that connected their own Langfuse project
@@ -260,6 +264,7 @@ services:
 
       # Telemetry
       ENABLE_TELEMETRY: "${ENABLE_TELEMETRY:-true}"
+      SENTRY_DSN: "${SENTRY_DSN:-}"
       POSTHOG_API_KEY: "phc_ItizB1dP6yv7ZYobbcqrpxTdbomDA8hJFSEmAMdYvIr"
       POSTHOG_HOST: "https://us.i.posthog.com"
 

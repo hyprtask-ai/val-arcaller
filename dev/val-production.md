@@ -86,6 +86,19 @@ SSL: Let's Encrypt via `setup_custom_domain.sh`; cert path `/opt/dograh/certs/lo
 
 ---
 
+## Enable all OSS feature flags
+
+After pulling the latest `production` branch, run once on the server:
+
+```bash
+cd /opt/dograh
+./scripts/enable_val_production_features.sh
+```
+
+Details: [val-features.md](val-features.md)
+
+---
+
 ## Deploy
 
 **Automated:** push to `production` → [CI/CD workflow](ci-cd.md)
