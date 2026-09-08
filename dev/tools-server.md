@@ -164,7 +164,7 @@ ls -la /root/plane-selfhost/plane-app/
 curl -4 -s ifconfig.me; echo
 ```
 
-Back up the Caddyfile before editing for a Dograh subdomain.
+Back up the Caddyfile before adding a route for **`val.hyprtask.ai`** (Dograh).
 
 ---
 

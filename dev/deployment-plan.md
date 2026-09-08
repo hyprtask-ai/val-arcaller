@@ -4,6 +4,23 @@ Planning document for self-hosting **our Dograh fork** alongside (or separate fr
 
 **Related:** [tools-server.md](tools-server.md) (discovery results)
 
+## Production domain
+
+Dograh will be deployed at **`https://val.hyprtask.ai`**.
+
+| `.env` key | Value |
+|------------|-------|
+| `PUBLIC_HOST` | `val.hyprtask.ai` |
+| `PUBLIC_BASE_URL` | `https://val.hyprtask.ai` |
+
+DNS: **A record** for `val.hyprtask.ai` → Dograh server public IP (or Tools Server IP if co-located behind Caddy).
+
+Health check after deploy:
+
+```bash
+curl -f https://val.hyprtask.ai/api/v1/health
+```
+
 ---
 
 ## Dograh stack (from this repo)
@@ -139,17 +156,17 @@ Do **not** bind Dograh to 80/443 on this host.
 
 ### 5. Reverse proxy strategy
 
-Plane's **`plane-app-proxy-1` (Caddy)** is the host entry point. Dograh should be a **new subdomain** behind it:
+Plane's **`plane-app-proxy-1` (Caddy)** is the host entry point. Dograh (**`val.hyprtask.ai`**) should be routed as a separate hostname behind it:
 
 ```text
-plane.example.com  →  Plane (existing)
-voice.example.com  →  Dograh UI (:3010) + API (:8000)
+<Plane domain>         →  Plane (existing)
+val.hyprtask.ai        →  Dograh UI (:3010) + API (:8000)
 ```
 
 Example Caddy pattern (illustrative — adapt after reading the live Caddyfile):
 
 ```caddy
-voice.example.com {
+val.hyprtask.ai {
     handle /api/* {
         reverse_proxy dograh-api:8000
     }
@@ -256,7 +273,7 @@ server: cd /opt/dograh
         docker compose up -d
         │
         ▼
-curl -f https://voice.example.com/api/v1/health
+curl -f https://val.hyprtask.ai/api/v1/health
 ```
 
 Use a GitHub deploy key or Actions secret for SSH. Run Alembic migrations after API updates if schema changed.
@@ -272,7 +289,7 @@ Use a GitHub deploy key or Actions secret for SSH. Run Alembic migrations after 
                     │
          ┌──────────┴──────────┐
          │                     │
-  plane.example.com    voice.example.com
+  <Plane domain>       val.hyprtask.ai
          │                     │
    Tools Server (4GB)    Dograh Server (8GB/4vCPU)
    Plane only             Full Dograh stack
@@ -291,7 +308,7 @@ Use a GitHub deploy key or Actions secret for SSH. Run Alembic migrations after 
                     │
             Plane Caddy (:443)
               /            \
-   plane.example.com   voice.example.com
+   <Plane domain>      val.hyprtask.ai
           │                    │
      plane-app stack       dograh stack
                            (no nginx profile)
@@ -316,7 +333,7 @@ Dev-only: external AI APIs, `FASTAPI_WORKERS=1`, accept OOM risk.
               Reverse Proxy
                /           \
               /             \
-       Plane domain       Dograh domain
+       Plane domain       val.hyprtask.ai
             │                  │
             ▼                  ▼
         Plane stack        Dograh stack
@@ -356,7 +373,7 @@ Choose one:
 
 ### After decision
 
-1. DNS: `voice.example.com` → server IP.
+1. DNS: `val.hyprtask.ai` → server IP.
 2. Clone fork; create `.env` and compose overrides.
 3. Open UFW for TURN ports.
 4. Extend Caddy (Option B) or run `setup_remote.sh` (Option A).

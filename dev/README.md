@@ -2,6 +2,18 @@
 
 Internal planning and deployment notes for running **our Dograh fork** on Hyprtask infrastructure. These docs are not part of the public Mintlify site under `docs/`.
 
+## Production domain
+
+Dograh will be served at **`https://val.hyprtask.ai`**.
+
+| Setting | Value |
+|---------|-------|
+| Public URL | `https://val.hyprtask.ai` |
+| `PUBLIC_HOST` | `val.hyprtask.ai` |
+| `PUBLIC_BASE_URL` | `https://val.hyprtask.ai` |
+
+Plane remains on its existing domain on the Tools Server. Dograh is routed as a separate hostname (via Caddy on a co-located install, or via Dograh's bundled nginx on a dedicated droplet).
+
 ## Repository strategy
 
 ```text
@@ -67,6 +79,7 @@ Script location: [`scripts/tools-server-discovery.sh`](../scripts/tools-server-d
 
 ## Status (2026-03-28 discovery)
 
+- Target domain: **`val.hyprtask.ai`**
 - Tools Server runs **Plane** via Docker Compose at `/root/plane-selfhost/plane-app/`.
 - **4 GB / 2 vCPU** droplet — below Dograh's documented minimum (8 GB / 4 vCPU).
 - Ports **80/443** are owned by Plane's **Caddy** proxy.
