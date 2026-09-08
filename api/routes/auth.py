@@ -4,7 +4,13 @@ from api.constants import ENABLE_SIGNUP
 from api.db import db_client
 from api.db.models import UserModel
 from api.enums import PostHogEvent
-from api.schemas.auth import AuthResponse, LoginRequest, SignupRequest, UserResponse
+from api.schemas.auth import (
+    AuthResponse,
+    ChangePasswordRequest,
+    LoginRequest,
+    SignupRequest,
+    UserResponse,
+)
 from api.services.auth.depends import get_user, require_local_auth
 from api.services.organization_bootstrap import ensure_organization_bootstrapped
 from api.services.posthog_client import capture_event
@@ -128,3 +134,33 @@ async def get_current_user(user: UserModel = Depends(get_user)):
         organization_id=user.selected_organization_id,
         provider_id=user.provider_id,
     )
+
+
+@router.post(
+    "/change-password",
+    dependencies=[Depends(require_local_auth)],
+)
+async def change_password(
+    request: ChangePasswordRequest, user: UserModel = Depends(get_user)
+):
+    """Change the authenticated user's email/password credentials (OSS only)."""
+    if not user.password_hash:
+        raise HTTPException(
+            status_code=400,
+            detail="Password login is not configured for this account",
+        )
+
+    if not verify_password(request.current_password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Current password is incorrect")
+
+    if request.current_password == request.new_password:
+        raise HTTPException(
+            status_code=400,
+            detail="New password must be different from the current password",
+        )
+
+    await db_client.update_user_password_hash(
+        user.id, hash_password(request.new_password)
+    )
+
+    return {"ok": True}

@@ -17,6 +17,7 @@ import {
   Megaphone,
   Phone,
   Settings,
+  Shield,
   TrendingUp,
   UserRound,
   Workflow,
@@ -57,6 +58,7 @@ import { useAppConfig } from "@/context/AppConfigContext";
 import { useLeadForms } from "@/context/LeadFormsContext";
 import { useTelephonyConfigWarnings } from "@/context/TelephonyConfigWarningsContext";
 import { useLatestReleaseVersion } from "@/hooks/useLatestReleaseVersion";
+import { useIsSuperuser } from "@/hooks/useIsSuperuser";
 import type { LocalUser } from "@/lib/auth";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -158,6 +160,7 @@ export function AppSidebar() {
   const router = useRouter();
   const { state, isMobile, setOpenMobile } = useSidebar();
   const { provider, logout, user } = useAuth();
+  const isSuperuser = useIsSuperuser();
   const { config } = useAppConfig();
   const { openHireExpert } = useLeadForms();
   const {
@@ -438,6 +441,22 @@ export function AppSidebar() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => router.push("/account-settings")}
+                    className="cursor-pointer"
+                  >
+                    <UserRound className="mr-2 h-4 w-4" />
+                    Account Settings
+                  </DropdownMenuItem>
+                  {isSuperuser && (
+                    <DropdownMenuItem
+                      onClick={() => router.push("/superadmin")}
+                      className="cursor-pointer"
+                    >
+                      <Shield className="mr-2 h-4 w-4" />
+                      Superadmin
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
                     <Settings className="mr-2 h-4 w-4" />
                     Platform Settings
@@ -477,8 +496,17 @@ export function AppSidebar() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => router.push("/handler/account-settings")} className="cursor-pointer">
                     <Settings className="mr-2 h-4 w-4" />
-                    Account settings
+                    Account Settings
                   </DropdownMenuItem>
+                  {isSuperuser && (
+                    <DropdownMenuItem
+                      onClick={() => router.push("/superadmin")}
+                      className="cursor-pointer"
+                    >
+                      <Shield className="mr-2 h-4 w-4" />
+                      Superadmin
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
                     <Settings className="mr-2 h-4 w-4" />
                     Platform Settings
