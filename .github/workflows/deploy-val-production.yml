@@ -33,4 +33,6 @@ jobs:
             git pull --ff-only origin production
             git submodule update --init --recursive
             ./remote_up.sh --build
-            curl -fsS https://val.hyprtask.ai/api/v1/health
+            # Droplets often cannot curl their own public IP (hairpin NAT).
+            # Check API on localhost instead of https://val.hyprtask.ai from the server.
+            curl -fsS http://127.0.0.1:8000/api/v1/health

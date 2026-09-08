@@ -43,7 +43,7 @@ On push to `production` (or manual **Run workflow**):
 3. `git fetch` + `checkout production` + `pull --ff-only`
 4. `git submodule update --init --recursive`
 5. `./remote_up.sh --build`
-6. `curl` health check on `https://val.hyprtask.ai/api/v1/health`
+6. `curl` health check on `http://127.0.0.1:8000/api/v1/health` (localhost — the droplet cannot reliably curl its own public IP)
 
 Deploy is **not** automatic from `master`.
 
@@ -120,7 +120,8 @@ git checkout production
 git pull origin production
 git submodule update --init --recursive
 ./remote_up.sh --build
-curl -fsS https://val.hyprtask.ai/api/v1/health
+curl -fsS http://127.0.0.1:8000/api/v1/health
+# From your laptop, also verify: curl -fsS https://val.hyprtask.ai/api/v1/health
 ```
 
 ---
@@ -132,7 +133,7 @@ curl -fsS https://val.hyprtask.ai/api/v1/health
 | SSH action fails | Check `VAL_SSH_*` secrets; verify deploy pubkey in `authorized_keys` |
 | `git pull` fails on server | Re-auth HTTPS (`git pull` and enter PAT) or fix credentials in `~/.git-credentials` |
 | `pull access denied` for `dograh-local/*` | Normal in build mode — local images are built, not pulled |
-| Health check fails after deploy | `docker compose --profile remote logs api --tail 100` on server |
+| Health check fails after deploy | If log shows `curl: (7) ... val.hyprtask.ai port 443` from the server, that is hairpin NAT — deploy may still be fine; verify in a browser. CI uses `http://127.0.0.1:8000/api/v1/health` |
 | Submodule out of date | Ensure `git submodule update --init --recursive` ran after pull |
 
 ---
