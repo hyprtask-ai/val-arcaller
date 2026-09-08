@@ -92,7 +92,13 @@ if dograh_is_local_ipv4 "${SERVER_IP:-}"; then
 fi
 
 if [[ "$MODE" == "build" ]]; then
-    CMD=("${COMPOSE_CMD[@]}" "${PROFILE_ARGS[@]}" up -d --build --force-recreate)
+    # Build images one at a time. `compose up --build` builds api and ui in
+    # parallel; on 8 GB hosts the UI typecheck step is often OOM-killed (exit 137).
+    dograh_info "Building API image..."
+    "${COMPOSE_CMD[@]}" "${PROFILE_ARGS[@]}" build api
+    dograh_info "Building UI image..."
+    "${COMPOSE_CMD[@]}" "${PROFILE_ARGS[@]}" build ui
+    CMD=("${COMPOSE_CMD[@]}" "${PROFILE_ARGS[@]}" up -d --force-recreate)
 else
     CMD=("${COMPOSE_CMD[@]}" "${PROFILE_ARGS[@]}" up -d --pull always --force-recreate)
 fi

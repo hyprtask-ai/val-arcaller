@@ -1,0 +1,333 @@
+2026-09-08T11:22:13.8216865Z Current runner version: '2.337.0'
+2026-09-08T11:22:13.8246957Z ##[group]Runner Image Provisioner
+2026-09-08T11:22:13.8248142Z Hosted Compute Agent
+2026-09-08T11:22:13.8248849Z Version: 20260828.587
+2026-09-08T11:22:13.8249701Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-08T11:22:13.8250631Z Build Date: 2026-08-28T16:44:25Z
+2026-09-08T11:22:13.8251516Z Worker ID: {26ff2159-9955-40a0-8180-74dc8ffba031}
+2026-09-08T11:22:13.8252591Z Azure Region: westus
+2026-09-08T11:22:13.8253373Z ##[endgroup]
+2026-09-08T11:22:13.8255286Z ##[group]Operating System
+2026-09-08T11:22:13.8256214Z Ubuntu
+2026-09-08T11:22:13.8256859Z 24.04.4
+2026-09-08T11:22:13.8257563Z LTS
+2026-09-08T11:22:13.8258268Z ##[endgroup]
+2026-09-08T11:22:13.8258991Z ##[group]Runner Image
+2026-09-08T11:22:13.8259722Z Image: ubuntu-24.04
+2026-09-08T11:22:13.8260442Z Version: 20260831.293.1
+2026-09-08T11:22:13.8262087Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260831.293/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-08T11:22:13.8263896Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260831.293
+2026-09-08T11:22:13.8265026Z ##[endgroup]
+2026-09-08T11:22:13.8266370Z ##[group]GITHUB_TOKEN Permissions
+2026-09-08T11:22:13.8268836Z Contents: read
+2026-09-08T11:22:13.8269576Z Metadata: read
+2026-09-08T11:22:13.8270374Z ##[endgroup]
+2026-09-08T11:22:13.8273426Z Secret source: Actions
+2026-09-08T11:22:13.8274844Z Prepare workflow directory
+2026-09-08T11:22:13.8706617Z Prepare all required actions
+2026-09-08T11:22:13.8760007Z Getting action download info
+2026-09-08T11:22:14.2164808Z Download action repository 'appleboy/ssh-action@v1.2.0' (SHA:7eaf76671a0d7eec5d98ee897acda4f968735a17)
+2026-09-08T11:22:14.6699684Z Complete job name: deploy
+2026-09-08T11:22:14.7628417Z ##[group]Run appleboy/ssh-action@v1.2.0
+2026-09-08T11:22:14.7629472Z with:
+2026-09-08T11:22:14.7630117Z   host: ***
+2026-09-08T11:22:14.7630617Z   username: ***
+2026-09-08T11:22:14.7634138Z   key: ***
+2026-09-08T11:22:14.7634641Z   script_stop: true
+2026-09-08T11:22:14.7635210Z   command_timeout: 30m
+2026-09-08T11:22:14.7637643Z   script: set -euo pipefail
+cd /opt/dograh
+git fetch origin
+git checkout production
+git pull --ff-only origin production
+git submodule update --init --recursive
+./remote_up.sh --build
+# Droplets often cannot curl their own public IP (hairpin NAT).
+# Check API on localhost instead of https://val.hyprtask.ai from the server.
+curl -fsS http://127.0.0.1:8000/api/v1/health
+
+2026-09-08T11:22:14.7640099Z   port: 22
+2026-09-08T11:22:14.7640574Z   protocol: tcp
+2026-09-08T11:22:14.7641079Z   timeout: 30s
+2026-09-08T11:22:14.7641580Z   proxy_port: 22
+2026-09-08T11:22:14.7642378Z   proxy_protocol: tcp
+2026-09-08T11:22:14.7642922Z   proxy_timeout: 30s
+2026-09-08T11:22:14.7643928Z ##[endgroup]
+2026-09-08T11:22:14.7721970Z ##[start-action display=Set GitHub Path;id=__appleboy_ssh-action.__run]
+2026-09-08T11:22:14.7772741Z ##[group]Run echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+2026-09-08T11:22:14.7773639Z [36;1mecho "$GITHUB_ACTION_PATH" >> $GITHUB_PATH[0m
+2026-09-08T11:22:14.7816576Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-08T11:22:14.7817364Z env:
+2026-09-08T11:22:14.7818061Z   GITHUB_ACTION_PATH: /home/runner/work/_actions/appleboy/ssh-action/v1.2.0
+2026-09-08T11:22:14.7818889Z ##[endgroup]
+2026-09-08T11:22:14.8025404Z ##[end-action id=__appleboy_ssh-action.__run;outcome=success;conclusion=success;duration_ms=30]
+2026-09-08T11:22:14.8038666Z ##[start-action display=Run entrypoint.sh;id=__appleboy_ssh-action.__run_2]
+2026-09-08T11:22:14.8066645Z ##[group]Run entrypoint.sh
+2026-09-08T11:22:14.8067251Z [36;1mentrypoint.sh[0m
+2026-09-08T11:22:14.8107806Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-08T11:22:14.8108566Z env:
+2026-09-08T11:22:14.8109258Z   GITHUB_ACTION_PATH: /home/runner/work/_actions/appleboy/ssh-action/v1.2.0
+2026-09-08T11:22:14.8110213Z   INPUT_HOST: ***
+2026-09-08T11:22:14.8110719Z   INPUT_PORT: 22
+2026-09-08T11:22:14.8111232Z   INPUT_PROTOCOL: tcp
+2026-09-08T11:22:14.8112392Z   INPUT_USERNAME: ***
+2026-09-08T11:22:14.8113109Z   INPUT_PASSWORD: 
+2026-09-08T11:22:14.8113627Z   INPUT_PASSPHRASE: 
+2026-09-08T11:22:14.8116922Z   INPUT_KEY: ***
+2026-09-08T11:22:14.8117431Z   INPUT_KEY_PATH: 
+2026-09-08T11:22:14.8117926Z   INPUT_FINGERPRINT: 
+2026-09-08T11:22:14.8118440Z   INPUT_PROXY_HOST: 
+2026-09-08T11:22:14.8118951Z   INPUT_PROXY_PORT: 22
+2026-09-08T11:22:14.8119485Z   INPUT_PROXY_USERNAME: 
+2026-09-08T11:22:14.8120030Z   INPUT_PROXY_PASSWORD: 
+2026-09-08T11:22:14.8120567Z   INPUT_PROXY_PASSPHRASE: 
+2026-09-08T11:22:14.8121118Z   INPUT_PROXY_KEY: 
+2026-09-08T11:22:14.8121625Z   INPUT_PROXY_KEY_PATH: 
+2026-09-08T11:22:14.8122525Z   INPUT_PROXY_FINGERPRINT: 
+2026-09-08T11:22:14.8123091Z   INPUT_TIMEOUT: 30s
+2026-09-08T11:22:14.8123629Z   INPUT_PROXY_TIMEOUT: 30s
+2026-09-08T11:22:14.8124180Z   INPUT_COMMAND_TIMEOUT: 30m
+2026-09-08T11:22:14.8126643Z   INPUT_SCRIPT: set -euo pipefail
+cd /opt/dograh
+git fetch origin
+git checkout production
+git pull --ff-only origin production
+git submodule update --init --recursive
+./remote_up.sh --build
+# Droplets often cannot curl their own public IP (hairpin NAT).
+# Check API on localhost instead of https://val.hyprtask.ai from the server.
+curl -fsS http://127.0.0.1:8000/api/v1/health
+
+2026-09-08T11:22:14.8129149Z   INPUT_SCRIPT_FILE: 
+2026-09-08T11:22:14.8129685Z   INPUT_SCRIPT_STOP: true
+2026-09-08T11:22:14.8130225Z   INPUT_ENVS: 
+2026-09-08T11:22:14.8130706Z   INPUT_ENVS_FORMAT: 
+2026-09-08T11:22:14.8131212Z   INPUT_DEBUG: 
+2026-09-08T11:22:14.8131884Z   INPUT_ALL_ENVS: 
+2026-09-08T11:22:14.8132396Z   INPUT_REQUEST_PTY: 
+2026-09-08T11:22:14.8132929Z   INPUT_USE_INSECURE_CIPHER: 
+2026-09-08T11:22:14.8133486Z   INPUT_CIPHER: 
+2026-09-08T11:22:14.8134279Z   INPUT_PROXY_USE_INSECURE_CIPHER: 
+2026-09-08T11:22:14.8134896Z   INPUT_PROXY_CIPHER: 
+2026-09-08T11:22:14.8135417Z   INPUT_SYNC: 
+2026-09-08T11:22:14.8135887Z ##[endgroup]
+2026-09-08T11:22:14.8283472Z Will download drone-ssh-1.8.0-linux-amd64 from https://github.com/appleboy/drone-ssh/releases/download/v1.8.0
+2026-09-08T11:22:15.0672387Z ======= CLI Version =======
+2026-09-08T11:22:15.0703733Z Drone SSH version 1.8.0
+2026-09-08T11:22:15.0705435Z ===========================
+2026-09-08T11:22:17.5568200Z From https://github.com/hyprtask-ai/val-arcaller
+2026-09-08T11:22:17.5573374Z    21fd91e..47261b4  production -> origin/production
+2026-09-08T11:22:17.5576814Z    71c37b0..7535137  master     -> origin/master
+2026-09-08T11:22:17.6666844Z Already on 'production'
+2026-09-08T11:22:17.6682569Z Your branch is behind 'origin/production' by 4 commits, and can be fast-forwarded.
+2026-09-08T11:22:17.6684663Z   (use "git pull" to update your local branch)
+2026-09-08T11:22:17.8938201Z From https://github.com/hyprtask-ai/val-arcaller
+2026-09-08T11:22:17.8939579Z  * branch            production -> FETCH_HEAD
+2026-09-08T11:22:17.9307825Z Updating 21fd91e..47261b4
+2026-09-08T11:22:17.9308515Z Fast-forward
+2026-09-08T11:22:17.9381658Z  api/schemas/organization_preferences.py            |   6 +-
+2026-09-08T11:22:17.9382967Z  api/services/organization_bootstrap.py             |  33 ++++
+2026-09-08T11:22:17.9383997Z  dev/val-features.md                                |  93 +++++++++++
+2026-09-08T11:22:17.9384987Z  dev/val-production.md                              |  13 ++
+2026-09-08T11:22:17.9385749Z  docker-compose.yaml                                |  17 +-
+2026-09-08T11:22:17.9386775Z  scripts/enable_val_production_features.sh          | 176 +++++++++++++++++++++
+2026-09-08T11:22:17.9387773Z  scripts/lib/setup_common.sh                        |   7 +
+2026-09-08T11:22:17.9388650Z  .../components/OrganizationPreferencesSection.tsx  |   8 +-
+2026-09-08T11:22:17.9389474Z  ui/src/components/layout/AppSidebar.tsx            |  16 +-
+2026-09-08T11:22:17.9390384Z  9 files changed, 349 insertions(+), 20 deletions(-)
+2026-09-08T11:22:17.9391044Z  create mode 100644 dev/val-features.md
+2026-09-08T11:22:17.9392026Z  create mode 100644 scripts/enable_val_production_features.sh
+2026-09-08T11:22:18.0174902Z [0;34mRunning Dograh remote preflight...[0m
+2026-09-08T11:22:18.5214570Z [0;32m✓ dograh-init preflight validated[0m
+2026-09-08T11:22:18.5253947Z [0;34mSyncing Postgres password from .env...[0m
+2026-09-08T11:22:18.8326107Z  Container dograh-postgres-1 Running 
+2026-09-08T11:22:19.5612878Z [0;32m✓ Postgres password synced with .env[0m
+2026-09-08T11:22:19.9895942Z  Image dograh-local/dograh-api:local Building 
+2026-09-08T11:22:19.9896858Z  Image dograh-local/dograh-ui:local Building 
+2026-09-08T11:22:20.1016847Z #1 [internal] load local bake definitions
+2026-09-08T11:22:20.2522986Z #1 reading from stdin 874B done
+2026-09-08T11:22:20.2523602Z #1 DONE 0.0s
+2026-09-08T11:22:20.3036949Z #2 [ui internal] load build definition from Dockerfile
+2026-09-08T11:22:20.3037827Z #2 DONE 0.0s
+2026-09-08T11:22:20.4843411Z #3 [api internal] load build definition from Dockerfile
+2026-09-08T11:22:20.4844595Z #3 transferring dockerfile: 8.69kB done
+2026-09-08T11:22:20.4845189Z #3 DONE 0.0s
+2026-09-08T11:22:20.4845812Z #2 [ui internal] load build definition from Dockerfile
+2026-09-08T11:22:20.4846648Z #2 transferring dockerfile: 2.28kB done
+2026-09-08T11:22:20.4847214Z #2 DONE 0.0s
+2026-09-08T11:22:20.4847892Z #4 [ui] resolve image config for docker-image://docker.io/docker/dockerfile:1
+2026-09-08T11:22:20.7518108Z #4 DONE 0.2s
+2026-09-08T11:22:20.7589649Z #5 [ui] docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+2026-09-08T11:22:20.7590756Z #5 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.0s done
+2026-09-08T11:22:20.7591513Z #5 CACHED
+2026-09-08T11:22:20.8462877Z #6 [ui internal] load metadata for docker.io/library/node:22-alpine
+2026-09-08T11:22:21.0301299Z #6 ...
+2026-09-08T11:22:21.0302250Z #7 [api internal] load metadata for docker.io/library/debian:trixie-slim
+2026-09-08T11:22:21.0302798Z #7 DONE 0.2s
+2026-09-08T11:22:21.1430299Z #8 [api internal] load metadata for docker.io/library/node:22-slim
+2026-09-08T11:22:21.1431450Z #8 DONE 0.2s
+2026-09-08T11:22:21.1432610Z #9 [api internal] load metadata for docker.io/library/python:3.13-slim
+2026-09-08T11:22:21.1433659Z #9 DONE 0.2s
+2026-09-08T11:22:21.1434585Z #6 [ui internal] load metadata for docker.io/library/node:22-alpine
+2026-09-08T11:22:21.1435671Z #6 DONE 0.2s
+2026-09-08T11:22:21.1436528Z #10 [api internal] load metadata for ghcr.io/astral-sh/uv:latest
+2026-09-08T11:22:21.1437578Z #10 DONE 0.2s
+2026-09-08T11:22:21.1438252Z #11 [ui internal] load .dockerignore
+2026-09-08T11:22:21.1439118Z #11 transferring context: 235B done
+2026-09-08T11:22:21.1439854Z #11 DONE 0.0s
+2026-09-08T11:22:21.1440236Z #12 [ui internal] load build context
+2026-09-08T11:22:21.1440638Z #12 DONE 0.0s
+2026-09-08T11:22:21.2720268Z #13 [api internal] load build context
+2026-09-08T11:22:21.3950611Z #13 ...
+2026-09-08T11:22:21.3952446Z #14 [ui deps 1/5] FROM docker.io/library/node:22-alpine@sha256:c610fcdfb1d5b4740dd70c284ed3cb16bb857e0f7166196e36a5501df7a3aa32
+2026-09-08T11:22:21.3954380Z #14 resolve docker.io/library/node:22-alpine@sha256:c610fcdfb1d5b4740dd70c284ed3cb16bb857e0f7166196e36a5501df7a3aa32 0.2s done
+2026-09-08T11:22:21.3955630Z #14 DONE 0.2s
+2026-09-08T11:22:21.3956415Z #15 [api] FROM ghcr.io/astral-sh/uv:latest@sha256:2bb3ebca0a796a155094a27773d290c4b074572e6107f171d88d086682fd2500
+2026-09-08T11:22:21.3957766Z #15 resolve ghcr.io/astral-sh/uv:latest@sha256:2bb3ebca0a796a155094a27773d290c4b074572e6107f171d88d086682fd2500 0.1s done
+2026-09-08T11:22:21.3958698Z #15 DONE 0.2s
+2026-09-08T11:22:21.3959633Z #16 [api ffmpeg-static 1/2] FROM docker.io/library/debian:trixie-slim@sha256:d7e12182ce18b85b93007c1dedf31f2d29e01ccf3182cc4017c709b6259bc132
+2026-09-08T11:22:21.3961238Z #16 resolve docker.io/library/debian:trixie-slim@sha256:d7e12182ce18b85b93007c1dedf31f2d29e01ccf3182cc4017c709b6259bc132 0.1s done
+2026-09-08T11:22:21.3962368Z #16 DONE 0.2s
+2026-09-08T11:22:21.3963243Z #17 [api builder 1/8] FROM docker.io/library/python:3.13-slim@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
+2026-09-08T11:22:21.3965165Z #17 resolve docker.io/library/python:3.13-slim@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285 0.1s done
+2026-09-08T11:22:21.3965899Z #17 DONE 0.2s
+2026-09-08T11:22:21.3966538Z #18 [api ts-deps 1/4] FROM docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+2026-09-08T11:22:21.3967628Z #18 resolve docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5 0.2s done
+2026-09-08T11:22:21.3968344Z #18 DONE 0.2s
+2026-09-08T11:22:21.3968623Z #13 [api internal] load build context
+2026-09-08T11:22:21.7536272Z #13 transferring context: 192.21kB 0.4s done
+2026-09-08T11:22:21.7536935Z #13 DONE 0.4s
+2026-09-08T11:22:21.7537436Z #12 [ui internal] load build context
+2026-09-08T11:22:21.7538005Z #12 transferring context: 56.36kB 0.1s done
+2026-09-08T11:22:21.7538540Z #12 DONE 0.2s
+2026-09-08T11:22:21.7539039Z #19 [ui deps 4/5] COPY ui/package*.json ./
+2026-09-08T11:22:21.7539593Z #19 CACHED
+2026-09-08T11:22:21.7540080Z #20 [ui builder  9/14] COPY ui/sentry.edge.config.ts ./
+2026-09-08T11:22:21.7540691Z #20 CACHED
+2026-09-08T11:22:21.7541086Z #21 [ui deps 2/5] WORKDIR /app
+2026-09-08T11:22:21.7541497Z #21 CACHED
+2026-09-08T11:22:21.7542280Z #22 [ui builder  7/14] COPY ui/next.config.ts ./
+2026-09-08T11:22:21.7542953Z #22 CACHED
+2026-09-08T11:22:21.7543476Z #23 [ui builder  8/14] COPY ui/components.json ./
+2026-09-08T11:22:21.7544223Z #23 CACHED
+2026-09-08T11:22:21.7544908Z #24 [ui deps 3/5] RUN apk add --no-cache python3 make g++ libc6-compat
+2026-09-08T11:22:21.7545460Z #24 CACHED
+2026-09-08T11:22:21.7545804Z #25 [ui builder  5/14] COPY ui/package*.json ./
+2026-09-08T11:22:21.7546243Z #25 CACHED
+2026-09-08T11:22:21.7547039Z #26 [ui builder 10/14] COPY ui/sentry.server.config.ts ./
+2026-09-08T11:22:21.7547534Z #26 CACHED
+2026-09-08T11:22:21.7547977Z #27 [ui builder  4/14] COPY --from=deps /app/node_modules ./node_modules
+2026-09-08T11:22:21.7548524Z #27 CACHED
+2026-09-08T11:22:21.7548907Z #28 [ui builder  3/14] RUN apk add --no-cache libc6-compat
+2026-09-08T11:22:21.7549387Z #28 CACHED
+2026-09-08T11:22:21.7549727Z #29 [ui builder  6/14] COPY ui/tsconfig.json ./
+2026-09-08T11:22:21.7550164Z #29 CACHED
+2026-09-08T11:22:21.7550524Z #30 [ui builder 11/14] COPY ui/postcss.config.mjs ./
+2026-09-08T11:22:21.7550980Z #30 CACHED
+2026-09-08T11:22:21.7552598Z #31 [ui deps 5/5] RUN --mount=type=cache,target=/***/.npm npm ci
+2026-09-08T11:22:21.7553029Z #31 CACHED
+2026-09-08T11:22:21.7553299Z #32 [ui builder 12/14] COPY ui/public ./public
+2026-09-08T11:22:21.7553641Z #32 CACHED
+2026-09-08T11:22:21.7553893Z #33 [api ts-deps 2/4] WORKDIR /ts_validator
+2026-09-08T11:22:21.7554207Z #33 CACHED
+2026-09-08T11:22:21.7554613Z #34 [api ts-deps 3/4] COPY api/mcp_server/ts_validator/package*.json ./
+2026-09-08T11:22:21.7555026Z #34 CACHED
+2026-09-08T11:22:21.7559955Z #35 [api ffmpeg-static 2/2] RUN set -eu ;     apt-get update && apt-get install -y --no-install-recommends         curl ca-certificates xz-utils ;     rm -rf /var/lib/apt/lists/* ;     case "amd64" in       amd64) btbn_arch=linux64 ;              sha256=ee052121296e6479325e09c6097d48e72a4af472d18c2b94388b5405dcde6cce ;;       arm64) btbn_arch=linuxarm64 ;              sha256=e97545305043794cdf7b698d713e29291464e0c35bb8e0f3ff1f62e4c56eedd6 ;;       *) echo "unsupported TARGETARCH: amd64" >&2 ; exit 1 ;;     esac ;     url="https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-05-31-13-22/ffmpeg-N-124714-g49a77d37be-${btbn_arch}-gpl.tar.xz" ;     mkdir -p /tmp/ffmpeg ; cd /tmp/ffmpeg ;     echo "Downloading ffmpeg (autobuild-2026-05-31-13-22) from ${url}" ;     curl -fsSL --connect-timeout 20 --speed-limit 1024 --speed-time 30          --max-time 600 --retry 3 --retry-delay 5 --retry-all-errors          -o ffmpeg.tar.xz "${url}" ;     echo "${sha256}  ffmpeg.tar.xz" | sha256sum -c - ;     tar -xJf ffmpeg.tar.xz ;     ffmpeg_bin="$(find /tmp/ffmpeg -type f -name ffmpeg | head -n1)" ;     ffprobe_bin="$(find /tmp/ffmpeg -type f -name ffprobe | head -n1)" ;     [ -n "${ffmpeg_bin}" ] && [ -n "${ffprobe_bin}" ] ;     mv "${ffmpeg_bin}" "${ffprobe_bin}" /usr/local/bin/ ;     chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe ;     rm -rf /tmp/ffmpeg
+2026-09-08T11:22:21.7565309Z #35 CACHED
+2026-09-08T11:22:21.7566436Z #36 [api builder 8/8] RUN find /opt/venv -type f -name '*.pyc' -delete &&     find /opt/venv -type d -name '__pycache__' -prune -exec rm -rf {} + &&     find /opt/venv -type f -name '*.pyo' -delete &&     find /opt/venv -type d ( -name tests -o -name test -o -name examples ) -prune -exec rm -rf {} + &&     find /opt/venv -name '*.pyi' -delete
+2026-09-08T11:22:21.7567596Z #36 CACHED
+2026-09-08T11:22:21.7567962Z #37 [api builder 4/8] COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+2026-09-08T11:22:21.7568400Z #37 CACHED
+2026-09-08T11:22:21.7569108Z #38 [api builder 6/8] RUN --mount=type=bind,source=api/requirements.txt,target=/tmp/req.txt     --mount=type=cache,target=/***/.cache/uv     uv pip install -r /tmp/req.txt
+2026-09-08T11:22:21.7569844Z #38 CACHED
+2026-09-08T11:22:21.7570229Z #39 [api runner  4/11] COPY --from=ffmpeg-static /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+2026-09-08T11:22:21.7570680Z #39 CACHED
+2026-09-08T11:22:21.7571056Z #40 [api runner  5/11] COPY --from=ffmpeg-static /usr/local/bin/ffprobe /usr/local/bin/ffprobe
+2026-09-08T11:22:21.7571515Z #40 CACHED
+2026-09-08T11:22:21.7571884Z #41 [api builder 2/8] WORKDIR /app
+2026-09-08T11:22:21.7572159Z #41 CACHED
+2026-09-08T11:22:21.7574248Z #42 [api builder 7/8] RUN --mount=type=bind,source=pipecat,target=/tmp/pipecat,rw     --mount=type=cache,target=/***/.cache/uv     uv pip install '/tmp/pipecat[cartesia,deepgram,openai,elevenlabs,groq,google,azure,sarvam,soundfile,silero,webrtc,speechmatics,openrouter,camb,mcp,inworld,smallest]'  && uv pip uninstall opencv-python  && uv pip install opencv-python-headless  && python -c "import nltk; nltk.download('punkt_tab', download_dir='/opt/venv/nltk_data', quiet=True)"
+2026-09-08T11:22:21.7576116Z #42 CACHED
+2026-09-08T11:22:21.7576379Z #43 [api builder 5/8] RUN python -m venv "/opt/venv"
+2026-09-08T11:22:21.7576698Z #43 CACHED
+2026-09-08T11:22:21.7577157Z #44 [api builder 3/8] RUN apt-get update && apt-get install -y     git     && apt-get clean     && rm -rf /var/lib/apt/lists/*
+2026-09-08T11:22:21.7577682Z #44 CACHED
+2026-09-08T11:22:21.7578327Z #45 [api runner  3/11] RUN groupadd --system dograh  && useradd --system --gid dograh --no-log-init --home-dir /app --shell /usr/sbin/nologin dograh  && chown dograh:dograh /app
+2026-09-08T11:22:21.7579042Z #45 CACHED
+2026-09-08T11:22:21.7579389Z #46 [api runner  6/11] COPY --from=node:22-slim /usr/local/bin/node /usr/local/bin/node
+2026-09-08T11:22:21.7579808Z #46 CACHED
+2026-09-08T11:22:21.7580115Z #47 [api ts-deps 4/4] RUN npm ci --omit=dev && npm cache clean --force
+2026-09-08T11:22:21.7580494Z #47 CACHED
+2026-09-08T11:22:21.7580775Z #48 [api runner  7/11] COPY --from=builder /opt/venv /opt/venv
+2026-09-08T11:22:21.7581120Z #48 CACHED
+2026-09-08T11:22:21.7581431Z #49 [api runner  8/11] COPY --chown=dograh:dograh ./api ./api
+2026-09-08T11:22:21.9876804Z #49 ...
+2026-09-08T11:22:21.9877622Z #50 [ui builder 13/14] COPY ui/src ./src
+2026-09-08T11:22:21.9878366Z #50 DONE 0.4s
+2026-09-08T11:22:22.1432443Z #51 [ui builder 14/14] RUN npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache
+2026-09-08T11:22:22.3382669Z #51 ...
+2026-09-08T11:22:22.3383432Z #49 [api runner  8/11] COPY --chown=dograh:dograh ./api ./api
+2026-09-08T11:22:22.3384041Z #49 DONE 0.7s
+2026-09-08T11:22:22.4922543Z #52 [api runner  9/11] COPY --chown=dograh:dograh      ./scripts/start_services_docker.sh      ./scripts/run_migrate.sh      ./scripts/run_web.sh      ./scripts/run_arq_worker.sh      ./scripts/run_ari_manager.sh      ./scripts/run_campaign_orchestrator.sh      ./scripts/drain_web.sh      ./scripts/
+2026-09-08T11:22:22.5442955Z #52 DONE 0.2s
+2026-09-08T11:22:22.5444116Z #51 [ui builder 14/14] RUN npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache
+2026-09-08T11:22:22.8314409Z #51 ...
+2026-09-08T11:22:22.8315692Z #53 [api runner 10/11] COPY --from=ts-deps --chown=dograh:dograh /ts_validator/node_modules ./api/mcp_server/ts_validator/node_modules
+2026-09-08T11:22:22.8316794Z #53 DONE 0.3s
+2026-09-08T11:22:22.9854270Z #54 [api runner 11/11] COPY --chown=dograh:dograh ./docs ./docs
+2026-09-08T11:22:23.1404428Z #54 DONE 0.3s
+2026-09-08T11:22:23.1405772Z #51 [ui builder 14/14] RUN npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache
+2026-09-08T11:22:23.8705786Z #51 1.877 
+2026-09-08T11:22:23.8706472Z #51 1.877 > ui@1.46.0 build
+2026-09-08T11:22:23.8707010Z #51 1.877 > next build
+2026-09-08T11:22:23.8707508Z #51 1.877 
+2026-09-08T11:22:26.8889307Z #51 ...
+2026-09-08T11:22:26.8889737Z #55 [api] exporting to image
+2026-09-08T11:22:26.8890275Z #55 exporting layers 2.5s done
+2026-09-08T11:22:26.8891142Z #55 exporting manifest sha256:e6824867906261a9a968ea1afcbe61eb5d93c5f2431cd0940bc6dcc9bbfab844 0.0s done
+2026-09-08T11:22:26.8892699Z #55 exporting config sha256:19712a64eeefa6460561b2e433e69f39cbed0cab289c9c5f4879668e67421bfd 0.0s done
+2026-09-08T11:22:26.9753005Z #55 exporting attestation manifest sha256:ada460242ed53524c6aaae4f9aa64e2f4717e4a42d57dbaca8617338553ef214 0.0s done
+2026-09-08T11:22:26.9754440Z #55 exporting manifest list sha256:38d448068eff3b4ae445551573dc4fd8559a651d834732cdb06418c1d7905dd1 0.0s done
+2026-09-08T11:22:26.9755307Z #55 naming to docker.io/dograh-local/dograh-api:local done
+2026-09-08T11:22:26.9755937Z #55 unpacking to docker.io/dograh-local/dograh-api:local 0.9s done
+2026-09-08T11:22:26.9756475Z #55 DONE 3.6s
+2026-09-08T11:22:26.9756836Z #56 [api] resolving provenance for metadata file
+2026-09-08T11:22:27.1585842Z #56 DONE 0.0s
+2026-09-08T11:22:27.1587275Z #51 [ui builder 14/14] RUN npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache
+2026-09-08T11:22:27.8077744Z #51 5.816    ▲ Next.js 15.5.20
+2026-09-08T11:22:27.9175039Z #51 5.818    - Experiments (use with caution):
+2026-09-08T11:22:27.9176028Z #51 5.818      ✓ serverSourceMaps
+2026-09-08T11:22:27.9176725Z #51 5.818      · clientTraceMetadata
+2026-09-08T11:22:27.9177224Z #51 5.818 
+2026-09-08T11:22:27.9177652Z #51 5.926    Creating an optimized production build ...
+2026-09-08T11:24:54.6875818Z #51 152.6 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (127kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+2026-09-08T11:24:54.8818856Z #51 152.9 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (139kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+2026-09-08T11:27:31.3096420Z #51 309.1  ✓ Compiled successfully in 5.0min
+2026-09-08T11:27:31.6941113Z #51 309.5    Linting and checking validity of types ...
+2026-09-08T11:30:12.2873505Z #51 470.2 Killed
+2026-09-08T11:30:12.3921537Z #51 ERROR: process "/bin/sh -c npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache" did not complete successfully: exit code: 137
+2026-09-08T11:30:12.7802015Z ------
+2026-09-08T11:30:12.7803443Z  > [ui builder 14/14] RUN npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache:
+2026-09-08T11:30:12.7804678Z 5.818    - Experiments (use with caution):
+2026-09-08T11:30:12.7805694Z 5.818      ✓ serverSourceMaps
+2026-09-08T11:30:12.7806525Z 5.818      · clientTraceMetadata
+2026-09-08T11:30:12.7807123Z 5.818 
+2026-09-08T11:30:12.7807530Z 5.926    Creating an optimized production build ...
+2026-09-08T11:30:12.7808858Z 152.6 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (127kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+2026-09-08T11:30:12.7810930Z 152.9 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (139kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+2026-09-08T11:30:12.7812578Z 309.1  ✓ Compiled successfully in 5.0min
+2026-09-08T11:30:12.7813122Z 309.5    Linting and checking validity of types ...
+2026-09-08T11:30:12.7813629Z 470.2 Killed
+2026-09-08T11:30:12.7813895Z ------
+2026-09-08T11:30:12.8065717Z Dockerfile:48
+2026-09-08T11:30:12.8066103Z --------------------
+2026-09-08T11:30:12.8066586Z   47 |     ENV NODE_OPTIONS="--max-old-space-size=4096"
+2026-09-08T11:30:12.8067072Z   48 | >>> RUN npm run build && \
+2026-09-08T11:30:12.8067748Z   49 | >>>     rm -rf /tmp/* /***/.npm /***/.next/cache
+2026-09-08T11:30:12.8068194Z   50 |     
+2026-09-08T11:30:12.8068488Z --------------------
+2026-09-08T11:30:12.8069412Z target ui: failed to solve: process "/bin/sh -c npm run build &&     rm -rf /tmp/* /***/.npm /***/.next/cache" did not complete successfully: exit code: 137
+2026-09-08T11:30:12.8687038Z 2026/09/08 11:30:12 Process exited with status 1
+2026-09-08T11:30:12.8713267Z ##[error]Process completed with exit code 1.
+2026-09-08T11:30:12.8723849Z ##[end-action id=__appleboy_ssh-action.__run_2;outcome=failure;conclusion=failure;duration_ms=478068]
+2026-09-08T11:30:12.8849752Z Cleaning up orphan processes
