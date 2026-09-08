@@ -258,25 +258,16 @@ Deploy **our fork**, not upstream directly. Merge upstream periodically.
 
 ---
 
-### 12. CI/CD (planned)
+### 12. CI/CD
 
-```text
-hyprtask-val (push to master)
-        │
-        ▼
-GitHub Actions
-        │ SSH deploy key
-        ▼
-server: cd /opt/dograh
-        git pull && git submodule update --init --recursive
-        docker compose build api ui
-        docker compose up -d
-        │
-        ▼
-curl -f https://val.hyprtask.ai/api/v1/health
-```
+Implemented — see **[ci-cd.md](ci-cd.md)**.
 
-Use a GitHub deploy key or Actions secret for SSH. Run Alembic migrations after API updates if schema changed.
+- Deploy branch: **`production`** (not `master`)
+- Workflow: `.github/workflows/deploy-val-production.yml`
+- Server path: `/opt/dograh`
+- Health check: `https://val.hyprtask.ai/api/v1/health`
+
+Git remotes: **[git-remotes.md](git-remotes.md)** (`upstream` local only).
 
 ---
 

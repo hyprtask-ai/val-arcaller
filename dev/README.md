@@ -1,88 +1,102 @@
-# Hyprtask — Dograh self-hosting (internal dev docs)
-
-Internal planning and deployment notes for running **our Dograh fork** on Hyprtask infrastructure. These docs are not part of the public Mintlify site under `docs/`.
-
-## Production domain
-
-Dograh will be served at **`https://val.hyprtask.ai`**.
-
-| Setting | Value |
-|---------|-------|
-| Public URL | `https://val.hyprtask.ai` |
-| `PUBLIC_HOST` | `val.hyprtask.ai` |
-| `PUBLIC_BASE_URL` | `https://val.hyprtask.ai` |
-
-Plane remains on its existing domain on the Tools Server. Dograh is routed as a separate hostname (via Caddy on a co-located install, or via Dograh's bundled nginx on a dedicated droplet).
-
-## Repository strategy
-
-```text
-dograh-hq/dograh
-        │
-        │ upstream
-        ▼
-our GitHub fork
-        │
-        │ origin
-        ▼
-D:\DEV\Hyprtask\hyprtask-val   (local working copy)
-        │
-        ▼
-self-hosted infrastructure
-```
-
-| Remote | Points to |
-|--------|-----------|
-| `origin` | Our organization's GitHub fork |
-| `upstream` | `dograh-hq/dograh` |
-
-Production should deploy **our fork**, not `dograh-hq/dograh` directly. Track upstream for merges and security fixes.
-
-## Target deployment flow
-
-```text
-hyprtask-val (local)
-        │ push
-        ▼
- GitHub fork
-        │ CI/CD (planned)
-        ▼
- Tools Server (or dedicated Dograh server)
-        │
-        ▼
- /opt/dograh  (or /root/dograh-selfhost/dograh/)
-        │
-        ▼
- Docker Compose → Dograh stack
-```
-
-## Documents
-
-| Doc | Contents |
-|-----|----------|
-| [tools-server.md](tools-server.md) | Read-only discovery results for the Tools Server (Plane co-hosted) |
-| [deployment-plan.md](deployment-plan.md) | Dograh requirements, architecture options, port/proxy strategy, CI/CD outline |
-
-## Discovery script
-
-Re-run read-only server inspection (safe alongside Plane):
-
-```bash
-bash scripts/tools-server-discovery.sh 2>&1 | tee /tmp/tools-server-discovery.txt
-```
-
-Script location: [`scripts/tools-server-discovery.sh`](../scripts/tools-server-discovery.sh)
-
-## Safety rule
-
-**Discovery and planning first.** Do not restart Docker, modify Plane, change firewall rules, or run Dograh `setup_remote.sh` on a host that already serves Plane on ports 80/443 until the deployment plan is approved.
-
-## Status (2026-03-28 discovery)
-
-- Target domain: **`val.hyprtask.ai`**
-- Tools Server runs **Plane** via Docker Compose at `/root/plane-selfhost/plane-app/`.
-- **4 GB / 2 vCPU** droplet — below Dograh's documented minimum (8 GB / 4 vCPU).
-- Ports **80/443** are owned by Plane's **Caddy** proxy.
-- **Recommendation:** dedicated 8 GB / 4 vCPU droplet for Dograh, or resize before co-locating.
-
-See [deployment-plan.md](deployment-plan.md) for full analysis and next steps.
+# Hyprtask — Dograh self-hosting (internal dev docs)
+
+Internal planning and deployment notes for running **our Dograh fork** on Hyprtask infrastructure. These docs are not part of the public Mintlify site under `docs/`.
+
+## Production domain
+
+**Val (AR Caller)** is live at **`https://val.hyprtask.ai`**.
+
+| Setting | Value |
+|---------|-------|
+| Public URL | `https://val.hyprtask.ai` |
+| `PUBLIC_HOST` | `val.hyprtask.ai` |
+| `PUBLIC_BASE_URL` | `https://val.hyprtask.ai` |
+| Server IP | `159.65.175.242` |
+| Install path | `/opt/dograh` |
+| Deploy branch | `production` (via [CI/CD](ci-cd.md)) |
+
+---
+
+## Repository strategy
+
+```text
+dograh-hq/dograh
+        │
+        │ upstream (local dev machines only)
+        ▼
+hyprtask-ai/val-arcaller
+        │
+        │ origin
+        ▼
+Local clone  →  push production  →  Val server
+```
+
+| Remote | Points to | Where |
+|--------|-----------|--------|
+| `origin` | `hyprtask-ai/val-arcaller` | Local + Val server |
+| `upstream` | `dograh-hq/dograh` | **Local only** — see [git-remotes.md](git-remotes.md) |
+
+Production deploys **our fork**, not `dograh-hq/dograh` directly.
+
+---
+
+## Deployment flow
+
+```text
+feature → PR → master
+                │
+                │ merge when ready to release
+                ▼
+           production  ──push──►  GitHub Actions
+                                      │
+                                      ▼ SSH
+                                 /opt/dograh
+                                      │
+                                      ▼
+                            ./remote_up.sh --build
+                                      │
+                                      ▼
+                            https://val.hyprtask.ai
+```
+
+---
+
+## Documents
+
+| Doc | Contents |
+|-----|----------|
+| [val-production.md](val-production.md) | Live Val server: IP, firewall, stack, checklist |
+| [ci-cd.md](ci-cd.md) | GitHub Actions deploy, secrets, branch strategy |
+| [git-remotes.md](git-remotes.md) | Local `upstream` setup; server remotes |
+| [tools-server.md](tools-server.md) | Tools Server discovery (Plane co-hosted) |
+| [deployment-plan.md](deployment-plan.md) | Planning, architecture options, port/proxy strategy |
+
+---
+
+## Discovery script
+
+Re-run read-only inspection on the Tools Server (safe alongside Plane):
+
+```bash
+bash scripts/tools-server-discovery.sh 2>&1 | tee /tmp/tools-server-discovery.txt
+```
+
+Script: [`scripts/tools-server-discovery.sh`](../scripts/tools-server-discovery.sh)
+
+---
+
+## Planned Hyprtask AI hosts
+
+| Hostname | Product |
+|----------|---------|
+| `val.hyprtask.ai` | AR Caller (Dograh) — **live** |
+| `ivy.hyprtask.ai` | EV (Laravel) — planned |
+| `ara.hyprtask.ai` | AR Analyst (Laravel) — planned |
+| `sam.hyprtask.ai` | Watchdog — planned |
+
+---
+
+## Local secrets
+
+Store server `.env` secrets in `dev/keys.txt` locally — that file is **gitignored**. Never commit it.
+
