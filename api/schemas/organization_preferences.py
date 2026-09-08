@@ -10,8 +10,10 @@ MAX_DISPOSITION_CODE_LENGTH = 64
 class OrganizationPreferences(BaseModel):
     test_phone_number: str | None = None
     timezone: str | None = None
-    external_pbx_integrations_enabled: bool = False
-    disposition_mapping_enabled: bool = False
+    # OSS self-hosted installs expose these advanced features by default so
+    # operators do not have to hunt for hidden Platform Settings toggles.
+    external_pbx_integrations_enabled: bool = True
+    disposition_mapping_enabled: bool = True
     disposition_mapping: dict[str, str] = Field(
         default_factory=dict,
         description=(

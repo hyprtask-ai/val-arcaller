@@ -31,6 +31,10 @@ from api.services.configuration.ai_model_configuration import (
 )
 from api.services.mps_billing import ensure_hosted_mps_billing_account_v2
 from api.services.mps_service_key_client import mps_service_key_client
+from api.services.organization_preferences import (
+    get_organization_preferences,
+    upsert_organization_preferences,
+)
 
 MANAGED_SERVICE_KEY_NAME = "Default Dograh Model Service Key"
 
@@ -62,6 +66,7 @@ async def ensure_organization_bootstrapped(
     caller is a legitimately authenticated user either way.
     """
     if await _is_bootstrap_complete(organization_id):
+        await _ensure_oss_feature_preferences(organization_id)
         return True
 
     configuration = await get_organization_ai_model_configuration_v2(organization_id)
@@ -112,7 +117,35 @@ async def ensure_organization_bootstrapped(
     await db_client.complete_configuration_lease(
         organization_id, _BOOTSTRAP_KEY, owner_token
     )
+    await _ensure_oss_feature_preferences(organization_id)
     return True
+
+
+async def _ensure_oss_feature_preferences(organization_id: int) -> None:
+    """Turn on OSS Platform Settings toggles for self-hosted installs.
+
+    Idempotent: once both flags are true in the stored preferences, this is a
+    no-op. Runs on authenticated requests via ``ensure_organization_bootstrapped``.
+    """
+    if DEPLOYMENT_MODE != "oss":
+        return
+
+    current = await get_organization_preferences(organization_id)
+    if (
+        current.external_pbx_integrations_enabled
+        and current.disposition_mapping_enabled
+    ):
+        return
+
+    await upsert_organization_preferences(
+        organization_id,
+        current.model_copy(
+            update={
+                "external_pbx_integrations_enabled": True,
+                "disposition_mapping_enabled": True,
+            }
+        ),
+    )
 
 
 async def _is_bootstrap_complete(organization_id: int) -> bool:

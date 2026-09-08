@@ -18,6 +18,12 @@ Use `--skip-restart` to preview `.env` / DB changes without restarting.
 
 ## What the script enables automatically
 
+On deploy, the fork also **auto-enables org UI toggles** on the next login
+(`external_pbx_integrations_enabled`, `disposition_mapping_enabled`) via
+organization bootstrap — you do not need the script for those if you are on a
+recent `production` build. The script is still useful for `.env` flags and
+one-shot upgrades on an existing server.
+
 ### `.env` (server)
 
 | Setting | Value | Purpose |

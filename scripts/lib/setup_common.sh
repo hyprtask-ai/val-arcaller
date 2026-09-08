@@ -257,6 +257,13 @@ dograh_sync_remote_env_file() {
     # reports this flag to browsers, which skip TURN entirely when it is false,
     # so sync it here for installs whose .env predates the key.
     dograh_set_env_key "$env_file" ENABLE_COTURN true
+    dograh_set_env_key "$env_file" ENABLE_SIGNUP false
+    dograh_set_env_key "$env_file" ENABLE_ARI_MANAGER true
+    dograh_set_env_key "$env_file" ENABLE_CAMPAIGN_ORCHESTRATOR true
+    dograh_set_env_key "$env_file" ENABLE_CALL_RECORDING_UPLOAD true
+    dograh_set_env_key "$env_file" FASTAPI_WORKERS "${FASTAPI_WORKERS:-2}"
+    dograh_set_env_key "$env_file" LOG_LEVEL INFO
+    dograh_set_env_key "$env_file" SERIALIZE_LOG_OUTPUT true
 
     # BACKEND_API_ENDPOINT / MINIO_PUBLIC_ENDPOINT / TURN_HOST are derived in-app
     # from PUBLIC_BASE_URL / PUBLIC_HOST (see api/constants.py), so sync neither
