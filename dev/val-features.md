@@ -90,4 +90,25 @@ curl -s https://val.hyprtask.ai/api/v1/health
 
 In UI: **Platform Settings → Preferences** — External PBX and Disposition mapping switches should be on.
 
+---
+
+## Troubleshooting deploy builds (exit 137)
+
+If `./remote_up.sh --build` fails with `exit code: 137` during `npm run build`
+(usually at “Linting and checking validity of types”), the UI Docker build ran
+out of memory. The fork’s `remote_up.sh` builds **api then ui sequentially**
+to avoid that on 8 GB droplets.
+
+If it still fails, add swap on the server:
+
+```bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+grep -q '/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+Then re-run `./remote_up.sh --build`.
+
 See also [val-production.md](val-production.md).
