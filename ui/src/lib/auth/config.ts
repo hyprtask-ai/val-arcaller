@@ -80,7 +80,8 @@ export async function getStackConfig(): Promise<StackConfig | null> {
 
 /**
  * Returns true when the backend allows signup (`ENABLE_SIGNUP`, default true).
- * The login page uses this to hide the signup link on locked-down installs.
+ * The login page hides the signup link and `/auth/signup` redirects to login
+ * when signup is disabled.
  */
 export async function getSignupEnabled(): Promise<boolean> {
   return (await resolveAuthConfig()).signupEnabled;
