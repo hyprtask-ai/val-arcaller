@@ -448,6 +448,10 @@ export function AppSidebar() {
                     <UserRound className="mr-2 h-4 w-4" />
                     Account Settings
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Platform Settings
+                  </DropdownMenuItem>
                   {isSuperuser && (
                     <DropdownMenuItem
                       onClick={() => router.push("/superadmin")}
@@ -457,10 +461,6 @@ export function AppSidebar() {
                       Superadmin
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Platform Settings
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign out
@@ -498,6 +498,10 @@ export function AppSidebar() {
                     <Settings className="mr-2 h-4 w-4" />
                     Account Settings
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Platform Settings
+                  </DropdownMenuItem>
                   {isSuperuser && (
                     <DropdownMenuItem
                       onClick={() => router.push("/superadmin")}
@@ -507,10 +511,6 @@ export function AppSidebar() {
                       Superadmin
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Platform Settings
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign out

@@ -22,8 +22,8 @@ import { useAuth } from "@/lib/auth";
 const emptyPreferences: OrganizationPreferences = {
   test_phone_number: "",
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
-  external_pbx_integrations_enabled: false,
-  disposition_mapping_enabled: false,
+  external_pbx_integrations_enabled: true,
+  disposition_mapping_enabled: true,
   disposition_mapping: {},
 };
 
@@ -35,8 +35,8 @@ function toFormPreferences(
     test_phone_number: preferences.test_phone_number || "",
     timezone: preferences.timezone || emptyPreferences.timezone,
     external_pbx_integrations_enabled:
-      preferences.external_pbx_integrations_enabled ?? false,
-    disposition_mapping_enabled: preferences.disposition_mapping_enabled ?? false,
+      preferences.external_pbx_integrations_enabled ?? true,
+    disposition_mapping_enabled: preferences.disposition_mapping_enabled ?? true,
     disposition_mapping: preferences.disposition_mapping ?? {},
   };
 }
