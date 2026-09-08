@@ -71,15 +71,17 @@ git push -u origin production
 
 The workflow uses `environment: production`.
 
-### 3. Repository secrets
+### 3. Environment secrets (production)
 
-**Repo → Settings → Secrets and variables → Actions → New repository secret**
+**Repo → Settings → Environments → production → Environment secrets**
+
+Add each secret (not repository-level — the workflow uses `environment: production`):
 
 | Secret | Value |
 |--------|--------|
 | `VAL_SSH_HOST` | `159.65.175.242` |
 | `VAL_SSH_USER` | `root` |
-| `VAL_SSH_PRIVATE_KEY` | Private key that can SSH to the Val droplet (full PEM, including `BEGIN`/`END` lines) |
+| `VAL_SSH_PRIVATE_KEY` | Full private key PEM (see below) |
 
 Use a **dedicated deploy key pair** (not your personal laptop key):
 
