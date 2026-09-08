@@ -1,0 +1,36 @@
+name: Deploy Val (production)
+
+on:
+  push:
+    branches: [production]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-val-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deploy to val.hyprtask.ai
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VAL_SSH_HOST }}
+          username: ${{ secrets.VAL_SSH_USER }}
+          key: ${{ secrets.VAL_SSH_PRIVATE_KEY }}
+          script_stop: true
+          command_timeout: 30m
+          script: |
+            set -euo pipefail
+            cd /opt/dograh
+            git fetch origin
+            git checkout production
+            git pull --ff-only origin production
+            git submodule update --init --recursive
+            ./remote_up.sh --build
+            curl -fsS https://val.hyprtask.ai/api/v1/health
