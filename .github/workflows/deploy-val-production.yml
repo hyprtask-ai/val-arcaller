@@ -32,8 +32,11 @@ jobs:
             git checkout production
             git reset --hard origin/production
             git submodule update --init --recursive
-            ./remote_up.sh --build
-            # Droplets often cannot curl their own public IP (hairpin NAT).
-            # Check API on localhost instead of https://val.hyprtask.ai from the server.
-            curl -fsS http://127.0.0.1:8000/api/v1/health
+            # Write .env + org prefs before rebuild so the new stack picks them up.
             bash ./scripts/enable_val_production_features.sh --skip-restart
+            ./remote_up.sh --build
+            if command -v jq >/dev/null 2>&1; then
+              curl -fsS http://127.0.0.1:8000/api/v1/health | jq '{status, version}'
+            else
+              curl -fsS http://127.0.0.1:8000/api/v1/health
+            fi
