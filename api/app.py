@@ -6,6 +6,8 @@ from api.constants import (
     CORS_ALLOWED_ORIGINS,
     DEPLOYMENT_MODE,
     ENABLE_TELEMETRY,
+    PRODUCT_FULL_NAME,
+    PRODUCT_NAME,
     SENTRY_DSN,
 )
 from api.logging_config import ENVIRONMENT, setup_logging
@@ -88,13 +90,12 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Dograh API",
-    description="API for the Dograh app",
+    title=f"{PRODUCT_NAME} API",
+    description=f"API for {PRODUCT_FULL_NAME}",
     version="1.0.0",
     openapi_url=f"{API_PREFIX}/openapi.json",
     lifespan=lifespan,
     servers=[
-        {"url": "https://app.dograh.com", "description": "Production"},
         {"url": "http://localhost:8000", "description": "Local development"},
     ],
 )

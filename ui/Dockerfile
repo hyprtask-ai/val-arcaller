@@ -38,8 +38,13 @@ COPY ui/src ./src
 # Set build-time environment variables (needed for Next.js build)
 ENV NEXT_PUBLIC_NODE_ENV="oss"
 ENV NEXT_TELEMETRY_DISABLED="1"
-ENV NEXT_PUBLIC_CHATWOOT_URL="https://chat.dograh.com"
-ENV NEXT_PUBLIC_CHATWOOT_TOKEN="3fkFx2mCEjNHjM9gaNc4A82X"
+ENV NEXT_PUBLIC_PRODUCT_NAME="Val"
+ENV NEXT_PUBLIC_PRODUCT_FULL_NAME="Val by hyprtask"
+ENV NEXT_PUBLIC_PRODUCT_TAGLINE="Voice agents for AR Caller"
+ENV NEXT_PUBLIC_BRAND_DOMAIN="hyprtask.ai"
+ENV NEXT_PUBLIC_HIDE_UPSTREAM_CHROME="true"
+ENV NEXT_PUBLIC_CHATWOOT_URL=""
+ENV NEXT_PUBLIC_CHATWOOT_TOKEN=""
 ENV BACKEND_URL="http://api:8000"
 
 # Build the application with standalone mode

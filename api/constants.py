@@ -174,6 +174,10 @@ def _get_version() -> str:
 # Application version (read from pyproject.toml)
 APP_VERSION = _get_version()
 
+# White-label product naming (Val fork defaults; override via .env)
+PRODUCT_NAME = os.getenv("PRODUCT_NAME", "Val")
+PRODUCT_FULL_NAME = os.getenv("PRODUCT_FULL_NAME", "Val by hyprtask")
+
 # Country code mapping: ISO country code -> international dialing prefix
 COUNTRY_CODES = {
     "US": "1",  # United States
