@@ -88,6 +88,15 @@ dograh_info "Updating $ENV_FILE with Val OSS feature flags..."
 dograh_set_env_key "$ENV_FILE" ENVIRONMENT "${ENVIRONMENT:-production}"
 dograh_set_env_key "$ENV_FILE" ENABLE_SIGNUP false
 
+# --- Val white-label ---
+dograh_set_env_key "$ENV_FILE" PRODUCT_NAME "${PRODUCT_NAME:-Val}"
+dograh_set_env_key "$ENV_FILE" PRODUCT_FULL_NAME "${PRODUCT_FULL_NAME:-Val by hyprtask}"
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_PRODUCT_NAME "${NEXT_PUBLIC_PRODUCT_NAME:-Val}"
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_PRODUCT_FULL_NAME "${NEXT_PUBLIC_PRODUCT_FULL_NAME:-Val by hyprtask}"
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_PRODUCT_TAGLINE "${NEXT_PUBLIC_PRODUCT_TAGLINE:-Voice agents for AR Caller}"
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_BRAND_DOMAIN "${NEXT_PUBLIC_BRAND_DOMAIN:-hyprtask.ai}"
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_HIDE_UPSTREAM_CHROME "${NEXT_PUBLIC_HIDE_UPSTREAM_CHROME:-true}"
+
 # --- Background workers (default on; ensure explicit) ---
 dograh_set_env_key "$ENV_FILE" ENABLE_ARI_MANAGER true
 dograh_set_env_key "$ENV_FILE" ENABLE_CAMPAIGN_ORCHESTRATOR true

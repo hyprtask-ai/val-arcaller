@@ -1,21 +1,23 @@
+import { PRIVACY_URL, TERMS_URL } from "@/lib/brand";
+
 export default function Footer() {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-background border-t border-border py-4 px-6">
-      <div className="flex justify-center items-center gap-6 text-sm text-muted-foreground">
+    <footer className="fixed bottom-0 left-0 right-0 border-t border-border bg-background px-6 py-4">
+      <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
         <a
-          href="https://www.dograh.com/privacy-policy"
+          href={PRIVACY_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-foreground transition-colors"
+          className="transition-colors hover:text-foreground"
         >
           Privacy Policy
         </a>
         <span className="text-border">|</span>
         <a
-          href="https://www.dograh.com/terms-of-service"
+          href={TERMS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-foreground transition-colors"
+          className="transition-colors hover:text-foreground"
         >
           Terms of Service
         </a>

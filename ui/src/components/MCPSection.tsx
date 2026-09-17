@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useAppConfig } from "@/context/AppConfigContext";
 import { resolveBrowserBackendUrl } from "@/lib/apiClient";
+import { docsUrl } from "@/lib/brand";
 import { copyTextToClipboard } from "@/lib/clipboard";
 
 const MCP_PATH = "/api/v1/mcp/";
@@ -103,14 +104,18 @@ export function MCPSection() {
       <p className="text-xs text-muted-foreground">
         For step-by-step setup with Claude Code, Claude Desktop, Cursor, and
         other clients, see the{" "}
-        <Link
-          href="https://docs.dograh.com/integrations/mcp"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary underline hover:no-underline"
-        >
-          MCP integration guide
-        </Link>
+        {docsUrl("integrations/mcp") !== "#" ? (
+          <Link
+            href={docsUrl("integrations/mcp")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline hover:no-underline"
+          >
+            MCP integration guide
+          </Link>
+        ) : (
+          "MCP integration guide"
+        )}
         .
       </p>
     </div>

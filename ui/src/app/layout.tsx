@@ -20,7 +20,11 @@ import { OnboardingProvider } from "@/context/OnboardingContext";
 import { OrgConfigProvider } from "@/context/OrgConfigContext";
 import { TelephonyConfigWarningsProvider } from "@/context/TelephonyConfigWarningsContext";
 import { AuthProvider } from "@/lib/auth";
-
+import {
+  HIDE_UPSTREAM_CHROME,
+  PRODUCT_FULL_NAME,
+  PRODUCT_TAGLINE,
+} from "@/lib/brand";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,8 +37,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dograh",
-  description: "Open Source Voice Assistant Workflow Builder",
+  title: PRODUCT_FULL_NAME,
+  description: PRODUCT_TAGLINE,
+  icons: {
+    icon: "/hyprtask-mark.png",
+    apple: "/hyprtask-mark.png",
+  },
 };
 
 export default function RootLayout({
@@ -95,7 +103,7 @@ export default function RootLayout({
                           {children}
                         </AppLayout>
                         <Toaster />
-                        <ChatwootWidget />
+                        {!HIDE_UPSTREAM_CHROME ? <ChatwootWidget /> : null}
                       </OnboardingProvider>
                     </TelephonyConfigWarningsProvider>
                   </OrgConfigProvider>

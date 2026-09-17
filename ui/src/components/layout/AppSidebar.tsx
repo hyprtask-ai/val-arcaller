@@ -61,6 +61,7 @@ import { useLatestReleaseVersion } from "@/hooks/useLatestReleaseVersion";
 import { useIsSuperuser } from "@/hooks/useIsSuperuser";
 import type { LocalUser } from "@/lib/auth";
 import { useAuth } from "@/lib/auth";
+import { HIDE_UPSTREAM_CHROME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 type SidebarNavItem = {
@@ -293,7 +294,7 @@ export function AppSidebar() {
 
   // "Hire an Expert" CTA, rendered INSIDE the shared footer pill next to the
   // profile icon. Expanded: label pill filling the row. Collapsed: icon-only.
-  const hireExpertButton = isCollapsed ? (
+  const hireExpertButton = HIDE_UPSTREAM_CHROME ? null : isCollapsed ? (
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
@@ -330,8 +331,12 @@ export function AppSidebar() {
               className="notranslate flex items-center gap-2 px-1"
               translate="no"
             >
-              <BrandLogo mark className="h-6" />
-              {versionInfo && (
+              {isCollapsed ? (
+                <BrandLogo mark className="h-6" />
+              ) : (
+                <BrandLogo showByline />
+              )}
+              {!isCollapsed && versionInfo && (
                 <span
                   className="notranslate text-xs font-normal text-muted-foreground"
                   translate="no"
@@ -340,7 +345,7 @@ export function AppSidebar() {
                 </span>
               )}
             </Link>
-            {isBehind && latestRelease && (
+            {!HIDE_UPSTREAM_CHROME && isBehind && latestRelease && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <a
@@ -358,7 +363,7 @@ export function AppSidebar() {
                 </TooltipContent>
               </Tooltip>
             )}
-            {isLatest && (
+            {!HIDE_UPSTREAM_CHROME && isLatest && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span className="inline-flex items-center rounded-md border bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200">

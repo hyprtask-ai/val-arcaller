@@ -146,6 +146,8 @@ services:
       # Core application config
       ENVIRONMENT: "${ENVIRONMENT:-local}"
       LOG_LEVEL: "${LOG_LEVEL:-INFO}"
+      PRODUCT_NAME: "${PRODUCT_NAME:-Val}"
+      PRODUCT_FULL_NAME: "${PRODUCT_FULL_NAME:-Val by hyprtask}"
 
       # Set to "false" in .env to disable public signup (invite-only installs).
       ENABLE_SIGNUP: "${ENABLE_SIGNUP:-true}"
@@ -299,6 +301,16 @@ services:
       # Server-side URL (SSR, internal Docker network)
       BACKEND_URL: "${BACKEND_URL:-http://api:8000}"
       NODE_ENV: "oss"
+
+      # Val white-label (also set at UI image build time in ui/Dockerfile)
+      NEXT_PUBLIC_PRODUCT_NAME: "${NEXT_PUBLIC_PRODUCT_NAME:-Val}"
+      NEXT_PUBLIC_PRODUCT_FULL_NAME: "${NEXT_PUBLIC_PRODUCT_FULL_NAME:-Val by hyprtask}"
+      NEXT_PUBLIC_PRODUCT_TAGLINE: "${NEXT_PUBLIC_PRODUCT_TAGLINE:-Voice agents for AR Caller}"
+      NEXT_PUBLIC_BRAND_DOMAIN: "${NEXT_PUBLIC_BRAND_DOMAIN:-hyprtask.ai}"
+      NEXT_PUBLIC_HIDE_UPSTREAM_CHROME: "${NEXT_PUBLIC_HIDE_UPSTREAM_CHROME:-true}"
+      NEXT_PUBLIC_DOCS_URL: "${NEXT_PUBLIC_DOCS_URL:-}"
+      NEXT_PUBLIC_PRIVACY_URL: "${NEXT_PUBLIC_PRIVACY_URL:-}"
+      NEXT_PUBLIC_TERMS_URL: "${NEXT_PUBLIC_TERMS_URL:-}"
 
       # Flag to enable/ disable posthog
       ENABLE_TELEMETRY: "${ENABLE_TELEMETRY:-true}"
