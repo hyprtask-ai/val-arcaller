@@ -197,13 +197,30 @@ dograh_infer_public_host() {
     return 1
 }
 
+# Values with spaces must be double-quoted so dograh_load_env_file can source .env.
+dograh_format_env_value() {
+    local value=$1
+
+    if [[ "$value" =~ ^[A-Za-z0-9._/-]+$ ]]; then
+        printf '%s' "$value"
+        return
+    fi
+
+    value="${value//\\/\\\\}"
+    value="${value//\"/\\\"}"
+    printf '"%s"' "$value"
+}
+
 dograh_set_env_key() {
     local env_file=$1
     local key=$2
     local value=$3
     local tmp_file="${env_file}.tmp.$$"
+    local formatted_value
 
-    awk -v key="$key" -v value="$value" '
+    formatted_value="$(dograh_format_env_value "$value")"
+
+    awk -v key="$key" -v value="$formatted_value" '
         BEGIN { updated = 0 }
         $0 ~ "^" key "=" {
             print key "=" value
