@@ -1,11 +1,21 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
+// Set in ui/Dockerfile for OSS installs on memory-constrained hosts (8 GB).
+// Skips the heaviest build-time checks and Sentry webpack hooks so `npm run
+// build` stays under the droplet RAM budget during `docker compose build ui`.
+const isDockerOssBuild = process.env.DOCKER_OSS_BUILD === "1";
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  output: 'standalone',
+  output: "standalone",
+  eslint: {
+    ignoreDuringBuilds: isDockerOssBuild,
+  },
+  typescript: {
+    ignoreBuildErrors: isDockerOssBuild,
+  },
   experimental: {
-    serverSourceMaps: true,
+    serverSourceMaps: !isDockerOssBuild,
   },
   async rewrites() {
     return [
@@ -27,7 +37,7 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
 };
 
-export default withSentryConfig(nextConfig, {
+const sentryConfig = {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
@@ -61,4 +71,8 @@ export default withSentryConfig(nextConfig, {
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
   },
-});
+};
+
+export default isDockerOssBuild
+  ? nextConfig
+  : withSentryConfig(nextConfig, sentryConfig);
