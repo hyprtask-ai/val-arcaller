@@ -6,7 +6,7 @@
 # - Restarts the stack via remote_up.sh unless --skip-restart is passed
 #
 # Run on the Val server from the install directory:
-#   cd /opt/dograh && sudo ./scripts/enable_val_production_features.sh
+#   cd /opt/dograh && bash ./scripts/enable_val_production_features.sh
 
 set -euo pipefail
 

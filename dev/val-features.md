@@ -7,9 +7,8 @@ One-shot script to turn on **every product setting** Dograh OSS supports via `.e
 ```bash
 ssh root@159.65.175.242
 cd /opt/dograh
-git pull --ff-only origin production   # after this script is merged
-chmod +x scripts/enable_val_production_features.sh
-./scripts/enable_val_production_features.sh
+git fetch origin && git reset --hard origin/production
+bash ./scripts/enable_val_production_features.sh
 ```
 
 Use `--skip-restart` to preview `.env` / DB changes without restarting.
@@ -94,10 +93,13 @@ In UI: **Platform Settings → Preferences** — External PBX and Disposition ma
 
 ## Troubleshooting deploy builds (exit 137)
 
-If `./remote_up.sh --build` fails with `exit code: 137` during `npm run build`
-(usually at “Linting and checking validity of types”), the UI Docker build ran
-out of memory. The fork’s `remote_up.sh` builds **api then ui sequentially**
-to avoid that on 8 GB droplets.
+If `./remote_up.sh --build` fails with `exit code: 137` during `npm run build`,
+the UI Docker build ran out of memory on the droplet. Mitigations in this fork:
+
+- `remote_up.sh --build` builds **api then ui sequentially** (not in parallel)
+- `ui/Dockerfile` sets `DOCKER_OSS_BUILD=1` and a 3 GB Node heap cap
+- `ui/next.config.ts` skips ESLint, TypeScript, server source maps, and Sentry
+  webpack hooks during OSS Docker builds
 
 If it still fails, add swap on the server:
 

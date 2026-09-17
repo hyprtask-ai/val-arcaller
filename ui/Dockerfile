@@ -47,9 +47,11 @@ ENV NEXT_PUBLIC_CHATWOOT_URL=""
 ENV NEXT_PUBLIC_CHATWOOT_TOKEN=""
 ENV BACKEND_URL="http://api:8000"
 
-# Build the application with standalone mode
-# Increase Node.js heap size to prevent out-of-memory errors during build
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+# OSS Docker builds on 8 GB droplets: lighter Next build (see next.config.ts) and
+# a moderate V8 heap — 4096 MB often triggers host OOM (exit 137) because
+# webpack/SWC allocate memory outside the Node heap.
+ENV DOCKER_OSS_BUILD="1"
+ENV NODE_OPTIONS="--max-old-space-size=3072"
 RUN npm run build && \
     rm -rf /tmp/* /root/.npm /root/.next/cache
 
