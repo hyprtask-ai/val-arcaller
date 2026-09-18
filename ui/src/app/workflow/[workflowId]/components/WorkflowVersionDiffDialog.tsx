@@ -75,8 +75,8 @@ const DiffCellView = ({ cell }: { cell: DiffCell | null }) => (
             "h-full min-w-0 border-b border-[#292929] px-4 py-1 font-mono text-xs leading-5",
             cell?.kind === "removed" && "bg-red-500/10 text-red-100",
             cell?.kind === "added" && "bg-emerald-500/10 text-emerald-100",
-            cell?.kind === "unchanged" && "bg-[#151515] text-gray-300",
-            !cell && "bg-[#101010] text-gray-600",
+            cell?.kind === "unchanged" && "bg-[var(--brand-hyprtask-deep)] text-gray-300",
+            !cell && "bg-[var(--brand-hyprtask-deep)] text-gray-600",
         )}
     >
         <code className="block min-w-0 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
@@ -86,7 +86,7 @@ const DiffCellView = ({ cell }: { cell: DiffCell | null }) => (
                         key={`${index}-${segment.kind}`}
                         className={cn(
                             "box-decoration-clone",
-                            segment.kind === "unchanged" && "bg-[#1a1a1a] text-gray-300",
+                            segment.kind === "unchanged" && "bg-[var(--brand-hyprtask-surface)] text-gray-300",
                             segment.kind === "removed" && "bg-red-500/35 text-red-50",
                             segment.kind === "added" && "bg-emerald-500/35 text-emerald-50",
                         )}
@@ -152,8 +152,8 @@ export const WorkflowVersionDiffDialog = ({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="h-[calc(100vh-2rem)] max-h-[900px] w-[calc(100vw-2rem)] max-w-[1280px] grid-rows-[auto_auto_minmax(0,1fr)] gap-0 overflow-hidden border-[#333] bg-[#151515] p-0 sm:max-w-[1280px]">
-                <DialogHeader className="border-b border-[#333] px-5 py-4 pr-14">
+            <DialogContent className="h-[calc(100vh-2rem)] max-h-[900px] w-[calc(100vw-2rem)] max-w-[1280px] grid-rows-[auto_auto_minmax(0,1fr)] gap-0 overflow-hidden border-border bg-[var(--brand-hyprtask-deep)] p-0 sm:max-w-[1280px]">
+                <DialogHeader className="border-b border-border px-5 py-4 pr-14">
                     <div className="flex items-center justify-between gap-4">
                         <DialogTitle className="text-base text-white">
                             Changes {versionLabel(previousVersion)} → {versionLabel(selectedVersion)}
@@ -198,8 +198,8 @@ export const WorkflowVersionDiffDialog = ({
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="grid grid-cols-2 border-b border-[#333] bg-[#181818] text-sm">
-                    <div className="flex items-center gap-2 border-r border-[#333] px-4 py-2">
+                <div className="grid grid-cols-2 border-b border-border bg-[var(--brand-hyprtask-surface)] text-sm">
+                    <div className="flex items-center gap-2 border-r border-border px-4 py-2">
                         <span className="font-medium text-white">
                             {versionLabel(previousVersion)}
                         </span>
@@ -217,7 +217,7 @@ export const WorkflowVersionDiffDialog = ({
                     </div>
                 </div>
 
-                <div className="min-h-0 overflow-auto bg-[#111]">
+                <div className="min-h-0 overflow-auto bg-[var(--brand-hyprtask-deep)]">
                     {hasChanges ? (
                         <div className="grid min-w-0 grid-cols-2 items-stretch">
                             {rows.map((row, index) => {
@@ -236,7 +236,7 @@ export const WorkflowVersionDiffDialog = ({
                                             isActiveHunkRow && "border-l-2 border-l-teal-400/70",
                                         )}
                                     >
-                                        <div className="min-w-0 border-r border-[#333]">
+                                        <div className="min-w-0 border-r border-border">
                                             <DiffCellView cell={row.left} />
                                         </div>
                                         <div className="min-w-0">

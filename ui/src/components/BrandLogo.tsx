@@ -30,7 +30,7 @@ export function BrandLogo({
           alt={alt}
           className="h-6 w-auto shrink-0 select-none"
         />
-        <div className="flex min-w-0 flex-col leading-none">
+        <div className="flex min-w-0 items-baseline gap-1 leading-none">
           <span className="truncate text-sm font-semibold">{productName()}</span>
           <span className="truncate text-[10px] text-muted-foreground">by hyprtask</span>
         </div>
