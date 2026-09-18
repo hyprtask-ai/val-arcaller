@@ -45,6 +45,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useAppConfig } from "@/context/AppConfigContext";
 import { useTelephonyConfigWarnings } from "@/context/TelephonyConfigWarningsContext";
 import { useLatestReleaseVersion } from "@/hooks/useLatestReleaseVersion";
+import { useAuth } from "@/lib/auth";
 import { HIDE_UPSTREAM_CHROME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
@@ -143,6 +144,7 @@ const NAV_SECTIONS: SidebarNavSection[] = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { state, isMobile, setOpenMobile } = useSidebar();
+  const { provider } = useAuth();
   const { config } = useAppConfig();
   const {
     telnyxMissingWebhookPublicKeyCount,
