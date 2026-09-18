@@ -98,7 +98,9 @@ export default function RootLayout({
                     <TelephonyConfigWarningsProvider>
                       <OnboardingProvider>
                         <PostHogIdentify />
-                        {reoClientId ? <ReoProvider clientId={reoClientId} /> : null}
+                        {!HIDE_UPSTREAM_CHROME && reoClientId ? (
+                          <ReoProvider clientId={reoClientId} />
+                        ) : null}
                         <AppLayout>
                           {children}
                         </AppLayout>
