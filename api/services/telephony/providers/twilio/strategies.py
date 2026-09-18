@@ -10,6 +10,7 @@ import aiohttp
 from loguru import logger
 from pipecat.serializers.call_strategies import HangupStrategy, TransferStrategy
 
+from api.constants import PRODUCT_NAME
 from api.errors.failure import (
     DograhFailure,
     ErrorSource,
@@ -178,8 +179,9 @@ class TwilioHangupStrategy(HangupStrategy):
                             "runtime call context"
                         ),
                         external_message=(
-                            "Dograh could not identify the active Twilio call. Please "
-                            "retry or contact support if the problem continues."
+                            f"{PRODUCT_NAME} could not identify the active Twilio "
+                            "call. Please retry or contact support if the problem "
+                            "continues."
                         ),
                         provider="twilio",
                         error_owner="operator",

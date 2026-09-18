@@ -9,6 +9,7 @@ from api.constants import (
     DEFAULT_CAMPAIGN_RETRY_CONFIG,
     DEFAULT_ORG_CONCURRENCY_LIMIT,
     DEPLOYMENT_MODE,
+    PRODUCT_NAME,
 )
 from api.db import db_client
 from api.db.models import UserModel
@@ -1145,7 +1146,7 @@ def _require_trunk_support(provider: str):
         raise HTTPException(
             status_code=400,
             detail=(
-                f"Dograh does not model trunks on {provider} configurations — "
+                f"{PRODUCT_NAME} does not model trunks on {provider} configurations — "
                 f"calls route through the provider account itself. Numbers on "
                 f"this configuration need no trunk."
             ),

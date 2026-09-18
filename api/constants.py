@@ -178,6 +178,14 @@ APP_VERSION = _get_version()
 PRODUCT_NAME = os.getenv("PRODUCT_NAME", "Val")
 PRODUCT_FULL_NAME = os.getenv("PRODUCT_FULL_NAME", "Val by hyprtask")
 
+
+def product_internal_error_message(process_label: str) -> str:
+    """User-facing copy for an unexpected platform-side processing failure."""
+    return (
+        f"{PRODUCT_NAME} encountered an internal error while processing "
+        f"{process_label}."
+    )
+
 # Country code mapping: ISO country code -> international dialing prefix
 COUNTRY_CODES = {
     "US": "1",  # United States
