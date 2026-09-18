@@ -11,7 +11,8 @@ def _script() -> str:
 
 def test_script_loads_the_widget_with_the_token():
     script = _script()
-    assert "/embed/dograh-widget.js?token=emb_TEST" in script
+    assert "/embed/val-widget.js?token=emb_TEST" in script
+    assert "val-widget" in script
 
 
 def test_script_seeds_the_context_attribute():

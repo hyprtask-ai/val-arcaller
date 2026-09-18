@@ -20,7 +20,7 @@ from pydantic import BaseModel
 from starlette.datastructures import Headers, MutableHeaders
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from api.constants import ENABLE_COTURN, FORCE_TURN_RELAY
+from api.constants import ENABLE_COTURN, FORCE_TURN_RELAY, PRODUCT_NAME
 from api.db import db_client
 from api.enums import CallType, WorkflowRunMode
 from api.routes.turn_credentials import (
@@ -103,6 +103,7 @@ class EmbedConfigResponse(BaseModel):
     # restrict ICE to relay candidates for TURN diagnostics.
     turn_enabled: bool
     force_turn_relay: bool
+    product_name: str
 
 
 def generate_session_token() -> str:
@@ -499,6 +500,7 @@ async def get_embed_config(token: str, request: Request, response: Response):
         auto_start=settings.get("autoStart", False),
         turn_enabled=_turn_credentials_available(),
         force_turn_relay=FORCE_TURN_RELAY,
+        product_name=PRODUCT_NAME,
     )
 
 
