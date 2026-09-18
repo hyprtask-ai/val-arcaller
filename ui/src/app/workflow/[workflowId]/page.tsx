@@ -13,6 +13,7 @@ import { PostHogEvent } from '@/constants/posthog-events';
 import { detailFromError } from '@/lib/apiError';
 import { useAuth } from '@/lib/auth';
 import logger from '@/lib/logger';
+import { serviceUnavailableMessage } from '@/lib/brand';
 import { WorkflowConfigurations } from '@/types/workflow-configurations';
 
 import WorkflowLayout from '../WorkflowLayout';
@@ -44,7 +45,7 @@ export default function WorkflowDetailPage() {
 
                 if (response.error) {
                     const fallback = response.response?.status === 503
-                        ? 'Dograh is temporarily unavailable. Please try again later.'
+                        ? serviceUnavailableMessage()
                         : 'Failed to fetch workflow';
                     setError(detailFromError(response.error, fallback));
                     return;

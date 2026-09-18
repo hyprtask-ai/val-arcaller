@@ -44,6 +44,25 @@ export function productFullName(): string {
   return PRODUCT_FULL_NAME;
 }
 
+/** Possessive form for UI copy, e.g. "Val's". */
+export function productPossessive(): string {
+  const name = PRODUCT_NAME;
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}
+
+/** User-facing label for managed-model mode (wire format stays `dograh`). */
+export function managedModelsLabel(): string {
+  return PRODUCT_NAME;
+}
+
+export function usageTokenLabel(): string {
+  return `${PRODUCT_NAME} tokens`;
+}
+
+export function serviceUnavailableMessage(): string {
+  return `${PRODUCT_NAME} is temporarily unavailable. Please try again later.`;
+}
+
 export function docsUrl(path = ""): string {
   if (!DOCS_URL) return "#";
   const base = DOCS_URL.replace(/\/$/, "");

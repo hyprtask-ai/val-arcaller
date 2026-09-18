@@ -13,6 +13,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { productName } from "@/lib/brand";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -177,8 +178,8 @@ export function CallDispositionEditor({
                     </Label>
                     <p className="text-xs text-muted-foreground">
                         {enabled
-                            ? `${rows.length} outcome${rows.length === 1 ? "" : "s"} configured. Dograh will classify the completed conversation into one of them.`
-                            : "Disabled. Dograh will keep the disposition recorded by the call-ending event."}
+                            ? `${rows.length} outcome${rows.length === 1 ? "" : "s"} configured. ${productName()} will classify the completed conversation into one of them.`
+                            : `Disabled. ${productName()} will keep the disposition recorded by the call-ending event.`}
                     </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-3">

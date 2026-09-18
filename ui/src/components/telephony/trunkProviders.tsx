@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { productName } from "@/lib/brand";
 
 /**
  * Per-provider pieces of the trunk editor.
@@ -100,7 +101,7 @@ function CloudonixTrunkFields({
           </SelectContent>
         </Select>
         <p className="text-xs text-muted-foreground">
-          Sets the remote peer Dograh dials for this trunk.
+          Sets the remote peer {productName()} dials for this trunk.
           {originIp
             ? ` Calls leave from ${originIp} — allow it on your side.`
             : ""}

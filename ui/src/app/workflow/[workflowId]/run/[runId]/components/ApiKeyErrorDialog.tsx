@@ -2,8 +2,8 @@ import { AlertCircle, CreditCard, ExternalLink, Key } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-
-const SERVICE_KEYS_DOCS_URL = "https://docs.dograh.com/configurations/api-keys#service-keys";
+import { API_KEYS_DOC_URL } from "@/constants/documentation";
+import { managedModelsLabel } from "@/lib/brand";
 
 interface ApiKeyErrorDialogProps {
     open: boolean;
@@ -60,12 +60,12 @@ export const ApiKeyErrorDialog = ({
                                 <p className="font-medium text-foreground">{error}</p>
                                 {isBillingCreditsError && (
                                     <p className="text-muted-foreground">
-                                        Purchase credits from Billing to continue using Dograh-managed models.
+                                        Purchase credits from Billing to continue using {managedModelsLabel()}-managed models.
                                     </p>
                                 )}
                                 {isServiceKeyOrgMismatch && (
                                     <a
-                                        href={SERVICE_KEYS_DOCS_URL}
+                                        href={API_KEYS_DOC_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-0.5 text-muted-foreground underline"

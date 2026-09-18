@@ -49,6 +49,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { detailFromError } from "@/lib/apiError";
+import { productName } from "@/lib/brand";
 
 interface TrunkCardProps {
   configuration: TelephonyConfigurationDetail;
@@ -302,7 +303,7 @@ export function TrunkCard({
           <DialogHeader>
             <DialogTitle>{editing ? "Edit trunk" : "Add trunk"}</DialogTitle>
             <DialogDescription>
-              Dograh provisions this trunk with {configuration.provider} and dials
+              {productName()} provisions this trunk with {configuration.provider} and dials
               your carrier over it.
             </DialogDescription>
           </DialogHeader>
