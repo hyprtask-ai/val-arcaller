@@ -3,6 +3,8 @@
 import { ArrowLeftRight, Calculator, Cog, Globe, type LucideIcon, PhoneForwarded, PhoneOff, Puzzle } from "lucide-react";
 import { type ReactNode } from "react";
 
+import { PRODUCT_NAME } from "@/lib/brand";
+
 import type {
     CalculatorToolDefinition,
     ContextDestinationMappingConfig,
@@ -129,7 +131,7 @@ export const TOOL_CATEGORIES: ToolCategoryConfig[] = [
     {
         value: "transfer_agent",
         label: "Transfer To Agent",
-        description: "Hand the live call to another Dograh agent, without dropping the caller",
+        description: `Hand the live call to another ${PRODUCT_NAME} agent, without dropping the caller`,
         icon: ArrowLeftRight,
         iconName: "arrow-left-right",
         iconColor: "#0EA5E9",

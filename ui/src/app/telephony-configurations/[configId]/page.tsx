@@ -66,6 +66,8 @@ import { useOrgConfig } from "@/context/OrgConfigContext";
 import { useOrganizationTimezone } from "@/hooks/useOrganizationTimezone";
 import { detailFromError } from "@/lib/apiError";
 import { useAuth } from "@/lib/auth";
+import { TELEPHONY_INBOUND_DOC_URL } from "@/constants/documentation";
+import { productName } from "@/lib/brand";
 import { copyTextToClipboard } from "@/lib/clipboard";
 import { formatDateTime } from "@/lib/dateTime";
 import { resolveWebhookBaseUrl } from "@/lib/webhookUrl";
@@ -311,7 +313,7 @@ export default function TelephonyConfigurationDetailPage() {
                     This configuration is disabled
                   </p>
                   <p className="text-muted-foreground">
-                    Dograh stopped reconnecting after repeated connection
+                    {productName()} stopped reconnecting after repeated connection
                     failures
                     {config.inactive_reason ? `: ${config.inactive_reason}` : ""}.
                     Calls will not work until it is reconnected. Correct the
@@ -346,7 +348,7 @@ export default function TelephonyConfigurationDetailPage() {
               <p className="text-xs text-muted-foreground">
                 Add this line to your Asterisk <code>extensions.conf</code>, then run{" "}
                 <code>dialplan reload</code>. Until you do, calls reach Asterisk but never
-                arrive at Dograh.
+                arrive at {productName()}.
               </p>
               <button
                 type="button"
@@ -418,7 +420,7 @@ export default function TelephonyConfigurationDetailPage() {
               Numbers used as caller ID for outbound and accepted for inbound matching.
               SIP URIs and extensions are supported alongside PSTN numbers.{" "}
               <a
-                href="https://docs.dograh.com/integrations/telephony/inbound"
+                href={TELEPHONY_INBOUND_DOC_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-0.5 underline"

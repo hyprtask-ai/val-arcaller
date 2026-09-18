@@ -28,6 +28,7 @@ import { useDispositionCodes } from '@/hooks/useDispositionCodes';
 import { detailFromError } from '@/lib/apiError';
 import { useAuth } from '@/lib/auth';
 import { formatDateTime, getLocalTimezone } from '@/lib/dateTime';
+import { usageTokenLabel } from '@/lib/brand';
 import { usageFilterAttributes, withDispositionCodeOptions } from '@/lib/filterAttributes';
 import { decodeFiltersFromURL, encodeFiltersToURL } from '@/lib/filters';
 import type { ActiveFilter, DateRangeValue, FilterAttribute, NumberFilterOption } from '@/types/filters';
@@ -669,7 +670,7 @@ export default function UsagePage() {
                                     <div className="mt-4 p-3 bg-muted rounded-md">
                                         <p className="text-sm text-muted-foreground">
                                             Total for filtered period: <span className="font-semibold text-foreground">
-                                                {usageHistory.total_dograh_tokens.toLocaleString()} Dograh Tokens
+                                                {usageHistory.total_dograh_tokens.toLocaleString()} {usageTokenLabel()}
                                             </span>
                                             {' • '}
                                             <span className="font-semibold text-foreground">
