@@ -78,7 +78,11 @@ export function LoginForm({ signupEnabled }: { signupEnabled: boolean }) {
             required
           />
         </div>
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full bg-cta text-cta-foreground hover:bg-cta/90"
+          disabled={loading}
+        >
           {loading ? "Signing in..." : "Sign in"}
         </Button>
       </form>

@@ -13,8 +13,8 @@ import {
   getServerUser,
 } from "./server";
 
-/** Where an authenticated user should land after sign-in or when visiting auth pages. */
-export async function redirectAuthenticatedUser(): Promise<never> {
+/** App entry URL for a signed-in user (shared by redirects and marketing CTAs). */
+export async function getAuthenticatedAppHref(): Promise<string> {
   const authProvider = await getServerAuthProvider();
   const user = await getServerUser();
 
@@ -24,7 +24,7 @@ export async function redirectAuthenticatedUser(): Promise<never> {
       "listPermissions" in user && "selectedTeam" in user
         ? (await user.listPermissions(user.selectedTeam!)) ?? []
         : [];
-    redirect(await getRedirectUrl(token?.accessToken ?? "", permissions));
+    return getRedirectUrl(token?.accessToken ?? "", permissions);
   }
 
   if (authProvider === "local") {
@@ -35,20 +35,25 @@ export async function redirectAuthenticatedUser(): Promise<never> {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         if (countResponse.data && countResponse.data.active > 0) {
-          redirect("/workflow");
+          return "/workflow";
         }
-        redirect("/workflow/create");
+        return "/workflow/create";
       }
     } catch (error) {
       if (isNextRouterError(error)) {
         throw error;
       }
-      logger.error("[redirectAuthenticatedUser] workflow count failed:", error);
-      redirect("/workflow/create");
+      logger.error("[getAuthenticatedAppHref] workflow count failed:", error);
+      return "/workflow/create";
     }
   }
 
-  redirect("/overview");
+  return "/overview";
+}
+
+/** Where an authenticated user should land after sign-in or when visiting auth pages. */
+export async function redirectAuthenticatedUser(): Promise<never> {
+  redirect(await getAuthenticatedAppHref());
 }
 
 export async function isAuthenticated(): Promise<boolean> {

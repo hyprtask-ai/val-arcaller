@@ -2,12 +2,11 @@ import { ArrowRight, MessageCircle, Mic, Phone, Workflow } from "lucide-react";
 import Link from "next/link";
 
 import { BrandLogo } from "@/components/BrandLogo";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Button } from "@/components/ui/button";
 import {
-  PRIVACY_URL,
   PRODUCT_TAGLINE,
   productFullName,
-  TERMS_URL,
 } from "@/lib/brand";
 
 const FEATURES = [
@@ -37,20 +36,31 @@ const FEATURES = [
   },
 ];
 
-export function LandingPage({ signupEnabled }: { signupEnabled: boolean }) {
+export function LandingPage({
+  signupEnabled,
+  authenticated,
+  appHref = "/workflow",
+}: {
+  signupEnabled: boolean;
+  authenticated: boolean;
+  appHref?: string;
+}) {
+  const primaryHref = authenticated ? appHref : "/auth/login";
+  const primaryLabel = authenticated ? "View agents" : "Sign in to workspace";
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border/60 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
           <BrandLogo showByline className="h-9" />
           <div className="flex items-center gap-2">
-            {signupEnabled ? (
+            {!authenticated && signupEnabled ? (
               <Button variant="ghost" asChild>
                 <Link href="/auth/signup">Sign up</Link>
               </Button>
             ) : null}
-            <Button asChild>
-              <Link href="/auth/login">Sign in</Link>
+            <Button asChild className="bg-cta text-cta-foreground hover:bg-cta/90">
+              <Link href={primaryHref}>{authenticated ? "View agents" : "Sign in"}</Link>
             </Button>
           </div>
         </div>
@@ -79,13 +89,17 @@ export function LandingPage({ signupEnabled }: { signupEnabled: boolean }) {
                 agents for outbound calling, inbound support, and web embeds.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Button size="lg" asChild>
-                  <Link href="/auth/login">
-                    Sign in to workspace
+                <Button
+                  size="lg"
+                  asChild
+                  className="bg-cta text-cta-foreground hover:bg-cta/90"
+                >
+                  <Link href={primaryHref}>
+                    {primaryLabel}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                {signupEnabled ? (
+                {!authenticated && signupEnabled ? (
                   <Button size="lg" variant="outline" asChild>
                     <Link href="/auth/signup">Create account</Link>
                   </Button>
@@ -105,7 +119,7 @@ export function LandingPage({ signupEnabled }: { signupEnabled: boolean }) {
                   "MCP integration for agent authoring in Cursor",
                 ].map((item) => (
                   <li key={item} className="flex gap-2">
-                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[var(--cta)]" />
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-cta" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -130,7 +144,7 @@ export function LandingPage({ signupEnabled }: { signupEnabled: boolean }) {
                 key={title}
                 className="rounded-xl border border-border/60 bg-card/50 p-6"
               >
-                <div className="mb-4 inline-flex rounded-lg bg-[var(--cta)]/10 p-2 text-[var(--cta)]">
+                <div className="mb-4 inline-flex rounded-lg bg-cta/10 p-2 text-cta">
                   <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="font-semibold">{title}</h3>
@@ -143,29 +157,7 @@ export function LandingPage({ signupEnabled }: { signupEnabled: boolean }) {
         </section>
       </main>
 
-      <footer className="border-t border-border/60">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} hyprtask</span>
-          <div className="flex gap-4">
-            <a
-              href={PRIVACY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground"
-            >
-              Privacy
-            </a>
-            <a
-              href={TERMS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground"
-            >
-              Terms
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
