@@ -224,7 +224,7 @@ class ModelConfigurationPricingResponse(BaseModel):
 
 @router.get("/context", response_model=OrganizationContextResponse)
 async def get_current_organization_context(user: UserModel = Depends(get_user)):
-    """Return organization-scoped configuration signals owned by Dograh."""
+    """Return organization-scoped configuration signals owned by the platform."""
     return await get_organization_context(user)
 
 

@@ -8,7 +8,12 @@ vi.mock('next/headers', () => ({
   cookies: vi.fn(async () => cookieStore),
 }));
 
-import { OSS_TOKEN_COOKIE, OSS_USER_COOKIE } from '@/lib/auth/cookies';
+import {
+  LEGACY_OSS_TOKEN_COOKIE,
+  LEGACY_OSS_USER_COOKIE,
+  OSS_TOKEN_COOKIE,
+  OSS_USER_COOKIE,
+} from '@/lib/auth/cookies';
 
 import { POST } from './route';
 
@@ -40,7 +45,7 @@ describe('POST /api/auth/session', () => {
     const response = await POST(makeRequest('https://app.dograh.com/api/auth/session'));
 
     expect(response.status).toBe(200);
-    expect(cookieStore.set).toHaveBeenCalledTimes(2);
+    expect(cookieStore.set).toHaveBeenCalledTimes(4);
 
     const [tokenName, tokenValue, tokenOptions] = cookieStore.set.mock.calls[0];
     const [userName, userValue] = cookieStore.set.mock.calls[1];
@@ -48,6 +53,8 @@ describe('POST /api/auth/session', () => {
     expect(tokenValue).toBe('tok-1');
     expect(userName).toBe(OSS_USER_COOKIE);
     expect(JSON.parse(userValue)).toEqual({ id: 'u1' });
+    expect(cookieStore.set.mock.calls[2][0]).toBe(LEGACY_OSS_TOKEN_COOKIE);
+    expect(cookieStore.set.mock.calls[3][0]).toBe(LEGACY_OSS_USER_COOKIE);
     expect(tokenOptions).toMatchObject({
       httpOnly: true,
       sameSite: 'lax',

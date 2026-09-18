@@ -1,7 +1,33 @@
 import type { NextRequest } from 'next/server';
 
-export const OSS_TOKEN_COOKIE = 'dograh_auth_token';
-export const OSS_USER_COOKIE = 'dograh_auth_user';
+/** Legacy cookie names from upstream Dograh OSS installs. */
+export const LEGACY_OSS_TOKEN_COOKIE = 'dograh_auth_token';
+export const LEGACY_OSS_USER_COOKIE = 'dograh_auth_user';
+
+export const OSS_TOKEN_COOKIE =
+  process.env.OSS_TOKEN_COOKIE?.trim() || 'val_auth_token';
+export const OSS_USER_COOKIE =
+  process.env.OSS_USER_COOKIE?.trim() || 'val_auth_user';
+
+type CookieReader = {
+  get: (name: string) => { value: string } | undefined;
+};
+
+/** Read the OSS session token, accepting legacy cookie names during migration. */
+export function readOssTokenCookie(cookies: CookieReader): string | undefined {
+  return (
+    cookies.get(OSS_TOKEN_COOKIE)?.value
+    ?? cookies.get(LEGACY_OSS_TOKEN_COOKIE)?.value
+  );
+}
+
+/** Read the OSS user cookie, accepting legacy cookie names during migration. */
+export function readOssUserCookie(cookies: CookieReader): string | undefined {
+  return (
+    cookies.get(OSS_USER_COOKIE)?.value
+    ?? cookies.get(LEGACY_OSS_USER_COOKIE)?.value
+  );
+}
 
 /**
  * Whether the browser reached this deployment over HTTPS.
@@ -43,4 +69,16 @@ export function sessionCookieOptions(request: NextRequest, maxAge: number) {
     maxAge,
     path: '/',
   };
+}
+
+/** Clear legacy OSS cookies after migrating to Val-branded names. */
+export function clearLegacyOssSessionCookies(
+  cookieStore: {
+    set: (name: string, value: string, options: ReturnType<typeof sessionCookieOptions>) => void;
+  },
+  request: NextRequest,
+) {
+  const cleared = sessionCookieOptions(request, 0);
+  cookieStore.set(LEGACY_OSS_TOKEN_COOKIE, '', cleared);
+  cookieStore.set(LEGACY_OSS_USER_COOKIE, '', cleared);
 }

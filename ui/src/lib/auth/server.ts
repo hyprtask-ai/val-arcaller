@@ -6,7 +6,10 @@ import { cookies } from 'next/headers';
 import logger from '@/lib/logger';
 
 import { getAuthProvider, getStackConfig } from './config';
-import { OSS_TOKEN_COOKIE, OSS_USER_COOKIE } from './cookies';
+import {
+  readOssTokenCookie,
+  readOssUserCookie,
+} from './cookies';
 import type { LocalUser } from './types';
 
 // Server-side auth utilities for SSR pages
@@ -87,7 +90,7 @@ export async function getServerAuthProvider(): Promise<string> {
  */
 export async function getOSSToken(): Promise<string | null> {
   const cookieStore = await cookies();
-  return cookieStore.get(OSS_TOKEN_COOKIE)?.value || null;
+  return readOssTokenCookie(cookieStore) || null;
 }
 
 /**
@@ -95,7 +98,7 @@ export async function getOSSToken(): Promise<string | null> {
  */
 export async function getOSSUser(): Promise<LocalUser | null> {
   const cookieStore = await cookies();
-  const userCookie = cookieStore.get(OSS_USER_COOKIE)?.value;
+  const userCookie = readOssUserCookie(cookieStore);
 
   if (userCookie) {
     try {
@@ -115,7 +118,7 @@ export async function getOSSUser(): Promise<LocalUser | null> {
   }
 
   // If no user cookie, but we have a token, create user from token
-  const token = cookieStore.get(OSS_TOKEN_COOKIE)?.value;
+  const token = readOssTokenCookie(cookieStore);
   if (token) {
     const user: LocalUser = {
       id: token,

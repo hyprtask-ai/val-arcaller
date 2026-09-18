@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { getServerBackendUrl } from '@/lib/apiClient';
-import { OSS_TOKEN_COOKIE } from '@/lib/auth/cookies';
+import { readOssTokenCookie } from '@/lib/auth/cookies';
 
 // Paths that don't require authentication in OSS mode.
 // `/embed` serves the public website widget (e.g. /embed/dograh-widget.js),
@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get(OSS_TOKEN_COOKIE)?.value;
+  const token = readOssTokenCookie(request.cookies);
   const { pathname } = request.nextUrl;
 
   // Allow public paths without auth. Match on a path-segment boundary (exact
