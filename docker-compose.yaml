@@ -264,11 +264,11 @@ services:
       TELEPHONY_WS_TOKEN_SECRET: "${TELEPHONY_WS_TOKEN_SECRET:-}"
       TELEPHONY_WS_TOKEN_ENFORCE: "${TELEPHONY_WS_TOKEN_ENFORCE:-false}"
 
-      # Telemetry
-      ENABLE_TELEMETRY: "${ENABLE_TELEMETRY:-true}"
+      # Telemetry (Val defaults off; set ENABLE_TELEMETRY=true + POSTHOG_API_KEY to opt in)
+      ENABLE_TELEMETRY: "${ENABLE_TELEMETRY:-false}"
       SENTRY_DSN: "${SENTRY_DSN:-}"
-      POSTHOG_API_KEY: "phc_ItizB1dP6yv7ZYobbcqrpxTdbomDA8hJFSEmAMdYvIr"
-      POSTHOG_HOST: "https://us.i.posthog.com"
+      POSTHOG_API_KEY: "${POSTHOG_API_KEY:-}"
+      POSTHOG_HOST: "${POSTHOG_HOST:-https://us.i.posthog.com}"
 
     ports:
       - "8000:8000"
@@ -315,12 +315,12 @@ services:
       NEXT_PUBLIC_PRIVACY_URL: "${NEXT_PUBLIC_PRIVACY_URL:-}"
       NEXT_PUBLIC_TERMS_URL: "${NEXT_PUBLIC_TERMS_URL:-}"
 
-      # Flag to enable/ disable posthog
-      ENABLE_TELEMETRY: "${ENABLE_TELEMETRY:-true}"
+      # Flag to enable/disable PostHog (Val defaults off — Dograh's project injects Reo)
+      ENABLE_TELEMETRY: "${ENABLE_TELEMETRY:-false}"
 
-      # Posthog
-      POSTHOG_KEY: "phc_ItizB1dP6yv7ZYobbcqrpxTdbomDA8hJFSEmAMdYvIr"
-      POSTHOG_HOST: "https://us.posthog.com"
+      # PostHog — set POSTHOG_KEY in .env only when ENABLE_TELEMETRY=true
+      POSTHOG_KEY: "${POSTHOG_KEY:-}"
+      POSTHOG_HOST: "${POSTHOG_HOST:-https://us.posthog.com}"
     ports:
       - "3010:3010"
     depends_on:
