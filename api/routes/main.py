@@ -87,6 +87,10 @@ class HealthResponse(BaseModel):
     # be baked into the browser bundle at build time. Both are public values.
     stack_project_id: str | None = None
     stack_publishable_client_key: str | None = None
+    # White-label product naming — lets the UI read brand strings at runtime
+    # without rebuilding when only the API .env changes.
+    product_name: str
+    product_full_name: str
 
 
 @router.get("/health", response_model=HealthResponse)
@@ -99,6 +103,8 @@ async def health() -> HealthResponse:
         ENABLE_COTURN,
         ENABLE_SIGNUP,
         FORCE_TURN_RELAY,
+        PRODUCT_FULL_NAME,
+        PRODUCT_NAME,
         STACK_AUTH_PROJECT_ID,
         STACK_PUBLISHABLE_CLIENT_KEY,
     )
@@ -131,6 +137,8 @@ async def health() -> HealthResponse:
         stack_publishable_client_key=(
             STACK_PUBLISHABLE_CLIENT_KEY if is_stack else None
         ),
+        product_name=PRODUCT_NAME,
+        product_full_name=PRODUCT_FULL_NAME,
     )
 
 
