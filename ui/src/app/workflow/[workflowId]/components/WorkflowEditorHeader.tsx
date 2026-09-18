@@ -12,7 +12,7 @@ import {
 } from "@/client/sdk.gen";
 import { WorkflowError } from "@/client/types.gen";
 import { FlowEdge, FlowNode } from "@/components/flow/types";
-import { GitHubStarBadge } from "@/components/layout/GitHubStarBadge";
+import ThemeToggle from "@/components/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -496,10 +496,7 @@ export const WorkflowEditorHeader = ({
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                {/* GitHub star badge - desktop only */}
-                <div className="hidden md:block">
-                    <GitHubStarBadge className="border-[#3a3a3a] bg-[#2a2a2a] text-white [&_span]:bg-transparent" source="workflow_editor_header" />
-                </div>
+                <ThemeToggle className="text-white hover:bg-[#2a2a2a] hover:text-white" />
             </div>
         </div>
     );

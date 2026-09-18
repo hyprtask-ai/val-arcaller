@@ -18,6 +18,7 @@ import { Switch } from "@/components/ui/switch";
 import { useUserConfig } from "@/context/UserConfigContext";
 import { detailFromError } from "@/lib/apiError";
 import { useAuth } from "@/lib/auth";
+import { productPossessive } from "@/lib/brand";
 
 const emptyPreferences: OrganizationPreferences = {
   test_phone_number: "",
@@ -284,7 +285,7 @@ export function OrganizationPreferencesSection() {
             </Label>
             <p className="text-xs text-muted-foreground">
               Report call outcomes using your own disposition codes instead of
-              Dograh&apos;s. Applies to webhooks, run filters, reports, and
+              {productPossessive()}. Applies to webhooks, run filters, reports, and
               external PBX write-backs. Configuration is preserved when this is
               disabled.
             </p>

@@ -30,6 +30,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { detailFromError } from "@/lib/apiError";
 import { useAuth } from "@/lib/auth";
+import { productName } from "@/lib/brand";
 
 interface PhoneNumberDialogProps {
   open: boolean;
@@ -304,7 +305,7 @@ export function PhoneNumberDialog({
               <p className="text-xs text-muted-foreground">
                 {trunks.length > 1
                   ? "Calls from this number leave on this trunk. Pick the one whose carrier authorised the number — carriers reject a caller ID they do not own."
-                  : "Calls from this number leave on this trunk. With a single trunk Dograh falls back to it anyway."}
+                  : `Calls from this number leave on this trunk. With a single trunk ${productName()} falls back to it anyway.`}
               </p>
             </div>
           )}

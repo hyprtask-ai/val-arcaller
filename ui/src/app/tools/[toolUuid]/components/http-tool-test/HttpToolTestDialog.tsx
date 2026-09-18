@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { testToolApiV1ToolsToolUuidTestPost } from "@/client/sdk.gen";
 import type { ToolTestResponse } from "@/client/types.gen";
+import { productName } from "@/lib/brand";
 import type { HttpMethod, PresetToolParameter, ToolParameter } from "@/components/http";
 import { Button } from "@/components/ui/button";
 import {
@@ -395,7 +396,7 @@ export function HttpToolTestDialog({
                             <div>
                                 <p className="text-sm font-medium">Preset Parameters</p>
                                 <p className="text-xs text-muted-foreground">
-                                    Resolved values that Dograh would normally derive from each configured preset.
+                                    Resolved values that {productName()} would normally derive from each configured preset.
                                 </p>
                             </div>
                             <ParameterFields

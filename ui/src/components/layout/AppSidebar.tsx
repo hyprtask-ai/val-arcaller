@@ -12,33 +12,21 @@ import {
   FileText,
   Home,
   Key,
-  LogOut,
   type LucideIcon,
   Megaphone,
   Phone,
-  Settings,
-  Shield,
   TrendingUp,
-  UserRound,
   Workflow,
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 import { BrandLogo } from "@/components/BrandLogo";
+import { NavUser } from "@/components/layout/NavUser";
 import { SidebarTeamSwitcher } from "@/components/layout/SidebarTeamSwitcher";
-import ThemeToggle from "@/components/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -55,11 +43,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAppConfig } from "@/context/AppConfigContext";
-import { useLeadForms } from "@/context/LeadFormsContext";
 import { useTelephonyConfigWarnings } from "@/context/TelephonyConfigWarningsContext";
 import { useLatestReleaseVersion } from "@/hooks/useLatestReleaseVersion";
-import { useIsSuperuser } from "@/hooks/useIsSuperuser";
-import type { LocalUser } from "@/lib/auth";
 import { useAuth } from "@/lib/auth";
 import { HIDE_UPSTREAM_CHROME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
@@ -158,12 +143,9 @@ const NAV_SECTIONS: SidebarNavSection[] = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const router = useRouter();
   const { state, isMobile, setOpenMobile } = useSidebar();
-  const { provider, logout, user } = useAuth();
-  const isSuperuser = useIsSuperuser();
+  const { provider } = useAuth();
   const { config } = useAppConfig();
-  const { openHireExpert } = useLeadForms();
   const {
     telnyxMissingWebhookPublicKeyCount,
     vonageMissingSignatureSecretCount,
@@ -267,60 +249,6 @@ export function AppSidebar() {
     );
   };
 
-  // Footer identity trigger: avatar initials only (no name), in a subtle
-  // bordered circle. Same treatment expanded and collapsed.
-  const displayIdentity =
-    user?.displayName ||
-    (user as { primaryEmail?: string } | undefined)?.primaryEmail ||
-    (user as LocalUser | undefined)?.email ||
-    "";
-  const userInitials =
-    displayIdentity
-      .split(/[\s@]/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((s: string) => s[0]?.toUpperCase())
-      .join("") || "U";
-
-  const userChipTrigger = (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="h-7 w-7 shrink-0 cursor-pointer rounded-full border border-border/80 bg-muted/40 hover:bg-muted/60"
-    >
-      <span className="text-xs font-medium">{userInitials}</span>
-    </Button>
-  );
-
-  // "Hire an Expert" CTA, rendered INSIDE the shared footer pill next to the
-  // profile icon. Expanded: label pill filling the row. Collapsed: icon-only.
-  const hireExpertButton = HIDE_UPSTREAM_CHROME ? null : isCollapsed ? (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          size="icon"
-          className="h-7 w-7 rounded-full"
-          onClick={() => openHireExpert("sidebar")}
-          aria-label="Hire an Expert"
-        >
-          <UserRound className="h-3.5 w-3.5" />
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent side="right">
-        <p>Hire an Expert</p>
-      </TooltipContent>
-    </Tooltip>
-  ) : (
-    <Button
-      size="sm"
-      className="h-7 gap-1.5 rounded-full px-3 text-xs"
-      onClick={() => openHireExpert("sidebar")}
-    >
-      <UserRound className="h-3.5 w-3.5" />
-      Hire an Expert
-    </Button>
-  );
-
   return (
     <Sidebar collapsible="icon" variant="floating" className="app-sidebar-dock py-4">
       <SidebarHeader className="px-2 py-3 notranslate" translate="no">
@@ -421,127 +349,8 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter
-        className={cn("p-3 notranslate", isCollapsed && "p-2")}
-        translate="no"
-      >
-        <div className="space-y-2">
-          {provider !== "stack" && (
-            <div
-              className={cn(
-                "flex items-center justify-between gap-1 rounded-full border border-border/60 bg-muted/30 p-1",
-                isCollapsed && "flex-col"
-              )}
-            >
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  {userChipTrigger}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="top" align="start" className="w-56">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      {(user as LocalUser | undefined)?.email && (
-                        <p className="text-xs text-muted-foreground">{(user as LocalUser).email}</p>
-                      )}
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => router.push("/account-settings")}
-                    className="cursor-pointer"
-                  >
-                    <UserRound className="mr-2 h-4 w-4" />
-                    Account Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Platform Settings
-                  </DropdownMenuItem>
-                  {isSuperuser && (
-                    <DropdownMenuItem
-                      onClick={() => router.push("/superadmin")}
-                      className="cursor-pointer"
-                    >
-                      <Shield className="mr-2 h-4 w-4" />
-                      Superadmin
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              {hireExpertButton}
-            </div>
-          )}
-
-          {provider === "stack" && (
-            <div
-              className={cn(
-                "flex items-center justify-between gap-1 rounded-full border border-border/60 bg-muted/30 p-1",
-                isCollapsed && "flex-col"
-              )}
-            >
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  {userChipTrigger}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="top" align="start" className="w-56">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      {user?.displayName && (
-                        <p className="text-sm font-medium">{user.displayName}</p>
-                      )}
-                      {(user as { primaryEmail?: string })?.primaryEmail && (
-                        <p className="text-xs text-muted-foreground">{(user as { primaryEmail?: string }).primaryEmail}</p>
-                      )}
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push("/handler/account-settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Account Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Platform Settings
-                  </DropdownMenuItem>
-                  {isSuperuser && (
-                    <DropdownMenuItem
-                      onClick={() => router.push("/superadmin")}
-                      className="cursor-pointer"
-                    >
-                      <Shield className="mr-2 h-4 w-4" />
-                      Superadmin
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              {hireExpertButton}
-            </div>
-          )}
-
-          <div className="mt-1 flex justify-center">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="notranslate" translate="no">
-                  <ThemeToggle
-                    showLabel={false}
-                    className="rounded-full hover:bg-accent hover:text-accent-foreground"
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side={isCollapsed ? "right" : "top"}>
-                <p>Toggle theme</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-        </div>
+      <SidebarFooter className="notranslate" translate="no">
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

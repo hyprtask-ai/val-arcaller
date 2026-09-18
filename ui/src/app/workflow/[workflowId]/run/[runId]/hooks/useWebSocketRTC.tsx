@@ -8,6 +8,7 @@ import type { ConversationNodeTransitionItem, RealtimeFeedbackMessage as Feedbac
 import { useAppConfig } from "@/context/AppConfigContext";
 import { resolveBrowserBackendUrl } from '@/lib/apiClient';
 import { detailFromError } from '@/lib/apiError';
+import { serviceUnavailableMessage } from '@/lib/brand';
 import logger from '@/lib/logger';
 
 import { sdpFilterCodec } from "../utils";
@@ -725,7 +726,7 @@ export const useWebSocketRTC = ({ workflowId, workflowRunId, accessToken, initia
                 const message = detailFromError(
                     response.error,
                     isServiceUnavailable
-                        ? 'Dograh is temporarily unavailable. Please try again later.'
+                        ? serviceUnavailableMessage()
                         : 'API Key Error',
                 );
 

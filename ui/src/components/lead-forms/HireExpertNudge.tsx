@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { PostHogEvent } from "@/constants/posthog-events";
 import { useLeadForms } from "@/context/LeadFormsContext";
+import { HIDE_UPSTREAM_CHROME } from "@/lib/brand";
 
 interface HireExpertNudgeProps {
   workflowId: number;
@@ -48,7 +49,7 @@ export function HireExpertNudge({ workflowId }: HireExpertNudgeProps) {
     };
   }, [workflowId, hasOpenedHireRef]);
 
-  if (!visible) return null;
+  if (HIDE_UPSTREAM_CHROME || !visible) return null;
 
   const markDone = () => {
     if (fadeTimer.current) clearTimeout(fadeTimer.current);
