@@ -10,7 +10,7 @@ from typing import Any
 import httpx
 from loguru import logger
 
-from api.constants import DEPLOYMENT_MODE
+from api.constants import DEPLOYMENT_MODE, PRODUCT_NAME
 from api.db import db_client
 from api.db.models import UserModel
 from api.errors.failure import (
@@ -106,7 +106,9 @@ def _log_mps_system_failure(
             type=ErrorType.SYSTEM_ERROR,
             code=f"dograh-{code}",
             internal_message=message,
-            external_message="Dograh could not verify managed model access.",
+            external_message=(
+                f"{PRODUCT_NAME} could not verify managed model access."
+            ),
             provider="dograh",
             error_owner="operator",
             retryable=None,

@@ -177,6 +177,16 @@ APP_VERSION = _get_version()
 # White-label product naming (Val fork defaults; override via .env)
 PRODUCT_NAME = os.getenv("PRODUCT_NAME", "Val")
 PRODUCT_FULL_NAME = os.getenv("PRODUCT_FULL_NAME", "Val by hyprtask")
+# Public embed script served from the UI at /embed/<basename>
+WIDGET_SCRIPT_BASENAME = os.getenv("WIDGET_SCRIPT_BASENAME", "val-widget.js")
+
+
+def product_internal_error_message(process_label: str) -> str:
+    """User-facing copy for an unexpected platform-side processing failure."""
+    return (
+        f"{PRODUCT_NAME} encountered an internal error while processing "
+        f"{process_label}."
+    )
 
 # Country code mapping: ISO country code -> international dialing prefix
 COUNTRY_CODES = {

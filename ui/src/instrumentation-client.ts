@@ -97,7 +97,13 @@ const initPostHog = () => {
   }
 };
 
-if (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') {
+// Val white-label: skip Dograh telemetry (their PostHog project injects Reo widgets).
+const hideUpstreamChrome =
+  !process.env.NEXT_PUBLIC_HIDE_UPSTREAM_CHROME?.trim() ||
+  process.env.NEXT_PUBLIC_HIDE_UPSTREAM_CHROME === '1' ||
+  process.env.NEXT_PUBLIC_HIDE_UPSTREAM_CHROME === 'true';
+
+if (process.env.NEXT_PUBLIC_NODE_ENV !== 'development' && !hideUpstreamChrome) {
   initPostHog();
 }
 

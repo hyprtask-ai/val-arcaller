@@ -12,6 +12,7 @@ import { useAppConfig } from "@/context/AppConfigContext";
 import { LeadFormsProvider } from "@/context/LeadFormsContext";
 import { productName } from "@/lib/brand";
 
+import { AppFooter } from "./AppFooter";
 import { AppSidebar } from "./AppSidebar";
 
 function AppHeader() {
@@ -98,7 +99,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
         <LeadFormsProvider>
           <div className="flex min-h-screen w-full">
             <AppSidebar />
-            <SidebarInset className="flex-1">
+            <SidebarInset className="flex flex-1 flex-col">
               <BackendStatusBanner />
               {!isWorkflowEditor && <AppHeader />}
               {/* Optional header area for specific pages */}
@@ -127,6 +128,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
               <main className="app-surface flex-1">
                 {children}
               </main>
+              <AppFooter />
             </SidebarInset>
           </div>
         </LeadFormsProvider>

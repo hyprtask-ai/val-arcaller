@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional
 from loguru import logger
 from openai import AsyncAzureOpenAI
 
+from api.constants import PRODUCT_NAME
 from api.db.db_client import DBClient
 from api.utils.url_security import validate_user_configured_service_url
 
@@ -102,7 +103,7 @@ class AzureOpenAIEmbeddingService(BaseEmbeddingService):
                 raise ValueError(
                     "Azure OpenAI embedding deployment "
                     f"{self.model_id!r} returned {len(embedding)} dimensions; "
-                    "Dograh knowledge base storage currently supports "
+                    f"{PRODUCT_NAME} knowledge base storage currently supports "
                     f"{EMBEDDING_DIMENSION}-dimensional embeddings."
                 )
 

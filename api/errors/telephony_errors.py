@@ -5,6 +5,7 @@ Centralizes error handling across all telephony providers.
 
 from enum import Enum
 
+from api.constants import PRODUCT_NAME
 from api.errors.failure import DograhFailure, ErrorSource, ErrorType, log_failure
 
 
@@ -58,7 +59,10 @@ def failure_from_telephony_error(
                 type=ErrorType.SYSTEM_ERROR,
                 code=f"{provider_code}-unknown-validation-error",
                 internal_message=f"Unknown inbound telephony validation result: {error}",
-                external_message="Dograh could not process the inbound telephony validation result.",
+                external_message=(
+                    f"{PRODUCT_NAME} could not process the inbound telephony "
+                    "validation result."
+                ),
                 provider=provider,
                 retryable=None,
                 context={

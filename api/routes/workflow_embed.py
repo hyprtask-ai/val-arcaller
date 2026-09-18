@@ -6,7 +6,13 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
-from api.constants import BACKEND_API_ENDPOINT, ENVIRONMENT, UI_APP_URL
+from api.constants import (
+    BACKEND_API_ENDPOINT,
+    ENVIRONMENT,
+    PRODUCT_NAME,
+    UI_APP_URL,
+    WIDGET_SCRIPT_BASENAME,
+)
 from api.db import db_client
 from api.db.models import EmbedTokenModel, UserModel
 from api.enums import PostHogEvent
@@ -20,13 +26,14 @@ def generate_embed_script(token: EmbedTokenModel) -> str:
     """Generate the embed script for a given token."""
     base_url = str(UI_APP_URL).rstrip("/")
 
-    return f"""<!-- Dograh Widget -->
+    script_id = WIDGET_SCRIPT_BASENAME.removesuffix(".js")
+    return f"""<!-- {PRODUCT_NAME} Widget -->
 <script>
   (function(d, s, id) {{
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = '{base_url}/embed/dograh-widget.js?token={token.token}&environment={ENVIRONMENT}&apiEndpoint={BACKEND_API_ENDPOINT}';
+    js.src = '{base_url}/embed/{WIDGET_SCRIPT_BASENAME}?token={token.token}&environment={ENVIRONMENT}&apiEndpoint={BACKEND_API_ENDPOINT}';
     // Details about this visitor, available in your prompts as
     // {{{{initial_context.page_url}}}}. Edit these or add your own.
     js.setAttribute('data-dograh-context', JSON.stringify({{
@@ -35,7 +42,7 @@ def generate_embed_script(token: EmbedTokenModel) -> str:
     }}));
     js.async = true;
     fjs.parentNode.insertBefore(js, fjs);
-  }}(document, 'script', 'dograh-widget'));
+  }}(document, 'script', '{script_id}'));
 </script>"""
 
 

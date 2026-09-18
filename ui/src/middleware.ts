@@ -2,13 +2,13 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { getServerBackendUrl } from '@/lib/apiClient';
-import { OSS_TOKEN_COOKIE } from '@/lib/auth/cookies';
+import { readOssTokenCookie } from '@/lib/auth/cookies';
 
 // Paths that don't require authentication in OSS mode.
 // `/embed` serves the public website widget (e.g. /embed/dograh-widget.js),
 // which must be fetchable without a session cookie so third-party sites can
 // embed it — otherwise the middleware 307-redirects the asset to /auth/login.
-const PUBLIC_PATHS = ['/auth/login', '/auth/signup', '/embed'];
+const PUBLIC_PATHS = ['/', '/auth/login', '/auth/signup', '/embed'];
 
 let cachedAuthProvider: string | null = null;
 
@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get(OSS_TOKEN_COOKIE)?.value;
+  const token = readOssTokenCookie(request.cookies);
   const { pathname } = request.nextUrl;
 
   // Allow public paths without auth. Match on a path-segment boundary (exact
@@ -61,9 +61,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If no token, redirect to login
+  // If no token, send protected routes to login (public marketing/auth pages above).
   if (!token) {
-    const loginUrl = new URL('/auth/login', request.url);
+    const loginUrl = new URL("/auth/login", request.url);
+    loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
   }
 

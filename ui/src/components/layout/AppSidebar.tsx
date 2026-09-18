@@ -264,14 +264,6 @@ export function AppSidebar() {
               ) : (
                 <BrandLogo showByline />
               )}
-              {!isCollapsed && versionInfo && (
-                <span
-                  className="notranslate text-xs font-normal text-muted-foreground"
-                  translate="no"
-                >
-                  v{versionInfo.ui}
-                </span>
-              )}
             </Link>
             {!HIDE_UPSTREAM_CHROME && isBehind && latestRelease && (
               <Tooltip>

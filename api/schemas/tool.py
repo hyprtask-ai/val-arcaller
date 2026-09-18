@@ -1,4 +1,4 @@
-"""Pydantic schemas for reusable Dograh tools.
+"""Pydantic schemas for reusable agent tools.
 
 These models are the single contract for tool creation/update across the
 REST API, generated SDKs, and the MCP authoring surface. Field descriptions
@@ -13,7 +13,13 @@ from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from api.constants import PRODUCT_NAME
 from api.enums import ToolCategory
+
+_INJECTED_PARAMS_DESCRIPTION = (
+    f"Parameters injected by {PRODUCT_NAME} from fixed values or workflow "
+    "context templates."
+)
 
 DEFAULT_MCP_TIMEOUT_SECS = 30
 DEFAULT_MCP_SSE_READ_TIMEOUT_SECS = 300
@@ -65,7 +71,7 @@ class ToolParameter(BaseModel):
 
 
 class PresetToolParameter(BaseModel):
-    """A parameter injected by Dograh at runtime."""
+    """A parameter injected by the platform at runtime."""
 
     name: str = Field(description="Parameter name used as a key in the request body.")
     type: ToolParameterType = Field(
@@ -123,10 +129,7 @@ class HttpApiConfig(BaseModel):
     )
     preset_parameters: list[PresetToolParameter] | None = Field(
         default=None,
-        description=(
-            "Parameters injected by Dograh from fixed values or workflow context "
-            "templates."
-        ),
+        description=_INJECTED_PARAMS_DESCRIPTION,
     )
     timeout_ms: int | None = Field(
         default=5000,
@@ -214,7 +217,9 @@ class HttpTransferResolverConfig(BaseModel):
     )
     wait_message: str | None = Field(
         default=None,
-        description="Optional short message played while Dograh resolves routing.",
+        description=(
+            f"Optional short message played while {PRODUCT_NAME} resolves routing."
+        ),
     )
     parameters: list[ToolParameter] | None = Field(
         default=None,
@@ -222,10 +227,7 @@ class HttpTransferResolverConfig(BaseModel):
     )
     preset_parameters: list[PresetToolParameter] | None = Field(
         default=None,
-        description=(
-            "Parameters injected by Dograh from fixed values or workflow context "
-            "templates."
-        ),
+        description=_INJECTED_PARAMS_DESCRIPTION,
     )
 
     @field_validator("url")
@@ -400,7 +402,7 @@ class TransferCallConfig(BaseModel):
         max_length=MAX_TRANSFER_CALL_DISPOSITION_LENGTH,
         description=(
             "Optional disposition to record after a successful transfer. When "
-            "omitted, Dograh records its provider-specific transfer default."
+            f"omitted, {PRODUCT_NAME} records its provider-specific transfer default."
         ),
     )
     parameters: list[ToolParameter] | None = Field(
@@ -541,12 +543,12 @@ class TransferAgentConfig(BaseModel):
     Everything about how a handoff sounds is fixed: the caller hears a ringer
     while the next agent is prepared, and that agent opens with its own
     configured greeting. Only the handover line is configurable, because it is
-    caller-facing and Dograh runs in more than one language.
+    caller-facing and the platform runs in more than one language.
     """
 
     workflow_id: int = Field(
         description=(
-            "Id of the Dograh agent to transfer to. Must be in the same "
+            f"Id of the {PRODUCT_NAME} agent to transfer to. Must be in the same "
             "organization, and must not be a speech-to-speech agent."
         ),
         json_schema_extra=_llm_hint(

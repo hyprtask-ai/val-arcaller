@@ -172,6 +172,8 @@ class ServiceFailureMetadata:
 
 
 def _external_message(source: ErrorSource, error_type: ErrorType) -> str:
+    from api.constants import product_internal_error_message
+
     label = source.value.replace("_", " ")
     if error_type == ErrorType.CONFIG_ERROR:
         return f"Check your {label} configuration and credentials."
@@ -179,7 +181,7 @@ def _external_message(source: ErrorSource, error_type: ErrorType) -> str:
         return f"The {label} account has insufficient quota or credits."
     if error_type == ErrorType.PROVIDER_ERROR:
         return f"The external {label} service is temporarily unavailable."
-    return f"Dograh encountered an internal error while processing {label}."
+    return product_internal_error_message(label)
 
 
 def _valid_http_status(value: object) -> int | None:

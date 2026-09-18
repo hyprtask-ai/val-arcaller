@@ -1,6 +1,6 @@
 /**
- * Dograh Widget
- * Embeddable voice & chat widget for Dograh agents
+ * Val embed widget (legacy filename: dograh-widget.js)
+ * Embeddable voice & chat widget for voice agents
  * Version: 1.1.0
  */
 
@@ -13,8 +13,10 @@
     autoStart: false,
     apiBaseUrl: window.location.hostname === 'localhost'
       ? 'http://localhost:8000'
-      : 'https://api.dograh.com'
+      : window.location.origin
   };
+
+  let widgetLogPrefix = 'Embed widget';
 
   // Widget state
   const state = {
@@ -81,9 +83,11 @@
 
   async function initializeWidget() {
     // Get token from script URL
-    const script = document.currentScript || document.querySelector('script[src*="dograh-widget.js"]');
+    const script = document.currentScript || document.querySelector(
+      'script[src*="val-widget.js"], script[src*="dograh-widget.js"]'
+    );
     if (!script) {
-      console.error('Dograh Widget: Script not found');
+      console.error(widgetLogPrefix + ': Script not found');
       return;
     }
 
@@ -94,7 +98,7 @@
     const environment = scriptUrl.searchParams.get('environment');
 
     if (!token) {
-      console.error('Dograh Widget: No token found in script URL');
+      console.error(widgetLogPrefix + ': No token found in script URL');
       return;
     }
 
@@ -148,6 +152,10 @@
 
       const configData = await configResponse.json();
 
+      if (typeof configData.product_name === 'string' && configData.product_name.trim()) {
+        widgetLogPrefix = configData.product_name.trim() + ' widget';
+      }
+
       const widgetType = configData.settings?.widgetType === 'chat' ? 'chat' : 'voice';
 
       // Merge fetched configuration with defaults
@@ -173,7 +181,7 @@
         forceTurnRelay: Boolean(configData.force_turn_relay)
       };
     } catch (error) {
-      console.error('Dograh Widget: Failed to fetch configuration', error);
+      console.error(widgetLogPrefix + ': Failed to fetch configuration', error);
       return;
     }
 
@@ -220,7 +228,7 @@
   async function startWidget(...args) {
     await init();
     if (!state.isInitialized) {
-      console.warn('Dograh Widget: Cannot start before initialization succeeds');
+      console.warn(widgetLogPrefix + ': Cannot start before initialization succeeds');
       return;
     }
     return isChatWidget() ? startChat() : startCall(...args);
@@ -233,7 +241,7 @@
   async function endWidget(...args) {
     await init();
     if (!state.isInitialized) {
-      console.warn('Dograh Widget: Cannot end before initialization succeeds');
+      console.warn(widgetLogPrefix + ': Cannot end before initialization succeeds');
       return;
     }
     return isChatWidget() ? endChatSession() : stopCall(...args);
@@ -247,7 +255,7 @@
     try {
       return JSON.parse(contextStr);
     } catch (e) {
-      console.warn('Dograh Widget: Invalid context variables', e);
+      console.warn(widgetLogPrefix + ': Invalid context variables', e);
       return {};
     }
   }
@@ -260,7 +268,7 @@
   function widgetText(key) {
     const value = state.config.texts && state.config.texts[key];
     if (typeof value !== 'string') {
-      console.warn(`Dograh Widget: no text supplied for "${key}"`);
+      console.warn(`${widgetLogPrefix}: no text supplied for "${key}"`);
       return '';
     }
     return value;
@@ -284,7 +292,7 @@
    */
   function setContextVariables(vars) {
     if (!vars || typeof vars !== 'object' || Array.isArray(vars)) {
-      console.warn('Dograh Widget: setContext expects a plain object');
+      console.warn(widgetLogPrefix + ': setContext expects a plain object');
       return { ...(state.config.contextVariables || {}) };
     }
 
@@ -294,7 +302,7 @@
     };
 
     if (isConversationActive()) {
-      console.warn('Dograh Widget: context set during a conversation applies to the next one');
+      console.warn(widgetLogPrefix + ': context set during a conversation applies to the next one');
     }
 
     return { ...state.config.contextVariables };
@@ -480,7 +488,7 @@
     // Find container element
     const container = document.getElementById(state.config.containerId);
     if (!container) {
-      console.error(`Dograh Widget: Container element with id "${state.config.containerId}" not found`);
+      console.error(`${widgetLogPrefix}: Container element with id "${state.config.containerId}" not found`);
       if (state.callbacks.onError) {
         state.callbacks.onError(new Error('Container element not found'));
       }
@@ -813,7 +821,7 @@
       await negotiate();
 
     } catch (error) {
-      console.error('Dograh Widget: Failed to start call', error);
+      console.error(widgetLogPrefix + ': Failed to start call', error);
 
       // Release anything acquired before the failure so a retry starts clean.
       // getUserMedia may have succeeded before a later step (WebSocket /
@@ -890,12 +898,12 @@
     // configured — it would only 503. Deployments without coturn (OSS/local)
     // fall back to STUN.
     if (state.config.turnEnabled === false) {
-      console.log('Dograh Widget: TURN server disabled in server config, using STUN only');
+      console.log(widgetLogPrefix + ': TURN server disabled in server config, using STUN only');
       return;
     }
 
     if (!state.sessionToken) {
-      console.warn('Dograh Widget: No session token available for TURN credentials');
+      console.warn(widgetLogPrefix + ': No session token available for TURN credentials');
       return;
     }
 
@@ -948,7 +956,7 @@
     // fetch) leaves no ICE servers at all — no candidates, and no clue why.
     if (state.config.forceTurnRelay && iceServers.length === 0) {
       console.error(
-        'Dograh Widget: FORCE_TURN_RELAY is on but no TURN credentials are ' +
+        widgetLogPrefix + ': FORCE_TURN_RELAY is on but no TURN credentials are ' +
         'available — ICE has no candidates to gather and this call cannot connect.'
       );
     }
@@ -963,7 +971,7 @@
     // falling back to host/srflx.
     if (state.config.forceTurnRelay) {
       config.iceTransportPolicy = 'relay';
-      console.log('Dograh Widget: FORCE_TURN_RELAY is on — restricting ICE to relay candidates only');
+      console.log(widgetLogPrefix + ': FORCE_TURN_RELAY is on — restricting ICE to relay candidates only');
     }
 
     state.pc = new RTCPeerConnection(config);
@@ -1771,7 +1779,7 @@
   function createInlineChatWidget() {
     const container = document.getElementById(state.config.containerId);
     if (!container) {
-      console.error(`Dograh Widget: Container element with id "${state.config.containerId}" not found`);
+      console.error(`${widgetLogPrefix}: Container element with id "${state.config.containerId}" not found`);
       if (state.callbacks.onError) {
         state.callbacks.onError(new Error('Container element not found'));
       }
@@ -1814,7 +1822,7 @@
   function openInlineChatPanel() {
     const container = document.getElementById(state.config.containerId);
     if (!container) {
-      console.error(`Dograh Widget: Container element with id "${state.config.containerId}" not found`);
+      console.error(`${widgetLogPrefix}: Container element with id "${state.config.containerId}" not found`);
       return false;
     }
 
@@ -1854,7 +1862,7 @@
    */
   async function startChat() {
     if (!isChatWidget()) {
-      console.warn('Dograh Widget: startChat() called on a voice widget');
+      console.warn(widgetLogPrefix + ': startChat() called on a voice widget');
       return;
     }
     if (state.config.embedMode === 'inline' && !openInlineChatPanel()) {
@@ -1926,7 +1934,7 @@
       const completed = applyChatSession(data.chat_session);
       updateChatStatus(completed ? 'ended' : 'ready', completed ? widgetText('conversationEndedText') : null);
     } catch (error) {
-      console.error('Dograh Widget: Failed to start chat', error);
+      console.error(widgetLogPrefix + ': Failed to start chat', error);
       updateChatStatus('error', 'Could not start the chat.');
       if (state.callbacks.onError) {
         state.callbacks.onError(error);
@@ -1966,11 +1974,11 @@
     const trimmed = (text || '').trim();
     if (!trimmed) return null;
     if (!isChatWidget()) {
-      console.warn('Dograh Widget: sendMessage() called on a voice widget');
+      console.warn(widgetLogPrefix + ': sendMessage() called on a voice widget');
       return null;
     }
     if (!state.sessionToken || state.chat.status === 'ended' || state.chat.status === 'expired') {
-      console.warn('Dograh Widget: no active chat session');
+      console.warn(widgetLogPrefix + ': no active chat session');
       return null;
     }
     if (state.chat.status === 'waiting' || state.chat.status === 'starting') {
@@ -2034,7 +2042,7 @@
       }
       throw new Error(`Chat message failed: ${response.status}`);
     } catch (error) {
-      console.error('Dograh Widget: Failed to send message', error);
+      console.error(widgetLogPrefix + ': Failed to send message', error);
       state.chat.pendingUserText = null;
       state.chat.draft = trimmed;
       updateChatStatus('ready', 'Message not sent — please try again.');
@@ -2058,7 +2066,7 @@
       return null;
     }
     if (!isChatWidget()) {
-      console.warn('Dograh Widget: endChat() called on a voice widget');
+      console.warn(widgetLogPrefix + ': endChat() called on a voice widget');
       return null;
     }
     if (!state.sessionToken || state.chat.status === 'ended' || state.chat.status === 'expired') {
@@ -2111,7 +2119,7 @@
       }
       throw new Error(`Failed to end chat: ${response.status}`);
     } catch (error) {
-      console.error('Dograh Widget: Failed to end chat', error);
+      console.error(widgetLogPrefix + ': Failed to end chat', error);
       state.chat.ending = false;
       updateChatStatus('ready', 'Could not end the chat. Please try again.');
       if (state.callbacks.onError) {
@@ -2144,7 +2152,7 @@
         state.chat.status = 'expired';
       }
     } catch (error) {
-      console.warn('Dograh Widget: chat resync failed', error);
+      console.warn(widgetLogPrefix + ': chat resync failed', error);
     }
     return false;
   }
@@ -2363,6 +2371,9 @@
       }
     }
   };
+
+  // White-label alias; dograh-widget.js and window.DograhWidget remain for compatibility.
+  window.ValWidget = window.DograhWidget;
 
   // Auto-initialize on DOM ready
   if (document.readyState === 'loading') {
