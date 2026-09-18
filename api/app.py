@@ -3,6 +3,7 @@
 import sentry_sdk
 
 from api.constants import (
+    APP_VERSION,
     CORS_ALLOWED_ORIGINS,
     DEPLOYMENT_MODE,
     ENABLE_TELEMETRY,
@@ -92,7 +93,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=f"{PRODUCT_NAME} API",
     description=f"API for {PRODUCT_FULL_NAME}",
-    version="1.0.0",
+    version=APP_VERSION,
     openapi_url=f"{API_PREFIX}/openapi.json",
     lifespan=lifespan,
     servers=[

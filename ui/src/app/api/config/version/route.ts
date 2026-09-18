@@ -39,6 +39,8 @@ export async function GET() {
   let backendApiEndpoint: string | null = null;
   let backendStatus: "reachable" | "unreachable" = "unreachable";
   let backendMessage: string | null = `Backend is not reachable at ${backendUrl}.`;
+  let productName: string | null = null;
+  let productFullName: string | null = null;
 
   try {
     const response = await fetch(healthcheckUrl, {
@@ -61,6 +63,15 @@ export async function GET() {
         data.backend_api_endpoint.length > 0
           ? trimTrailingSlash(data.backend_api_endpoint)
           : null;
+      productName =
+        typeof data.product_name === "string" && data.product_name.length > 0
+          ? data.product_name
+          : null;
+      productFullName =
+        typeof data.product_full_name === "string" &&
+        data.product_full_name.length > 0
+          ? data.product_full_name
+          : null;
       backendStatus = "reachable";
       backendMessage = null;
     }
@@ -78,6 +89,8 @@ export async function GET() {
     forceTurnRelay,
     tunnelUrl,
     backendApiEndpoint,
+    productName,
+    productFullName,
     backend: {
       status: backendStatus,
       url: backendUrl,

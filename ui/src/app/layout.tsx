@@ -5,12 +5,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 
-import ChatwootWidget from "@/components/ChatwootWidget";
 import { EventBanner } from "@/components/EventBanner";
 import AppLayout from "@/components/layout/AppLayout";
 import MetaPixel from "@/components/MetaPixel";
 import PostHogIdentify from "@/components/PostHogIdentify";
-import ReoProvider from "@/components/ReoProvider";
 import { SentryErrorBoundary } from "@/components/SentryErrorBoundary";
 import SpinLoader from "@/components/SpinLoader";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -20,11 +18,7 @@ import { OnboardingProvider } from "@/context/OnboardingContext";
 import { OrgConfigProvider } from "@/context/OrgConfigContext";
 import { TelephonyConfigWarningsProvider } from "@/context/TelephonyConfigWarningsContext";
 import { AuthProvider } from "@/lib/auth";
-import {
-  HIDE_UPSTREAM_CHROME,
-  PRODUCT_FULL_NAME,
-  PRODUCT_TAGLINE,
-} from "@/lib/brand";
+import { PRODUCT_FULL_NAME, PRODUCT_TAGLINE } from "@/lib/brand";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,7 +46,6 @@ export default function RootLayout({
 }) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
-  const reoClientId = process.env.NEXT_PUBLIC_REO_CLIENT_ID?.trim();
   // Dograh Cloud only. Self-hosted/OSS installs leave this blank and never
   // render the event bar — same gating shape as the Meta Pixel above.
   const showEventBanner = process.env.NEXT_PUBLIC_EVENT_BANNER?.trim() === "1";
@@ -98,14 +91,10 @@ export default function RootLayout({
                     <TelephonyConfigWarningsProvider>
                       <OnboardingProvider>
                         <PostHogIdentify />
-                        {!HIDE_UPSTREAM_CHROME && reoClientId ? (
-                          <ReoProvider clientId={reoClientId} />
-                        ) : null}
                         <AppLayout>
                           {children}
                         </AppLayout>
                         <Toaster />
-                        {!HIDE_UPSTREAM_CHROME ? <ChatwootWidget /> : null}
                       </OnboardingProvider>
                     </TelephonyConfigWarningsProvider>
                   </OrgConfigProvider>

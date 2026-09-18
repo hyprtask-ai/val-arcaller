@@ -96,6 +96,10 @@ dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_PRODUCT_FULL_NAME "${NEXT_PUBLIC_PROD
 dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_PRODUCT_TAGLINE "${NEXT_PUBLIC_PRODUCT_TAGLINE:-Voice agents for AR Caller}"
 dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_BRAND_DOMAIN "${NEXT_PUBLIC_BRAND_DOMAIN:-hyprtask.ai}"
 dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_HIDE_UPSTREAM_CHROME "${NEXT_PUBLIC_HIDE_UPSTREAM_CHROME:-true}"
+# Strip upstream Dograh support widgets (Reo sidebar tab, Chatwoot bubble).
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_REO_CLIENT_ID ""
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_CHATWOOT_URL ""
+dograh_set_env_key "$ENV_FILE" NEXT_PUBLIC_CHATWOOT_TOKEN ""
 
 # --- Background workers (default on; ensure explicit) ---
 dograh_set_env_key "$ENV_FILE" ENABLE_ARI_MANAGER true

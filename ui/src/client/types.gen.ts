@@ -3235,6 +3235,14 @@ export type HealthResponse = {
      * Stack Publishable Client Key
      */
     stack_publishable_client_key?: string | null;
+    /**
+     * Product Name
+     */
+    product_name: string;
+    /**
+     * Product Full Name
+     */
+    product_full_name: string;
 };
 
 /**

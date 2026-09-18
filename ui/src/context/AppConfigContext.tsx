@@ -4,6 +4,7 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useState 
 
 import { client } from '@/client/client.gen';
 import { resolveBrowserBackendUrl } from '@/lib/apiClient';
+import { PRODUCT_FULL_NAME, PRODUCT_NAME, setRuntimeBrand } from '@/lib/brand';
 
 type BackendStatus = 'reachable' | 'unreachable';
 
@@ -25,6 +26,8 @@ interface AppConfig {
     backendStatus: BackendStatus;
     backendUrl: string;
     backendMessage: string | null;
+    productName: string;
+    productFullName: string;
 }
 
 interface AppConfigContextType {
@@ -47,6 +50,8 @@ const defaultConfig: AppConfig = {
     backendMessage: process.env.NEXT_PUBLIC_BACKEND_URL
         ? `Unable to verify backend health at ${process.env.NEXT_PUBLIC_BACKEND_URL}.`
         : 'Unable to verify backend health.',
+    productName: PRODUCT_NAME,
+    productFullName: PRODUCT_FULL_NAME,
 };
 
 const AppConfigContext = createContext<AppConfigContextType>({
@@ -85,6 +90,15 @@ export function AppConfigProvider({ children }: { children: ReactNode }) {
                 client.setConfig({ baseUrl: resolveBrowserBackendUrl(backendApiEndpoint) });
             }
 
+            const productName = typeof data.productName === 'string' && data.productName.length > 0
+                ? data.productName
+                : PRODUCT_NAME;
+            const productFullName = typeof data.productFullName === 'string' && data.productFullName.length > 0
+                ? data.productFullName
+                : PRODUCT_FULL_NAME;
+
+            setRuntimeBrand({ productName, productFullName });
+
             setConfig({
                 uiVersion: data.ui || 'dev',
                 apiVersion: data.api || 'unknown',
@@ -101,6 +115,8 @@ export function AppConfigProvider({ children }: { children: ReactNode }) {
                     : backendStatus === 'reachable'
                         ? null
                         : `Backend is not reachable at ${backendUrl}.`,
+                productName,
+                productFullName,
             });
         } catch {
             setConfig(defaultConfig);
