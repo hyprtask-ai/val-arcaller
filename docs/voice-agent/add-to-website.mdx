@@ -1,6 +1,6 @@
 ---
 title: Add to Website
-description: Add your Dograh agent to any website so visitors can talk to it by voice or chat with it by text.
+description: Add your Val agent to any website so visitors can talk to it by voice or chat with it by text.
 tag: "NEW"
 ---
 
@@ -47,7 +47,7 @@ How chat conversations behave:
 | --------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | **Floating Widget**   | A pill-shaped CTA button anchored to a corner of the page. For chat widgets it toggles a chat panel. | You want a turn-key experience that doesn't disturb your existing layout.                            |
 | **Inline Component**  | A panel rendered inside a `<div id="dograh-inline-container">` that you place in your page.        | You want the agent embedded in a specific section (landing-page hero, support tab, etc.).            |
-| **Headless**          | No UI. Only the audio/chat pipeline plus a JavaScript API on `window.DograhWidget`.                | You want full control over the UI — your own buttons, design system, framework state, animations.    |
+| **Headless**          | No UI. Only the audio/chat pipeline plus a JavaScript API on `window.ValWidget` (`window.DograhWidget` is a legacy alias). | You want full control over the UI — your own buttons, design system, framework state, animations.    |
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ These apply to all three modes:
 
 - **Voice widgets:** serve your page over **HTTPS** or from `http://localhost`. Browsers refuse microphone access on plain HTTP origins or `file://`. Chat widgets have no microphone requirement, though HTTPS is still recommended.
 - If you set **Allowed Domains** in the dashboard, include your test origin (e.g. `localhost`) — otherwise the widget's requests are rejected. Leave the list empty to allow all domains.
-- The embed snippet you copy from the dashboard is a single `<script>` tag that loads `dograh-widget.js` **asynchronously**. The widget auto-initializes once it loads and exposes `window.DograhWidget`. Code that registers callbacks must wait for the widget to be available.
+- The embed snippet you copy from the dashboard is a single `<script>` tag that loads `val-widget.js` **asynchronously** (served as an alias of the legacy `dograh-widget.js` file). The widget auto-initializes once it loads and exposes `window.ValWidget`. Code that registers callbacks must wait for the widget to be available.
 
 ## Pass context to the agent
 
@@ -84,7 +84,7 @@ The snippet you copy from the dashboard carries a `data-dograh-context` attribut
     }));
     js.async = true;
     fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'dograh-widget'));
+  }(document, 'script', 'val-widget'));
 </script>
 ```
 
@@ -111,7 +111,7 @@ Values can be strings, numbers, booleans, or nested objects. This works for voic
 The attribute is fixed at page load, which doesn't fit a single-page app — the visitor logs in, changes route, or fills a cart long after the snippet ran. For that, call `setContext()`:
 
 ```js
-window.DograhWidget.setContext({
+window.ValWidget.setContext({
   customer_name: user.firstName,
   plan: user.plan
 });

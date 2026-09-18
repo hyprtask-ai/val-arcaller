@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 import { getAuthProvider } from '@/lib/auth/config';
-import { OSS_TOKEN_COOKIE, OSS_USER_COOKIE } from '@/lib/auth/cookies';
+import { readOssTokenCookie, readOssUserCookie } from '@/lib/auth/cookies';
 
 export async function GET() {
   const authProvider = await getAuthProvider();
@@ -18,8 +18,8 @@ export async function GET() {
   }
 
   const cookieStore = await cookies();
-  const token = cookieStore.get(OSS_TOKEN_COOKIE)?.value;
-  const user = cookieStore.get(OSS_USER_COOKIE)?.value;
+  const token = readOssTokenCookie(cookieStore);
+  const user = readOssUserCookie(cookieStore);
 
   // If no token exists, return 401 (user needs to sign up or log in)
   if (!token) {

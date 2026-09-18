@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      // Val white-label alias; dograh-widget.js remains for backward compatibility.
+      {
+        source: "/embed/val-widget.js",
+        destination: "/embed/dograh-widget.js",
+      },
       {
         source: "/ingest/static/:path*",
         destination: "https://us-assets.i.posthog.com/static/:path*",

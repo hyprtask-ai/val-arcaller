@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, field_validator
 
+from api.constants import PRODUCT_NAME
+
 # A mapping is hand-maintained in the settings modal, so these ceilings exist to
 # keep a malformed or pasted payload out of the org configuration row rather
 # than to constrain any real deployment.
@@ -17,7 +19,7 @@ class OrganizationPreferences(BaseModel):
     disposition_mapping: dict[str, str] = Field(
         default_factory=dict,
         description=(
-            "Dograh disposition -> the code this organization uses for it. "
+            f"{PRODUCT_NAME} disposition -> the code this organization uses for it. "
             "Applied when writing `gathered_context.mapped_call_disposition`, "
             "so webhooks, run filters, reports and external-PBX write-backs all "
             "read the organization's own vocabulary. Dispositions absent from "

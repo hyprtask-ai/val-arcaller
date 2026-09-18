@@ -1,8 +1,16 @@
 """Errors raised at the Model Proxy Service boundary."""
 
-MPS_UNAVAILABLE_PUBLIC_MESSAGE = (
-    "A Dograh service is temporarily unavailable. Please try again later."
-)
+from api.constants import PRODUCT_NAME
+
+
+def mps_unavailable_public_message() -> str:
+    return (
+        f"A {PRODUCT_NAME} service is temporarily unavailable. "
+        "Please try again later."
+    )
+
+
+MPS_UNAVAILABLE_PUBLIC_MESSAGE = mps_unavailable_public_message()
 
 
 class MPSUnavailableError(ConnectionError):

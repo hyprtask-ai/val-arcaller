@@ -34,8 +34,9 @@ export const metadata: Metadata = {
   title: PRODUCT_FULL_NAME,
   description: PRODUCT_TAGLINE,
   icons: {
-    icon: "/hyprtask-mark.png",
-    apple: "/hyprtask-mark.png",
+    icon: [{ url: "/favicon.png", type: "image/png" }],
+    apple: "/favicon.png",
+    shortcut: "/favicon.png",
   },
 };
 

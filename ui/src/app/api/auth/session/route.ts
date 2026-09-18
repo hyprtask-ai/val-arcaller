@@ -1,7 +1,12 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { OSS_TOKEN_COOKIE, OSS_USER_COOKIE, sessionCookieOptions } from '@/lib/auth/cookies';
+import {
+  clearLegacyOssSessionCookies,
+  OSS_TOKEN_COOKIE,
+  OSS_USER_COOKIE,
+  sessionCookieOptions,
+} from '@/lib/auth/cookies';
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
 
@@ -17,6 +22,7 @@ export async function POST(request: NextRequest) {
 
   cookieStore.set(OSS_TOKEN_COOKIE, token, options);
   cookieStore.set(OSS_USER_COOKIE, JSON.stringify(user), options);
+  clearLegacyOssSessionCookies(cookieStore, request);
 
   return NextResponse.json({ success: true });
 }

@@ -222,6 +222,16 @@ def test_get_config_reports_turn_flags(monkeypatch):
     assert body["force_turn_relay"] is True
 
 
+def test_get_config_includes_product_name(monkeypatch):
+    monkeypatch.setattr("api.routes.public_embed.PRODUCT_NAME", "Acme")
+    resp = client.get(
+        "/api/v1/public/embed/config/valid",
+        headers={"Origin": "https://mysite.vercel.app"},
+    )
+    assert resp.status_code == 200
+    assert resp.json()["product_name"] == "Acme"
+
+
 def test_get_config_reports_turn_disabled_when_unconfigured(monkeypatch):
     # With coturn disabled the widget must be told to skip the turn-credentials
     # request, which would only 503.
