@@ -100,7 +100,11 @@ export function SignupForm() {
             minLength={8}
           />
         </div>
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full bg-cta text-cta-foreground hover:bg-cta/90"
+          disabled={loading}
+        >
           {loading ? "Creating account..." : "Create account"}
         </Button>
       </form>

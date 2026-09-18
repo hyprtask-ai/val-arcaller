@@ -47,13 +47,21 @@
 }
 
 :root {
+  /* Hyprtask brand palette (shared across themes). */
+  --brand-hyprtask: #464eb8;
+  --brand-hyprtask-hover: #3d45a5;
+  --brand-hyprtask-accent: #565fd0;
+  --brand-hyprtask-deep: #252956;
+  --brand-hyprtask-surface: #2f3468;
+  --brand-hyprtask-elevated: #3a3f7a;
+
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: var(--brand-hyprtask);
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -79,48 +87,46 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  /* Single restrained warm accent — used only on primary CTAs + focus rings. */
-  --cta: oklch(0.72 0.15 65);
-  --cta-foreground: oklch(0.16 0.02 60);
+  --cta: var(--brand-hyprtask);
+  --cta-foreground: #ffffff;
   /* Val white-label: no faded upstream wordmark in the app shell. */
   --brand-imprint: none;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: var(--brand-hyprtask-deep);
+  --foreground: #f2f3fa;
+  --card: var(--brand-hyprtask-surface);
+  --card-foreground: #f2f3fa;
+  --popover: var(--brand-hyprtask-surface);
+  --popover-foreground: #f2f3fa;
+  --primary: var(--brand-hyprtask-accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--brand-hyprtask-elevated);
+  --secondary-foreground: #f2f3fa;
+  --muted: var(--brand-hyprtask-elevated);
+  --muted-foreground: #b4b8dc;
+  --accent: var(--brand-hyprtask-elevated);
+  --accent-foreground: #f2f3fa;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: rgb(255 255 255 / 12%);
+  --input: rgb(255 255 255 / 14%);
+  --ring: var(--brand-hyprtask-accent);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-  /* Warm accent, slightly brighter against the near-black surfaces. */
-  --cta: oklch(0.78 0.16 67);
-  --cta-foreground: oklch(0.16 0.02 60);
+  --sidebar: var(--brand-hyprtask-deep);
+  --sidebar-foreground: #f2f3fa;
+  --sidebar-primary: var(--brand-hyprtask-accent);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--brand-hyprtask-elevated);
+  --sidebar-accent-foreground: #f2f3fa;
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: var(--brand-hyprtask-accent);
+  --cta: var(--brand-hyprtask-accent);
+  --cta-foreground: #ffffff;
   --brand-imprint: none;
 }
 
@@ -227,10 +233,8 @@
     .auth-waveform span { animation: none; }
   }
 
-  /* Matte app background — flat charcoal (dark) / soft paper (light), NO
-     gradients, with one subtle graphic in BOTH themes: the giant faded
-     "dograh" wordmark (--brand-imprint, defined in :root/.dark) pinned to
-     the bottom of the viewport, echoing the dograh.com footer. */
+  /* Matte app background — Hyprtask-tinted deep purple (dark) / soft paper
+     (light). --brand-imprint is disabled for Val white-label. */
   /* NOTE: background-attachment: fixed positions in VIEWPORT space but only
      paints inside .app-surface, which starts right of the ~270px sidebar —
      the +135px x-shift recentres the wordmark on the VISIBLE canvas. */
@@ -249,7 +253,7 @@
     }
   }
   .dark .app-surface {
-    background-color: oklch(0.165 0.002 80);
+    background-color: var(--brand-hyprtask-deep);
   }
 
   /* Giant faded "dograh" imprint for the auth pages (applied to the AuthShell
@@ -307,15 +311,14 @@
   border-radius: 1.25rem;
   overflow: hidden;
 }
-/* Flat carbon-charcoal panel with a soft light glow along the LEFT edge:
-   a 1px highlight line plus an inner bloom fading rightwards. */
+/* Hyprtask-tinted sidebar panel with a soft light glow along the LEFT edge. */
 .dark .app-sidebar-dock [data-slot="sidebar-inner"] {
-  border-color: rgb(255 255 255 / 0.1);
-  background-color: oklch(0.18 0.002 80);
+  border-color: rgb(255 255 255 / 0.12);
+  background-color: var(--brand-hyprtask-surface);
   box-shadow:
     inset 1px 0 0 rgb(255 255 255 / 0.1),
     inset 3px 0 6px -4px rgb(255 255 255 / 0.08),
-    0 24px 50px -14px rgb(0 0 0 / 0.85);
+    0 24px 50px -14px rgb(37 41 86 / 0.75);
 }
 
 /* Card surface ("Crosshatch + Top-Lit Edge", user-approved 2026-06-11 after a
@@ -339,7 +342,7 @@
    amber underline on focus. Applied by LeadModalShell; CaptchaChallenge
    reuses slab + underline. */
 .dark .lead-form-slab {
-  background-color: oklch(0.215 0 0);
+  background-color: var(--brand-hyprtask-surface);
   border-color: rgb(255 255 255 / 0.1);
 }
 /* Muted, compact labels — the big white default labels read amateurish. */

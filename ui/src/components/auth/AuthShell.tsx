@@ -33,7 +33,7 @@ export function AuthShell({
         </div>
       </main>
 
-      <aside className="relative hidden flex-col justify-between overflow-hidden border-l border-border/60 bg-zinc-950 p-10 lg:flex xl:p-14">
+      <aside className="relative hidden flex-col justify-between overflow-hidden border-l border-white/10 bg-[var(--brand-hyprtask)] p-10 text-white lg:flex xl:p-14">
         <div
           aria-hidden
           className="pointer-events-none absolute -right-24 top-1/3 size-[28rem] rounded-full opacity-20 blur-3xl"
@@ -45,15 +45,15 @@ export function AuthShell({
         </div>
 
         <div className="relative max-w-md space-y-5">
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-zinc-50 xl:text-4xl">
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight xl:text-4xl">
             {PRODUCT_FULL_NAME}
           </h1>
-          <p className="text-sm text-zinc-400">{PRODUCT_TAGLINE}</p>
+          <p className="text-sm text-white/80">{PRODUCT_TAGLINE}</p>
           <ul className="flex flex-wrap gap-2">
             {HIGHLIGHTS.map((point) => (
               <li
                 key={point}
-                className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-zinc-300"
+                className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/90"
               >
                 {point}
               </li>
@@ -63,10 +63,10 @@ export function AuthShell({
 
         {!HIDE_UPSTREAM_CHROME && enterpriseSlot ? (
           <div className="relative mb-12 max-w-md space-y-3 rounded-xl border border-white/10 bg-white/[0.03] p-5 xl:mb-16">
-            <h2 className="text-sm font-semibold text-zinc-100">
+            <h2 className="text-sm font-semibold text-white">
               Need on-prem, data residency &amp; a data perimeter?
             </h2>
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-white/75">
               Contact us for regulated and high-scale deployments.
             </p>
             {enterpriseSlot}

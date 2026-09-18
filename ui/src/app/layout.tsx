@@ -30,13 +30,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const FAVICON_VERSION = "20250918";
+
 export const metadata: Metadata = {
   title: PRODUCT_FULL_NAME,
   description: PRODUCT_TAGLINE,
   icons: {
-    icon: [{ url: "/favicon.png", type: "image/png" }],
-    apple: "/favicon.png",
-    shortcut: "/favicon.png",
+    icon: [
+      { url: `/favicon.png?v=${FAVICON_VERSION}`, type: "image/png" },
+      { url: `/favicon.ico?v=${FAVICON_VERSION}`, sizes: "any" },
+    ],
+    apple: `/favicon.png?v=${FAVICON_VERSION}`,
+    shortcut: `/favicon.ico?v=${FAVICON_VERSION}`,
   },
 };
 
@@ -54,6 +59,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        <link
+          rel="icon"
+          href={`/favicon.ico?v=${FAVICON_VERSION}`}
+          sizes="any"
+        />
+        <link
+          rel="icon"
+          href={`/favicon.png?v=${FAVICON_VERSION}`}
+          type="image/png"
+        />
         {/* Inline script to prevent flash of light theme - runs before React hydrates.
             Dark is the locked default: only an explicit stored 'light' opts out. */}
         <script

@@ -17,8 +17,25 @@ const nextConfig: NextConfig = {
   experimental: {
     serverSourceMaps: !isDockerOssBuild,
   },
+  async headers() {
+    return [
+      {
+        source: "/favicon.png",
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600, must-revalidate" }],
+      },
+      {
+        source: "/favicon.ico",
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600, must-revalidate" }],
+      },
+    ];
+  },
   async rewrites() {
     return [
+      // Browsers request /favicon.ico first; serve the Hyprtask PNG when no .ico is cached.
+      {
+        source: "/favicon.ico",
+        destination: "/favicon.png",
+      },
       // Val white-label alias; dograh-widget.js remains for backward compatibility.
       {
         source: "/embed/val-widget.js",
