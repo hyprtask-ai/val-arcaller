@@ -1,3 +1,7 @@
+import {
+  isAuthenticated,
+  redirectAuthenticatedUser,
+} from "@/lib/auth/authenticatedRedirect";
 import { getSignupEnabled } from "@/lib/auth/config";
 
 import { LoginForm } from "./LoginForm";
@@ -9,6 +13,10 @@ import { LoginForm } from "./LoginForm";
 export const dynamic = "force-dynamic";
 
 export default async function LoginPage() {
+  if (await isAuthenticated()) {
+    await redirectAuthenticatedUser();
+  }
+
   const signupEnabled = await getSignupEnabled();
   return <LoginForm signupEnabled={signupEnabled} />;
 }
