@@ -58,13 +58,13 @@ export const VersionHistoryPanel = ({
 
     return (
         <div
-            className={`fixed z-51 right-0 top-0 h-full w-80 bg-[#1a1a1a] border-l border-[#2a2a2a] shadow-lg transform transition-transform duration-300 ease-in-out ${
+            className={`fixed z-51 right-0 top-0 h-full w-80 bg-[var(--brand-hyprtask-surface)] border-l border-border shadow-lg transform transition-transform duration-300 ease-in-out ${
                 isOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
             <div className="p-4 h-full overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-lg font-semibold text-white">
+                    <h2 className="text-lg font-semibold text-foreground">
                         Version History
                     </h2>
                     <Button
@@ -72,7 +72,7 @@ export const VersionHistoryPanel = ({
                         size="icon"
                         aria-label="Close version history"
                         onClick={onClose}
-                        className="text-gray-400 hover:text-white hover:bg-[#2a2a2a]"
+                        className="text-muted-foreground hover:text-foreground hover:bg-[var(--brand-hyprtask-elevated)]"
                     >
                         <X className="w-5 h-5" />
                     </Button>
@@ -102,13 +102,13 @@ export const VersionHistoryPanel = ({
                                     className={`flex w-full overflow-hidden rounded-lg border transition-colors ${
                                         isActive
                                             ? "border-teal-500/50 bg-teal-500/10"
-                                            : "border-[#2a2a2a] bg-[#222]"
+                                            : "border-border bg-[var(--brand-hyprtask-elevated)]"
                                     }`}
                                 >
                                     <button
                                         type="button"
                                         onClick={() => onSelectVersion(version)}
-                                        className="min-w-0 flex-1 cursor-pointer p-3 text-left transition-colors hover:bg-[#2a2a2a]"
+                                        className="min-w-0 flex-1 cursor-pointer p-3 text-left transition-colors hover:bg-[var(--brand-hyprtask-elevated)]"
                                     >
                                         <div className="mb-1.5 flex items-center justify-between">
                                             <div className="flex items-center gap-2">
@@ -142,7 +142,7 @@ export const VersionHistoryPanel = ({
                                             aria-label={compareLabel}
                                             disabled={comparingVersionId !== null}
                                             onClick={() => onCompareVersion(version)}
-                                            className="mr-2 h-7 w-7 shrink-0 self-center rounded-md border border-[#3a3a3a] text-gray-400 hover:bg-[#303030] hover:text-white"
+                                            className="mr-2 h-7 w-7 shrink-0 self-center rounded-md border border-border text-gray-400 hover:bg-[var(--brand-hyprtask-elevated)] hover:text-white"
                                         >
                                             {comparingVersionId === version.id ? (
                                                 <LoaderCircle className="h-4 w-4 animate-spin" />
@@ -159,7 +159,7 @@ export const VersionHistoryPanel = ({
                                 variant="ghost"
                                 onClick={onLoadMore}
                                 disabled={loadingMore}
-                                className="w-full text-sm text-gray-300 hover:text-white hover:bg-[#2a2a2a]"
+                                className="w-full text-sm text-muted-foreground hover:text-foreground hover:bg-[var(--brand-hyprtask-elevated)]"
                             >
                                 {loadingMore ? (
                                     <LoaderCircle className="w-4 h-4 animate-spin" />

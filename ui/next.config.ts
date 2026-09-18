@@ -29,13 +29,18 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async rewrites() {
+  async redirects() {
     return [
-      // Browsers request /favicon.ico first; serve the Hyprtask PNG when no .ico is cached.
+      // Browsers default to /favicon.ico; force the Hyprtask PNG (no app/icon route).
       {
         source: "/favicon.ico",
-        destination: "/favicon.png",
+        destination: "/favicon.png?v=20250918-hyprtask",
+        permanent: false,
       },
+    ];
+  },
+  async rewrites() {
+    return [
       // Val white-label alias; dograh-widget.js remains for backward compatibility.
       {
         source: "/embed/val-widget.js",

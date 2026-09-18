@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import logger from '@/lib/logger';
+import { isPublicMarketingPath } from '@/lib/publicPaths';
 
 import type { AuthUser, LocalUser } from '../types';
 import { AuthContext } from './AuthProvider';
@@ -24,8 +25,8 @@ export function LocalProviderWrapper({ children }: { children: React.ReactNode }
           setUser(data.user);
           logger.info('OSS auth initialized', { user: data.user });
         } else if (response.status === 401) {
-          // No token - redirect to login (but not if already on auth pages)
-          if (!window.location.pathname.startsWith('/auth/')) {
+          // No token — keep public marketing/auth routes reachable (see middleware).
+          if (!isPublicMarketingPath(window.location.pathname)) {
             window.location.href = '/auth/login';
             return;
           }
