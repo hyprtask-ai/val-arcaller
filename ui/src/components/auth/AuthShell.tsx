@@ -1,17 +1,13 @@
 import type { ReactNode } from "react";
 
 import { BrandLogo } from "@/components/BrandLogo";
+import { HIDE_UPSTREAM_CHROME } from "@/lib/brand";
 import {
-  HIDE_UPSTREAM_CHROME,
-  PRODUCT_FULL_NAME,
-  PRODUCT_TAGLINE,
-} from "@/lib/brand";
-
-const HIGHLIGHTS = [
-  "Outbound & inbound calls",
-  "Campaign dialing",
-  "Bring your own models",
-];
+  AR_VOICE_EYEBROW,
+  AR_VOICE_HERO_LEDE,
+  AR_VOICE_HERO_TITLE,
+  AR_VOICE_PILLS,
+} from "@/lib/marketing/arVoiceAgents";
 
 export function AuthShell({
   children,
@@ -45,12 +41,15 @@ export function AuthShell({
         </div>
 
         <div className="relative max-w-md space-y-5">
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight xl:text-4xl">
-            {PRODUCT_FULL_NAME}
+          <p className="text-xs font-medium uppercase tracking-wider text-white/70">
+            {AR_VOICE_EYEBROW}
+          </p>
+          <h1 className="text-2xl font-semibold leading-tight tracking-tight xl:text-3xl">
+            {AR_VOICE_HERO_TITLE}
           </h1>
-          <p className="text-sm text-white/80">{PRODUCT_TAGLINE}</p>
+          <p className="text-sm text-white/80">{AR_VOICE_HERO_LEDE}</p>
           <ul className="flex flex-wrap gap-2">
-            {HIGHLIGHTS.map((point) => (
+            {AR_VOICE_PILLS.map((point) => (
               <li
                 key={point}
                 className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/90"
