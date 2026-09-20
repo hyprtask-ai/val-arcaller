@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { loginApiV1AuthLoginPost } from "@/client/sdk.gen";
+import { AR_VOICE_LOGIN_SUBTITLE } from "@/lib/marketing/arVoiceAgents";
 import { AuthEnterpriseCTA } from "@/components/auth/AuthEnterpriseCTA";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { Button } from "@/components/ui/button";
@@ -50,9 +51,7 @@ export function LoginForm({ signupEnabled }: { signupEnabled: boolean }) {
     <AuthShell enterpriseSlot={<AuthEnterpriseCTA />}>
       <div className="space-y-1.5 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-        <p className="text-sm text-muted-foreground">
-          Enter your email and password to continue
-        </p>
+        <p className="text-sm text-muted-foreground">{AR_VOICE_LOGIN_SUBTITLE}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">

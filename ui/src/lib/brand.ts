@@ -13,7 +13,7 @@ export const PRODUCT_FULL_NAME =
 
 export const PRODUCT_TAGLINE =
   process.env.NEXT_PUBLIC_PRODUCT_TAGLINE ??
-  "Voice agents for AR Caller";
+  "AR voice agents for payer follow-up, denials, and appeals";
 
 export const BRAND_DOMAIN =
   process.env.NEXT_PUBLIC_BRAND_DOMAIN ?? "hyprtask.ai";
