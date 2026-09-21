@@ -8,9 +8,11 @@ import { loginApiV1AuthLoginPost } from "@/client/sdk.gen";
 import { AR_VOICE_LOGIN_SUBTITLE } from "@/lib/marketing/arVoiceAgents";
 import { AuthEnterpriseCTA } from "@/components/auth/AuthEnterpriseCTA";
 import { AuthShell } from "@/components/auth/AuthShell";
+import { marketingInputFocus, marketingPrimaryButton } from "@/components/marketing/marketingClasses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 export function LoginForm({ signupEnabled }: { signupEnabled: boolean }) {
   const [email, setEmail] = useState("");
@@ -49,9 +51,11 @@ export function LoginForm({ signupEnabled }: { signupEnabled: boolean }) {
 
   return (
     <AuthShell enterpriseSlot={<AuthEnterpriseCTA />}>
-      <div className="space-y-1.5 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-        <p className="text-sm text-muted-foreground">{AR_VOICE_LOGIN_SUBTITLE}</p>
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">Sign in</h1>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {AR_VOICE_LOGIN_SUBTITLE}
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -64,6 +68,7 @@ export function LoginForm({ signupEnabled }: { signupEnabled: boolean }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={cn("h-11 bg-background/50", marketingInputFocus)}
           />
         </div>
         <div className="space-y-2">
@@ -75,11 +80,12 @@ export function LoginForm({ signupEnabled }: { signupEnabled: boolean }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={cn("h-11 bg-background/50", marketingInputFocus)}
           />
         </div>
         <Button
           type="submit"
-          className="w-full bg-cta text-cta-foreground hover:bg-cta/90"
+          className={cn("h-11 w-full", marketingPrimaryButton)}
           disabled={loading}
         >
           {loading ? "Signing in..." : "Sign in"}

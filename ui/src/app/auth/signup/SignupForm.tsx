@@ -7,9 +7,11 @@ import { toast } from "sonner";
 import { signupApiV1AuthSignupPost } from "@/client/sdk.gen";
 import { AuthEnterpriseCTA } from "@/components/auth/AuthEnterpriseCTA";
 import { AuthShell } from "@/components/auth/AuthShell";
+import { marketingInputFocus, marketingPrimaryButton } from "@/components/marketing/marketingClasses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 export function SignupForm() {
   const [email, setEmail] = useState("");
@@ -59,9 +61,11 @@ export function SignupForm() {
 
   return (
     <AuthShell enterpriseSlot={<AuthEnterpriseCTA />}>
-      <div className="space-y-1.5 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
-        <p className="text-sm text-muted-foreground">Enter your details to get started</p>
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">Create an account</h1>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Enter your details to get started
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,6 +78,7 @@ export function SignupForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={cn("h-11 bg-background/50", marketingInputFocus)}
           />
         </div>
         <div className="space-y-2">
@@ -86,6 +91,7 @@ export function SignupForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
+            className={cn("h-11 bg-background/50", marketingInputFocus)}
           />
         </div>
         <div className="space-y-2">
@@ -98,11 +104,12 @@ export function SignupForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             minLength={8}
+            className={cn("h-11 bg-background/50", marketingInputFocus)}
           />
         </div>
         <Button
           type="submit"
-          className="w-full bg-cta text-cta-foreground hover:bg-cta/90"
+          className={cn("h-11 w-full", marketingPrimaryButton)}
           disabled={loading}
         >
           {loading ? "Creating account..." : "Create account"}
