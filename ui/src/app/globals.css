@@ -298,6 +298,114 @@
 
 }
 
+/* Val marketing (landing + auth): minimal motion and entrance polish. */
+@keyframes marketing-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marketing-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes marketing-orb-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(8px, -10px) scale(1.03);
+  }
+}
+
+.marketing-mesh {
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      color-mix(in oklab, var(--cta) 18%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 100% 50%,
+      color-mix(in oklab, var(--brand-hyprtask) 12%, transparent),
+      transparent
+    );
+}
+
+.marketing-orb-a {
+  background: radial-gradient(circle, var(--cta), transparent 70%);
+  animation: marketing-orb-drift 14s ease-in-out infinite;
+}
+
+.marketing-orb-b {
+  background: radial-gradient(circle, var(--brand-hyprtask-accent), transparent 70%);
+  animation: marketing-orb-drift 18s ease-in-out infinite reverse;
+}
+
+.marketing-animate-in {
+  animation: marketing-fade-up 0.65s ease-out both;
+}
+
+.marketing-delay-1 {
+  animation-delay: 0.08s;
+}
+.marketing-delay-2 {
+  animation-delay: 0.16s;
+}
+.marketing-delay-3 {
+  animation-delay: 0.24s;
+}
+.marketing-delay-4 {
+  animation-delay: 0.32s;
+}
+
+.marketing-float {
+  animation: marketing-float 5s ease-in-out infinite;
+}
+
+.marketing-hero-icon-a {
+  animation: marketing-float 6s ease-in-out infinite;
+}
+.marketing-hero-icon-b {
+  animation: marketing-float 7s ease-in-out 0.5s infinite;
+}
+.marketing-hero-icon-c {
+  animation: marketing-float 6.5s ease-in-out 1s infinite;
+}
+.marketing-hero-icon-d {
+  animation: marketing-float 5.5s ease-in-out 0.25s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-animate-in,
+  .marketing-float,
+  .marketing-hero-icon-a,
+  .marketing-hero-icon-b,
+  .marketing-hero-icon-c,
+  .marketing-hero-icon-d,
+  .marketing-orb-a,
+  .marketing-orb-b {
+    animation: none !important;
+  }
+
+  .marketing-animate-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    UN-LAYERED overrides. These intentionally live OUTSIDE @layer blocks:
    they restyle elements that carry Tailwind utility classes (bg-sidebar,
