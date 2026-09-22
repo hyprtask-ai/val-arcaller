@@ -133,7 +133,7 @@ export function EventBanner() {
             ran much wider and read heavier than the Dograh wordmark beside it.
             The two now balance on width and ink rather than on box height. */}
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
-          <BrandLogo className="h-[15px]" />
+          <BrandLogo mark className="size-[15px]" />
           <span aria-hidden className="font-mono text-[13px] leading-none text-muted-foreground">
             ×
           </span>

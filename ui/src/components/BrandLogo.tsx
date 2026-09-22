@@ -1,10 +1,4 @@
-import {
-  BRAND_LOGO_INVERSE_SRC,
-  BRAND_LOGO_SRC,
-  BRAND_MARK_SRC,
-  productFullName,
-  productName,
-} from "@/lib/brand";
+import { BRAND_MARK_SRC, productFullName, productName } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 export function BrandLogo({
@@ -16,60 +10,65 @@ export function BrandLogo({
   className?: string;
   inverse?: boolean;
   mark?: boolean;
-  /** Sidebar header: mark + product name + "by hyprtask" stack */
+  /** Header / sidebar: Val mark + product name */
   showByline?: boolean;
 }) {
   const alt = productFullName();
-
-  if (showByline) {
-    return (
-      <div className={cn("flex min-w-0 items-center gap-2", className)}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={BRAND_MARK_SRC}
-          alt={alt}
-          className="h-6 w-auto shrink-0 select-none"
-        />
-        <div className="flex min-w-0 items-baseline gap-1 leading-none">
-          <span className="truncate text-sm font-semibold">{productName()}</span>
-          <span className="truncate text-[10px] text-muted-foreground">by hyprtask</span>
-        </div>
-      </div>
-    );
-  }
+  const name = productName();
 
   if (mark) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={BRAND_MARK_SRC} alt={alt} className={cn("w-auto select-none", className)} />
+      <img
+        src={BRAND_MARK_SRC}
+        alt={alt}
+        className={cn("size-auto shrink-0 select-none object-contain", className)}
+      />
     );
   }
 
-  if (inverse) {
+  if (showByline || inverse) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={BRAND_LOGO_INVERSE_SRC}
-        alt={alt}
-        className={cn("w-auto select-none", className)}
-      />
+      <div
+        className={cn(
+          "flex min-w-0 items-center gap-3",
+          inverse && "text-white",
+          className,
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={BRAND_MARK_SRC}
+          alt=""
+          aria-hidden
+          className={cn(
+            "size-10 shrink-0 select-none object-contain md:size-11",
+            inverse && "drop-shadow-sm",
+          )}
+        />
+        <span
+          className={cn(
+            "truncate text-lg font-bold tracking-tight md:text-xl",
+            !inverse && "text-foreground",
+          )}
+        >
+          {name}
+        </span>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className={cn("flex min-w-0 items-center gap-3", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={BRAND_LOGO_SRC}
+        src={BRAND_MARK_SRC}
         alt={alt}
-        className={cn("block w-auto select-none dark:hidden", className)}
+        className="size-9 shrink-0 select-none object-contain md:size-10"
       />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={BRAND_LOGO_INVERSE_SRC}
-        alt={alt}
-        className={cn("hidden w-auto select-none dark:block", className)}
-      />
-    </>
+      <span className="truncate text-lg font-bold tracking-tight text-foreground md:text-xl">
+        {name}
+      </span>
+    </div>
   );
 }

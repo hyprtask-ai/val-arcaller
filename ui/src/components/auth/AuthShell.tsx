@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 
-import { Headphones, Phone, Sparkles } from "lucide-react";
-
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { MarketingHomeLink } from "@/components/marketing/MarketingHomeLink";
 import { marketingFormCard } from "@/components/marketing/marketingClasses";
+import { MarketingHeroVisual } from "@/components/marketing/MarketingHeroVisual";
+import { MarketingHomeLink } from "@/components/marketing/MarketingHomeLink";
 import { HIDE_UPSTREAM_CHROME } from "@/lib/brand";
 import {
   AR_VOICE_EYEBROW,
@@ -25,11 +24,7 @@ export function AuthShell({
     <MarketingBackground className="min-h-screen">
       <div className="grid min-h-screen w-full lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)]">
         <main className="flex min-h-screen flex-col px-6 py-8 sm:px-10 lg:py-12">
-          <div className="marketing-animate-in mb-8 lg:mb-10">
-            <MarketingHomeLink showByline className="h-9" />
-          </div>
-
-          <div className="flex flex-1 items-center justify-center pb-8">
+          <div className="flex flex-1 items-center justify-center pb-8 pt-4 lg:pt-0">
             <div
               className={cn(
                 marketingFormCard,
@@ -37,7 +32,10 @@ export function AuthShell({
               )}
             >
               <div className="flex justify-center lg:hidden">
-                <MarketingHomeLink mark logoClassName="h-12" />
+                <MarketingHomeLink
+                  showByline
+                  className="mb-1 [&_img]:size-11 [&_span]:text-xl"
+                />
               </div>
               {children}
             </div>
@@ -54,11 +52,14 @@ export function AuthShell({
             className="marketing-orb marketing-orb-a pointer-events-none absolute -right-20 top-1/4 size-72 rounded-full opacity-40 blur-3xl"
           />
 
-          <div className="relative">
-            <MarketingHomeLink inverse logoClassName="h-10" />
+          <div className="relative marketing-animate-in">
+            <MarketingHomeLink
+              inverse
+              className="[&_img]:size-12 [&_span]:text-2xl xl:[&_img]:size-14 xl:[&_span]:text-3xl"
+            />
           </div>
 
-          <div className="relative mx-auto w-full max-w-md space-y-8 py-8">
+          <div className="relative mx-auto flex w-full max-w-md flex-col gap-8 py-6">
             <div className="marketing-animate-in marketing-delay-1 space-y-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
                 {AR_VOICE_EYEBROW}
@@ -80,17 +81,7 @@ export function AuthShell({
               ))}
             </ul>
 
-            <div className="marketing-animate-in marketing-delay-3 relative flex h-48 items-center justify-center" aria-hidden>
-              <div className="marketing-float flex size-24 items-center justify-center rounded-3xl bg-white/15 text-white ring-1 ring-white/20">
-                <Phone className="size-12 stroke-[1.25]" />
-              </div>
-              <div className="marketing-hero-icon-b absolute bottom-2 left-0 flex size-14 items-center justify-center rounded-2xl bg-white/10 text-white/90 ring-1 ring-white/15">
-                <Headphones className="size-7" />
-              </div>
-              <div className="marketing-hero-icon-d absolute right-0 top-2 flex size-14 items-center justify-center rounded-2xl bg-white/10 text-white/90 ring-1 ring-white/15">
-                <Sparkles className="size-7" />
-              </div>
-            </div>
+            <MarketingHeroVisual variant="inverse" className="max-w-[17rem] xl:max-w-[19rem]" />
           </div>
 
           {!HIDE_UPSTREAM_CHROME && enterpriseSlot ? (

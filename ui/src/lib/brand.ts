@@ -33,9 +33,9 @@ export const HIDE_UPSTREAM_CHROME = (() => {
   return truthy(raw);
 })();
 
-export const BRAND_MARK_SRC = "/hyprtask-mark.png";
-export const BRAND_LOGO_SRC = "/hyprtask-logo.png";
-export const BRAND_LOGO_INVERSE_SRC = "/hyprtask-logo-inverse.png";
+/** Val product mark (same asset as favicon). */
+export const BRAND_MARK_SRC =
+  process.env.NEXT_PUBLIC_BRAND_MARK_SRC ?? "/favicon.png";
 
 let runtimeProductName: string | null = null;
 let runtimeProductFullName: string | null = null;
