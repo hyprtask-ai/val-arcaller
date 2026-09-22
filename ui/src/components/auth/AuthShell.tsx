@@ -34,7 +34,7 @@ export function AuthShell({
               <div className="flex justify-center lg:hidden">
                 <MarketingHomeLink
                   showByline
-                  className="mb-1 [&_img]:size-11 [&_span:first-of-type]:text-xl"
+                  className="mb-1 [&_img]:size-11 [&_span:first-child]:text-xl"
                 />
               </div>
               {children}
@@ -55,11 +55,11 @@ export function AuthShell({
           <div className="relative marketing-animate-in">
             <MarketingHomeLink
               inverse
-              className="[&_img]:size-12 xl:[&_img]:size-14 [&_span:first-of-type]:text-2xl xl:[&_span:first-of-type]:text-3xl"
+              className="[&_img]:size-12 xl:[&_img]:size-14 [&_span:first-child]:text-2xl xl:[&_span:first-child]:text-3xl"
             />
           </div>
 
-          <div className="relative mx-auto flex w-full max-w-md flex-col gap-8 py-6">
+          <div className="relative flex w-full max-w-md flex-col items-stretch gap-6 py-4 xl:gap-7">
             <div className="marketing-animate-in marketing-delay-1 space-y-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
                 {AR_VOICE_EYEBROW}
@@ -81,7 +81,7 @@ export function AuthShell({
               ))}
             </ul>
 
-            <MarketingHeroVisual variant="inverse" className="max-w-[17rem] xl:max-w-[19rem]" />
+            <MarketingHeroVisual variant="inverse" className="w-full" />
           </div>
 
           {!HIDE_UPSTREAM_CHROME && enterpriseSlot ? (

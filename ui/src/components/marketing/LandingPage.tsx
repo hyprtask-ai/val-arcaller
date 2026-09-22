@@ -95,8 +95,8 @@ export function LandingPage({
               </div>
             </div>
 
-            <div className="mx-auto w-full max-w-md pb-8 lg:pb-0">
-              <MarketingHeroVisual />
+            <div className="flex w-full items-center justify-center lg:justify-end">
+              <MarketingHeroVisual className="max-w-sm lg:max-w-md" />
             </div>
           </div>
         </section>
