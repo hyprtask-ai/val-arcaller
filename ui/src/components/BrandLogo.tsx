@@ -17,7 +17,7 @@ function LogoWordmark({
   const name = productName();
 
   return (
-    <div className={cn("flex min-w-0 items-center gap-2.5", className)}>
+    <div className={cn("flex min-w-0 items-center gap-2.5 py-0.5", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={BRAND_MARK_SRC}
@@ -29,10 +29,10 @@ function LogoWordmark({
           markClassName,
         )}
       />
-      <div className="flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0 leading-none">
+      <div className="flex min-w-0 items-center gap-2">
         <span
           className={cn(
-            "truncate text-lg font-bold tracking-tight md:text-xl",
+            "truncate text-lg font-bold leading-tight tracking-tight md:text-xl",
             inverse ? "text-white" : "text-foreground",
             nameClassName,
           )}
@@ -41,8 +41,8 @@ function LogoWordmark({
         </span>
         <span
           className={cn(
-            "truncate text-[10px] font-medium md:text-[11px]",
-            inverse ? "text-white/65" : "text-muted-foreground",
+            "shrink-0 text-sm font-normal leading-normal",
+            inverse ? "text-white/70" : "text-muted-foreground",
             bylineClassName,
           )}
         >

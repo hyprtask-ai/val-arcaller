@@ -42,7 +42,7 @@ export function AuthShell({
           </div>
         </main>
 
-        <aside className="relative hidden flex-col justify-between overflow-hidden border-l border-white/10 bg-[var(--brand-hyprtask)] p-10 text-white lg:flex xl:p-14">
+        <aside className="relative hidden min-h-0 flex-col overflow-hidden border-l border-white/10 bg-[var(--brand-hyprtask)] p-10 text-white lg:flex xl:p-14">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent_50%)]"
@@ -52,40 +52,47 @@ export function AuthShell({
             className="marketing-orb marketing-orb-a pointer-events-none absolute -right-20 top-1/4 size-72 rounded-full opacity-40 blur-3xl"
           />
 
-          <div className="relative marketing-animate-in">
+          <div className="relative shrink-0 marketing-animate-in">
             <MarketingHomeLink
               inverse
-              className="[&_img]:size-12 xl:[&_img]:size-14 [&_span:first-child]:text-2xl xl:[&_span:first-child]:text-3xl"
+              className="[&_img]:size-12 xl:[&_img]:size-14 [&_span:first-child]:text-2xl xl:[&_span:first-child]:text-3xl [&_span:last-child]:text-sm xl:[&_span:last-child]:text-base"
             />
           </div>
 
-          <div className="relative flex w-full max-w-md flex-col items-stretch gap-6 py-4 xl:gap-7">
-            <div className="marketing-animate-in marketing-delay-1 space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
-                {AR_VOICE_EYEBROW}
-              </p>
-              <h1 className="text-2xl font-bold leading-tight tracking-tight xl:text-3xl">
-                {AR_VOICE_HERO_TITLE}
-              </h1>
-              <p className="text-sm leading-relaxed text-white/85">{AR_VOICE_HERO_LEDE}</p>
+          <div className="relative flex min-h-0 flex-1 flex-col">
+            <div className="w-full max-w-md shrink-0 space-y-4 pt-8 xl:pt-10">
+              <div className="marketing-animate-in marketing-delay-1 space-y-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                  {AR_VOICE_EYEBROW}
+                </p>
+                <h1 className="text-2xl font-bold leading-tight tracking-tight xl:text-3xl">
+                  {AR_VOICE_HERO_TITLE}
+                </h1>
+                <p className="text-sm leading-relaxed text-white/85">{AR_VOICE_HERO_LEDE}</p>
+              </div>
+
+              <ul className="marketing-animate-in marketing-delay-2 flex flex-wrap gap-2">
+                {AR_VOICE_PILLS.map((point) => (
+                  <li
+                    key={point}
+                    className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white/95 backdrop-blur-sm"
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <ul className="marketing-animate-in marketing-delay-2 flex flex-wrap gap-2">
-              {AR_VOICE_PILLS.map((point) => (
-                <li
-                  key={point}
-                  className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white/95 backdrop-blur-sm"
-                >
-                  {point}
-                </li>
-              ))}
-            </ul>
-
-            <MarketingHeroVisual variant="inverse" className="w-full" />
+            <div className="flex min-h-0 flex-1 items-center justify-center px-2 py-8 xl:py-10">
+              <MarketingHeroVisual
+                variant="inverse"
+                className="w-full max-w-[18rem] xl:max-w-[20rem]"
+              />
+            </div>
           </div>
 
           {!HIDE_UPSTREAM_CHROME && enterpriseSlot ? (
-            <div className="relative mb-8 max-w-md space-y-3 rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur-sm xl:mb-12">
+            <div className="relative mb-2 max-w-md shrink-0 space-y-3 rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur-sm">
               <h2 className="text-sm font-semibold text-white">
                 Need on-prem, data residency &amp; a data perimeter?
               </h2>
@@ -95,7 +102,7 @@ export function AuthShell({
               {enterpriseSlot}
             </div>
           ) : (
-            <div aria-hidden className="mb-8 xl:mb-12" />
+            <div aria-hidden className="shrink-0 pb-2" />
           )}
         </aside>
       </div>

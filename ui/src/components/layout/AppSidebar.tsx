@@ -26,7 +26,6 @@ import React from "react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { NavUser } from "@/components/layout/NavUser";
 import { SidebarTeamSwitcher } from "@/components/layout/SidebarTeamSwitcher";
-import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -251,7 +250,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" variant="floating" className="app-sidebar-dock py-4">
-      <SidebarHeader className="px-2 py-3 notranslate" translate="no">
+      <SidebarHeader className="px-2 py-3.5 notranslate" translate="no">
         <div className="flex items-center justify-between">
           <div className={cn("flex items-center gap-2", isCollapsed && "hidden")}>
             <Link
@@ -260,9 +259,12 @@ export function AppSidebar() {
               translate="no"
             >
               {isCollapsed ? (
-                <BrandLogo mark className="size-9" />
+                <BrandLogo mark className="size-10" />
               ) : (
-                <BrandLogo showByline className="[&_img]:size-9 [&_span:first-child]:text-sm" />
+                <BrandLogo
+                  showByline
+                  className="gap-3 [&_img]:size-10 [&_span:first-child]:text-base [&_span:last-child]:text-xs"
+                />
               )}
             </Link>
             {!HIDE_UPSTREAM_CHROME && isBehind && latestRelease && (
