@@ -34,7 +34,7 @@ export function AuthShell({
               <div className="flex justify-center lg:hidden">
                 <MarketingHomeLink
                   showByline
-                  className="mb-1 [&_img]:size-11 [&_span]:text-xl"
+                  className="mb-1 [&_img]:size-11 [&_span:first-of-type]:text-xl"
                 />
               </div>
               {children}
@@ -55,7 +55,7 @@ export function AuthShell({
           <div className="relative marketing-animate-in">
             <MarketingHomeLink
               inverse
-              className="[&_img]:size-12 [&_span]:text-2xl xl:[&_img]:size-14 xl:[&_span]:text-3xl"
+              className="[&_img]:size-12 xl:[&_img]:size-14 [&_span:first-of-type]:text-2xl xl:[&_span:first-of-type]:text-3xl"
             />
           </div>
 
