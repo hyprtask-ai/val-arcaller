@@ -260,9 +260,9 @@ export function AppSidebar() {
               translate="no"
             >
               {isCollapsed ? (
-                <BrandLogo mark className="h-6" />
+                <BrandLogo mark className="size-9" />
               ) : (
-                <BrandLogo showByline />
+                <BrandLogo showByline className="gap-2.5 [&_img]:size-10 [&_span]:text-base" />
               )}
             </Link>
             {!HIDE_UPSTREAM_CHROME && isBehind && latestRelease && (

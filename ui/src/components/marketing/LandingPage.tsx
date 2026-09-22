@@ -43,7 +43,7 @@ export function LandingPage({
     <MarketingBackground>
       <header className="sticky top-0 z-20 border-b border-border/40 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
-          <MarketingHomeLink showByline className="h-9" />
+          <MarketingHomeLink showByline className="scale-105 origin-left md:scale-110" />
           <div className="flex items-center gap-2">
             {!authenticated && signupEnabled ? (
               <Button variant="ghost" asChild className={marketingGhostButton}>
