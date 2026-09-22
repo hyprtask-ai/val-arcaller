@@ -95,7 +95,9 @@ export function LandingPage({
               </div>
             </div>
 
-            <MarketingHeroVisual />
+            <div className="mx-auto w-full max-w-md pb-8 lg:pb-0">
+              <MarketingHeroVisual />
+            </div>
           </div>
         </section>
 

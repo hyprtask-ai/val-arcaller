@@ -330,6 +330,27 @@
   }
 }
 
+@keyframes marketing-wave {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes marketing-call-ring-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+}
+
 .marketing-mesh {
   background-image:
     radial-gradient(
@@ -375,26 +396,29 @@
   animation: marketing-float 5s ease-in-out infinite;
 }
 
-.marketing-hero-icon-a {
-  animation: marketing-float 6s ease-in-out infinite;
+.marketing-wave-bar {
+  transform-origin: bottom;
+  animation: marketing-wave 1.15s ease-in-out infinite;
 }
-.marketing-hero-icon-b {
-  animation: marketing-float 7s ease-in-out 0.5s infinite;
+
+.marketing-call-ring {
+  border-width: 1px;
+  animation: marketing-call-ring-pulse 3.2s ease-out infinite;
 }
-.marketing-hero-icon-c {
-  animation: marketing-float 6.5s ease-in-out 1s infinite;
+
+.marketing-call-ring-delay-1 {
+  animation-delay: 0.9s;
 }
-.marketing-hero-icon-d {
-  animation: marketing-float 5.5s ease-in-out 0.25s infinite;
+
+.marketing-call-ring-delay-2 {
+  animation-delay: 1.8s;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .marketing-animate-in,
   .marketing-float,
-  .marketing-hero-icon-a,
-  .marketing-hero-icon-b,
-  .marketing-hero-icon-c,
-  .marketing-hero-icon-d,
+  .marketing-wave-bar,
+  .marketing-call-ring,
   .marketing-orb-a,
   .marketing-orb-b {
     animation: none !important;
