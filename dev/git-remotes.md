@@ -111,10 +111,42 @@ git remote remove upstream
 
 ## Submodule (`pipecat`)
 
-Both fork and upstream use the `pipecat` git submodule. After any upstream merge:
+Val pins **pipecat** as a submodule. The app fork is `hyprtask-ai/val-arcaller`; the pipecat fork is **`hyprtask-ai/pipecat`** (fork of `dograh-hq/pipecat`). URL is in `.gitmodules`; CI and the server fetch pipecat from that fork, not from Dograh’s org.
+
+```text
+dograh-hq/pipecat          (Dograh’s pipecat fork — merge source)
+        │
+        │ fetch / merge on developer machines only
+        ▼
+hyprtask-ai/pipecat        (our pipecat fork — submodule URL)
+        │
+        │ push Val-specific pipecat commits here
+        ▼
+val-arcaller               gitlink SHA in parent repo
+        │
+        ▼
+CI / Val server            submodule update → hyprtask-ai/pipecat
+```
+
+| Remote (inside `pipecat/`) | URL | Use |
+|----------------------------|-----|-----|
+| `origin` | `https://github.com/hyprtask-ai/pipecat.git` | push Val pins / Hyprtask-only fixes |
+| `dograh` | `https://github.com/dograh-hq/pipecat.git` | fetch Dograh’s `main`, merge or cherry-pick |
+
+Local setup after clone:
 
 ```bash
 git submodule update --init --recursive
+cd pipecat
+git remote -v   # origin → hyprtask-ai; add dograh if missing:
+# git remote add dograh https://github.com/dograh-hq/pipecat.git
 ```
 
-CI and `./remote_up.sh --build` on the server run this automatically.
+After changing pipecat on your machine: **push `pipecat` to `origin` (hyprtask-ai) first**, then in the parent repo commit the updated gitlink if the SHA changed:
+
+```bash
+cd pipecat && git push origin main
+cd .. && git add pipecat && git commit -m "Bump pipecat submodule"
+```
+
+CI and `./remote_up.sh --build` run `git submodule update --init --recursive` automatically.

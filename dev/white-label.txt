@@ -1,0 +1,47 @@
+Phase 0  Brand constants + env vars          (1 day)
+Phase 1  Logo, title, auth watermark, chrome  (2–3 days)
+Phase 2  UI copy sweep                        (2–3 days)
+Phase 3  OpenAPI title + health metadata      (0.5 day)
+Phase 4  API error strings + model UI labels  (1–2 days)
+Phase 5  Embed widget strings + endpoint      (1–2 days)
+Phase 6  MCP + developer copy                 (1 day)
+Phase 7  Cookies / docker names (optional)    (later)
+Phase 8  Docs / legal / email                 (parallel)
+
+
+
+
+If you add another script later
+chmod +x scripts/your-script.sh
+git add scripts/your-script.sh    # stages content + executable bit
+git commit -m "Add your-script.sh"
+Or on an existing file:
+
+git update-index --chmod=+x path/to/script.sh
+git commit -m "Make script executable"
+
+---
+
+Intentionally unchanged (wire compat)
+These stay as-is so existing installs and APIs don’t break:
+
+mode: "dograh", DograhLlmService types, webhook headers (X-Dograh-*)
+Docker service names (dograh-init, /opt/dograh install path)
+Embed wire IDs: data-dograh-context, dograh-inline-container, dograh-widget.js file
+Remaining ~80 Mintlify pages still say “Dograh” (only key guides updated)
+Generated ui/src/client/types.gen.ts — run npm run generate-client after deploy if you want OpenAPI doc strings refreshed in the UI
+
+8 Docs / legal
+Partial (acceptable)
+No — key guides updated; ~80 other MDX pages still say “Dograh”
+
+Not done (intentional — not blockers)
+Docker service names (dograh-init, path /opt/dograh) — unchanged
+Webhook headers (X-Dograh-*) — unchanged
+Full Mintlify docs rebrand — only docs.json, MCP guide, getting started, add-to-website updated
+Sentry org in next.config.ts still dograh — error reporting only, not user-facing
+
+Optional follow-ups
+Regenerate API client; rebrand remaining docs; update MCP client configs to val.
+
+---
